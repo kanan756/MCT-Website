@@ -105,16 +105,16 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 flex h-full items-center">
           
           {/* Left Content */}
-          <div className="w-full lg:w-[70%] xl:w-[75%] lg:-ml-12 xl:-ml-24 pt-20">
+          <div className="w-full lg:w-[50%] xl:w-[45%] pt-10 lg:pt-20 relative z-30">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <div className="flex items-center gap-4 mb-6">
                  <div className="w-10 h-[2px] bg-[#3b82f6]"></div>
                  <span className="text-white font-bold tracking-widest text-sm uppercase">IT Software & Design</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[56px] font-black text-white leading-[1.2] tracking-tight mb-10 uppercase relative z-20">
+              <h1 className="text-4xl sm:text-5xl lg:text-[42px] xl:text-[48px] font-black text-white leading-[1.2] tracking-tight mb-10 uppercase relative z-20">
                 Leading IT & Software <br className="hidden sm:block" />
                 {/* Typewriter Effect (Animation 5) */}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 animate-typewriter inline-block align-bottom max-w-full overflow-hidden text-ellipsis text-2xl sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[56px]">Development Company</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 animate-typewriter inline-block align-bottom max-w-full overflow-hidden text-ellipsis text-3xl sm:text-5xl lg:text-[42px] xl:text-[48px]">Development Company</span>
               </h1>
               
               {/* Pulse / Ripple Effect on Button (Animation 4) */}
