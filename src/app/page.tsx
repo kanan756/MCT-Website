@@ -10,7 +10,7 @@ import {
   CheckCircle, Quote,
   ArrowLeft, ArrowRight,
   Users, Clock, Rocket, Laptop, Play,
-  Calendar, User
+  Calendar, User, Cpu, Layers, Zap, Globe, Server, Monitor
 } from "lucide-react";
 import Image from "next/image";
 
@@ -418,14 +418,29 @@ export default function Home() {
            
            <div className="flex animate-[marquee_25s_linear_infinite] whitespace-nowrap min-w-max items-center will-change-transform">
              {[
-               "React", "Node.js", "Microsoft Dynamics 365", "Power Platform", 
-               "Azure Cloud", "Business Central", "Next.js", "TypeScript", 
-               "React", "Node.js", "Microsoft Dynamics 365", "Power Platform", 
-               "Azure Cloud", "Business Central", "Next.js", "TypeScript"
+               { name: "React", icon: Monitor },
+               { name: "Node.js", icon: Server },
+               { name: "Microsoft Dynamics 365", icon: Layers },
+               { name: "Power Platform", icon: Zap },
+               { name: "Azure Cloud", icon: Cloud },
+               { name: "Business Central", icon: BarChart2 },
+               { name: "Next.js", icon: Globe },
+               { name: "TypeScript", icon: Code },
+               { name: "React", icon: Monitor },
+               { name: "Node.js", icon: Server },
+               { name: "Microsoft Dynamics 365", icon: Layers },
+               { name: "Power Platform", icon: Zap },
+               { name: "Azure Cloud", icon: Cloud },
+               { name: "Business Central", icon: BarChart2 },
+               { name: "Next.js", icon: Globe },
+               { name: "TypeScript", icon: Code }
              ].map((tech, idx) => (
-               <span key={idx} className="mx-6 md:mx-12 text-xl md:text-2xl font-black text-gray-800 opacity-30 hover:opacity-100 hover:text-[#3585c5] transition-all duration-300">
-                 {tech}
-               </span>
+               <div key={idx} className="flex items-center gap-3 mx-6 md:mx-12 opacity-40 hover:opacity-100 hover:text-[#3585c5] transition-all duration-300 group cursor-pointer">
+                 <tech.icon className="w-8 h-8 md:w-10 md:h-10 text-gray-400 group-hover:text-[#3585c5] transition-colors duration-300" strokeWidth={1.5} />
+                 <span className="text-xl md:text-2xl font-black text-gray-800 group-hover:text-[#3585c5] transition-colors duration-300">
+                   {tech.name}
+                 </span>
+               </div>
              ))}
            </div>
          </div>
