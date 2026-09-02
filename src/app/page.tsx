@@ -111,10 +111,22 @@ export default function Home() {
                  <div className="w-10 h-[2px] bg-[#3b82f6]"></div>
                  <span className="text-white font-bold tracking-widest text-sm uppercase">IT Software & Design</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-[42px] xl:text-[48px] font-black text-white leading-[1.2] tracking-tight mb-10 uppercase relative z-20">
-                Leading IT & Software <br className="hidden sm:block" />
-                {/* Typewriter Effect (Animation 5) */}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 animate-typewriter inline-block align-bottom max-w-full overflow-hidden text-ellipsis text-3xl sm:text-5xl lg:text-[42px] xl:text-[48px]">Development Company</span>
+              <h1 className="text-3xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-black text-white leading-[1.2] tracking-tight mb-10 uppercase relative z-20">
+                {"Leading IT & Software Development".split("").map((char, index) => (
+                  <motion.span
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.01, delay: index * 0.05 }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+                <motion.span
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ repeat: Infinity, duration: 0.8 }}
+                  className="inline-block border-r-4 border-white ml-1 h-[1em] align-bottom"
+                />
               </h1>
               
               {/* Pulse / Ripple Effect on Button (Animation 4) */}
@@ -288,9 +300,13 @@ export default function Home() {
                  </div>
                </div>
 
-               <button className="bg-gradient-to-r from-[#3585c5] to-[#2563eb] text-white rounded-full px-9 py-3.5 font-bold text-[15px] hover:shadow-lg hover:opacity-90 transition-all duration-300">
-                 Learn-More
-               </button>
+               <MagneticButton>
+                 <button className="relative group overflow-hidden border-2 border-transparent bg-gradient-to-r from-[#3585c5] to-[#2563eb] text-white rounded-full px-9 py-3.5 font-bold text-[15px] uppercase tracking-widest transition-all duration-300 hover:border-[#020b26] shadow-lg hover:shadow-xl">
+                   <span className="relative z-10 group-hover:text-white">Learn-More</span>
+                   <div className="absolute inset-0 bg-[#020b26] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out z-0"></div>
+                   <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(53,133,197,0.5)] animate-pulse group-hover:shadow-[0_0_25px_rgba(2,11,38,0.9)] z-[-1]"></div>
+                 </button>
+               </MagneticButton>
             </motion.div>
          </div>
       </section>
@@ -341,11 +357,14 @@ export default function Home() {
                          We specialize in Microsoft Dynamics 365 modules with expertise in Business Central and Power Platform.
                        </p>
                        
-                       {/* Hidden Button that appears on hover */}
-                       <div className="transition-all duration-500 max-h-0 group-hover:max-h-20 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 overflow-hidden mt-0 group-hover:mt-8">
-                          <button className="bg-white text-[#020b26] rounded-full px-8 py-3.5 font-bold text-[13px] uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-lg">
-                            Get In Touch
-                          </button>
+                       <div className="transition-all duration-500 max-h-0 group-hover:max-h-24 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 overflow-hidden mt-0 group-hover:mt-8">
+                           <MagneticButton>
+                             <button className="relative group/btn overflow-hidden border-2 border-transparent bg-white text-[#020b26] rounded-full px-8 py-3.5 font-bold text-[13px] uppercase tracking-widest transition-all duration-300 shadow-lg hover:border-[#3585c5]">
+                               <span className="relative z-10 group-hover/btn:text-white">Get In Touch</span>
+                               <div className="absolute inset-0 bg-[#3585c5] scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 ease-out z-0"></div>
+                               <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(53,133,197,0.2)] animate-pulse group-hover/btn:shadow-[0_0_25px_rgba(53,133,197,0.9)] z-[-1]"></div>
+                             </button>
+                           </MagneticButton>
                        </div>
                     </div>
                  </motion.div>
@@ -682,9 +701,13 @@ export default function Home() {
                     </div>
                     <textarea placeholder="Your Message Here" rows={4} className="w-full px-5 py-3.5 rounded bg-white border border-transparent focus:border-[#3585c5] outline-none text-[13px] resize-none shadow-sm text-gray-700"></textarea>
                     
-                    <button type="submit" className="bg-[#3585c5] text-white px-9 py-3.5 rounded-full font-bold text-[13px] uppercase tracking-widest hover:bg-[#020b26] transition-colors duration-300 mt-2">
-                       Submit Now
-                    </button>
+                    <MagneticButton>
+                      <button type="submit" className="relative group overflow-hidden border-2 border-transparent text-white bg-[#3585c5] rounded-full px-9 py-3.5 font-bold text-[13px] uppercase tracking-widest transition-all duration-300 mt-2 hover:border-[#020b26] shadow-md">
+                        <span className="relative z-10 group-hover:text-white">Submit Now</span>
+                        <div className="absolute inset-0 bg-[#020b26] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out z-0"></div>
+                        <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(53,133,197,0.5)] animate-pulse group-hover:shadow-[0_0_25px_rgba(2,11,38,0.9)] z-[-1]"></div>
+                      </button>
+                    </MagneticButton>
                   </form>
                </div>
             </div>
@@ -763,9 +786,13 @@ export default function Home() {
             <h2 className="text-3xl md:text-[32px] font-bold text-white mb-8 md:mb-0 max-w-xl leading-snug">
                Grow Your Business and Build Your Website or Software With us.
             </h2>
-            <Link href="#" className="bg-[#3585c5] text-white px-9 py-4 rounded-full font-bold text-[13px] uppercase tracking-widest hover:bg-white hover:text-[#020b26] transition-colors duration-300 shadow-xl whitespace-nowrap">
-               Get In Touch
-            </Link>
+            <MagneticButton>
+              <Link href="#" className="relative group overflow-hidden border-2 border-transparent inline-flex items-center justify-center bg-[#3585c5] text-white px-9 py-4 rounded-full font-bold text-[13px] uppercase tracking-widest hover:border-[#020b26] transition-colors duration-300 shadow-xl whitespace-nowrap">
+                 <span className="relative z-10 group-hover:text-[#020b26]">Get In Touch</span>
+                 <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out z-0"></div>
+                 <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(53,133,197,0.5)] animate-pulse group-hover:shadow-[0_0_25px_rgba(255,255,255,0.9)] z-[-1]"></div>
+              </Link>
+            </MagneticButton>
          </div>
       </section>
 

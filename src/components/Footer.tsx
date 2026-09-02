@@ -99,9 +99,6 @@ export default function Footer() {
             </div>
             
             {/* Scroll to top */}
-            <button className="absolute right-0 -top-[72px] w-10 h-10 bg-[#3585c5] text-white rounded-md flex items-center justify-center hover:bg-[#020b26] transition-colors shadow-lg z-20">
-               <ChevronUp className="w-6 h-6" />
-            </button>
          </div>
       </div>
     </footer>
