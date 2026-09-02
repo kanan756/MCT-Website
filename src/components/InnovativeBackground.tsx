@@ -16,7 +16,7 @@ export default function InnovativeBackground() {
           y: ["0%", "5%", "0%"],
         }}
         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-        className="absolute top-[-20%] left-[-10%] w-[120vw] h-[120vh] opacity-[0.03]"
+        className="hidden md:block absolute top-[-20%] left-[-10%] w-[120vw] h-[120vh] opacity-[0.03] will-change-transform"
       >
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>

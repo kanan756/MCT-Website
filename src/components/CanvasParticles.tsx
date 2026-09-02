@@ -82,7 +82,8 @@ export default function CanvasParticles() {
 
     function init() {
       particlesArray = [];
-      const numberOfParticles = (w * h) / 9000;
+      // Reduce the number of particles drastically to improve performance. Max 100.
+      const numberOfParticles = Math.min(100, Math.floor((w * h) / 15000));
       for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
       }
@@ -91,13 +92,18 @@ export default function CanvasParticles() {
     function connect() {
       if (!ctx) return;
       let opacityValue = 1;
+      // Optimize connection distance calculation. Use a fixed responsive max distance squared.
+      // On mobile we might want a shorter connection distance.
+      const maxDistance = (Math.min(w, h) / 4) * (Math.min(w, h) / 4);
+      
       for (let a = 0; a < particlesArray.length; a++) {
-        for (let b = a; b < particlesArray.length; b++) {
-          const distance =
-            (particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x) +
-            (particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y);
-          if (distance < (w / 7) * (h / 7)) {
-            opacityValue = 1 - distance / 20000;
+        for (let b = a + 1; b < particlesArray.length; b++) {
+          const dx = particlesArray[a].x - particlesArray[b].x;
+          const dy = particlesArray[a].y - particlesArray[b].y;
+          const distanceSq = dx * dx + dy * dy;
+          
+          if (distanceSq < maxDistance) {
+            opacityValue = 1 - distanceSq / maxDistance;
             ctx.strokeStyle = `rgba(52, 130, 185, ${opacityValue})`;
             ctx.lineWidth = 1;
             ctx.beginPath();

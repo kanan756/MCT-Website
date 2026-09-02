@@ -85,7 +85,7 @@ export default function Home() {
       <section className="relative w-full h-[800px] xl:h-[900px] bg-[#020b26] flex items-center overflow-hidden">
         {/* Dotted World Map Background Overlay (Parallax) */}
         <motion.div 
-          className="absolute inset-0 opacity-20 pointer-events-none"
+          className="absolute inset-0 opacity-20 pointer-events-none hidden md:block"
           style={{ 
             backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')", 
             backgroundSize: "60px",
@@ -111,10 +111,10 @@ export default function Home() {
                  <div className="w-10 h-[2px] bg-[#3b82f6]"></div>
                  <span className="text-white font-bold tracking-widest text-sm uppercase">IT Software & Design</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-[48px] xl:text-[56px] font-black text-white leading-[1.2] tracking-tight mb-10 uppercase relative z-20 whitespace-nowrap">
-                Leading IT & Software <br/>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[56px] font-black text-white leading-[1.2] tracking-tight mb-10 uppercase relative z-20">
+                Leading IT & Software <br className="hidden sm:block" />
                 {/* Typewriter Effect (Animation 5) */}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 animate-typewriter inline-block align-bottom">Development Company</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 animate-typewriter inline-block align-bottom max-w-full overflow-hidden text-ellipsis text-2xl sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[56px]">Development Company</span>
               </h1>
               
               {/* Pulse / Ripple Effect on Button (Animation 4) */}
@@ -416,14 +416,14 @@ export default function Home() {
            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#f4f7fc] to-transparent z-10 pointer-events-none"></div>
            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#f4f7fc] to-transparent z-10 pointer-events-none"></div>
            
-           <div className="flex animate-[marquee_25s_linear_infinite] whitespace-nowrap min-w-max items-center">
+           <div className="flex animate-[marquee_25s_linear_infinite] whitespace-nowrap min-w-max items-center will-change-transform">
              {[
                "React", "Node.js", "Microsoft Dynamics 365", "Power Platform", 
                "Azure Cloud", "Business Central", "Next.js", "TypeScript", 
                "React", "Node.js", "Microsoft Dynamics 365", "Power Platform", 
                "Azure Cloud", "Business Central", "Next.js", "TypeScript"
              ].map((tech, idx) => (
-               <span key={idx} className="mx-12 text-2xl font-black text-gray-800 opacity-30 hover:opacity-100 hover:text-[#3585c5] transition-all duration-300">
+               <span key={idx} className="mx-6 md:mx-12 text-xl md:text-2xl font-black text-gray-800 opacity-30 hover:opacity-100 hover:text-[#3585c5] transition-all duration-300">
                  {tech}
                </span>
              ))}
