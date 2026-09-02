@@ -142,16 +142,6 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <div className="mt-4 pt-4 border-t border-gray-100 flex flex-col gap-3 px-4">
-                <div className="flex items-center gap-3">
-                  <Mail className="text-[#3585c5] w-5 h-5" />
-                  <span className="text-xs font-semibold text-gray-700">mct@miraclecloud-technology.com</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="text-[#3585c5] w-5 h-5" />
-                  <span className="text-xs font-semibold text-gray-700">+91 9510879991</span>
-                </div>
-              </div>
             </div>
           </motion.div>
         )}
