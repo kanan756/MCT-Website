@@ -30,6 +30,18 @@ export default function Navbar() {
             </Link>
           </div>
           
+          {/* Compact Contact Info for Mobile Only (Between Logo and Hamburger) */}
+          <div className="flex md:hidden flex-col justify-center gap-[2px] flex-grow px-2 sm:px-4 overflow-hidden">
+            <div className="flex items-center gap-1.5 overflow-hidden">
+              <Mail className="text-[#3585c5] w-3 h-3 flex-shrink-0" />
+              <span className="text-[9px] sm:text-[10px] font-semibold text-gray-700 truncate">mct@miraclecloud-technology.com</span>
+            </div>
+            <div className="flex items-center gap-1.5 overflow-hidden">
+              <Phone className="text-[#3585c5] w-3 h-3 flex-shrink-0" />
+              <span className="text-[9px] sm:text-[10px] font-semibold text-gray-700 truncate">+91 9510879991</span>
+            </div>
+          </div>
+          
           {/* Contact Info - Hidden on mobile, visible on tablet/desktop */}
           <div className="hidden md:flex flex-wrap justify-end items-center gap-4 lg:gap-6 xl:gap-8 w-full lg:w-auto">
             <div className="flex items-center gap-2 lg:gap-3">
