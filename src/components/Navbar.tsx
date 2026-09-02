@@ -31,14 +31,14 @@ export default function Navbar() {
           </div>
           
           {/* Compact Contact Info for Mobile Only (Between Logo and Hamburger) */}
-          <div className="flex md:hidden flex-col justify-center gap-[2px] flex-grow px-2 sm:px-4 overflow-hidden">
-            <div className="flex items-center gap-1.5 overflow-hidden">
-              <Mail className="text-[#3585c5] w-3 h-3 flex-shrink-0" />
-              <span className="text-[9px] sm:text-[10px] font-semibold text-gray-700 truncate">mct@miraclecloud-technology.com</span>
+          <div className="flex md:hidden flex-col justify-center gap-[3px] flex-grow px-2 sm:px-4 overflow-hidden">
+            <div className="flex items-center gap-2 overflow-hidden">
+              <Mail className="text-[#3585c5] w-3.5 h-3.5 flex-shrink-0" />
+              <span className="text-[11px] sm:text-[12px] font-bold text-gray-700 truncate">mct@miraclecloud-technology.com</span>
             </div>
-            <div className="flex items-center gap-1.5 overflow-hidden">
-              <Phone className="text-[#3585c5] w-3 h-3 flex-shrink-0" />
-              <span className="text-[9px] sm:text-[10px] font-semibold text-gray-700 truncate">+91 9510879991</span>
+            <div className="flex items-center gap-2 overflow-hidden">
+              <Phone className="text-[#3585c5] w-3.5 h-3.5 flex-shrink-0" />
+              <span className="text-[11px] sm:text-[12px] font-bold text-gray-700 truncate">+91 9510879991</span>
             </div>
           </div>
           
