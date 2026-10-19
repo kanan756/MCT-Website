@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { Send, MapPin, Phone, Mail } from "lucide-react";
 
@@ -23,26 +22,18 @@ export default function Contact() {
     <div className="pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
+        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Let&apos;s <span className="text-gradient">Connect</span></h1>
           <p className="text-xl text-gray-500">
             Ready to transform your business? Reach out to our experts today.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           {/* Contact Info */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-1 space-y-8"
-          >
-            <div className="glass-effect p-8 rounded-3xl">
+          <div className="lg:col-span-1 space-y-8 animate-fade-in">
+            <div className="glass-effect p-8 rounded-3xl border border-gray-100 shadow-md">
               <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
               
               <div className="space-y-6">
@@ -77,15 +68,11 @@ export default function Contact() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Contact Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-2"
-          >
-            <div className="glass-effect p-8 md:p-10 rounded-3xl">
+          <div className="lg:col-span-2 animate-fade-in">
+            <div className="glass-effect p-8 md:p-10 rounded-3xl border border-gray-100 shadow-md">
               {submitted ? (
                 <div className="h-full flex flex-col items-center justify-center text-center py-12">
                   <div className="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mb-6">
@@ -111,7 +98,7 @@ export default function Contact() {
                         type="text" 
                         id="name" 
                         required
-                        className="w-full bg-background/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full bg-background/50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="John Doe"
                       />
                     </div>
@@ -121,7 +108,7 @@ export default function Contact() {
                         type="email" 
                         id="email" 
                         required
-                        className="w-full bg-background/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full bg-background/50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="john@company.com"
                       />
                     </div>
@@ -131,13 +118,13 @@ export default function Contact() {
                     <label htmlFor="service" className="block text-sm font-medium mb-2">Interested Service</label>
                     <select 
                       id="service"
-                      className="w-full bg-background/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      className="w-full bg-background/50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     >
-                      <option className="bg-secondary text-white">Dynamics 365 CRM</option>
-                      <option className="bg-secondary text-white">Dynamics 365 ERP</option>
-                      <option className="bg-secondary text-white">Power Platform</option>
-                      <option className="bg-secondary text-white">Web / Mobile Development</option>
-                      <option className="bg-secondary text-white">Other Inquiry</option>
+                      <option className="bg-secondary text-slate-800">Dynamics 365 CRM</option>
+                      <option className="bg-secondary text-slate-800">Dynamics 365 ERP</option>
+                      <option className="bg-secondary text-slate-800">Power Platform</option>
+                      <option className="bg-secondary text-slate-800">Web / Mobile Development</option>
+                      <option className="bg-secondary text-slate-800">Other Inquiry</option>
                     </select>
                   </div>
                   
@@ -147,7 +134,7 @@ export default function Contact() {
                       id="message" 
                       rows={5}
                       required
-                      className="w-full bg-background/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
+                      className="w-full bg-background/50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
                       placeholder="Tell us about your project requirements..."
                     ></textarea>
                   </div>
@@ -155,7 +142,7 @@ export default function Contact() {
                   <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="w-full bg-primary hover:bg-primary-light text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center disabled:opacity-70"
+                    className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center disabled:opacity-70"
                   >
                     {isSubmitting ? (
                       <span className="animate-pulse">Sending...</span>
@@ -166,7 +153,7 @@ export default function Contact() {
                 </form>
               )}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
