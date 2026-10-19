@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import { Livvic } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InnovativeBackground from "@/components/InnovativeBackground";
-
-const livvic = Livvic({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '900'],
-  variable: "--font-livvic",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "MCT IT Solutions | Microsoft Dynamics 365 Partner",
@@ -40,10 +33,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${livvic.variable} h-full antialiased`}
+      className="h-full antialiased"
       suppressHydrationWarning
     >
-      <body className={`${livvic.className} min-h-full flex flex-col bg-gray-50 text-gray-900 selection:bg-[#3482B9] selection:text-white`} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-gray-50 text-gray-900 selection:bg-[#3482B9] selection:text-white" suppressHydrationWarning>
         <InnovativeBackground />
         <Navbar />
         <main className="flex-grow">

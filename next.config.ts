@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  serverExternalPackages: ["@opentelemetry", "framer-motion"],
 };
 
 export default nextConfig;
