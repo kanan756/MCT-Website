@@ -10,7 +10,8 @@ import {
   Send,
   CheckCircle,
   Globe2,
-  ArrowRight
+  ArrowRight,
+  ChevronRight
 } from "lucide-react";
 
 export default function ContactPage() {
@@ -234,7 +235,14 @@ export default function ContactPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           
-          <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-[#3482b9]/40 text-xs sm:text-sm font-semibold tracking-wider text-slate-200 uppercase mb-6 backdrop-blur-md">
+          {/* Breadcrumbs matching all inner pages */}
+          <nav className="flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-slate-300 mb-6">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <ChevronRight className="w-3.5 h-3.5 text-[#3482b9]" />
+            <span className="text-[#3482b9] font-bold">Contact Us</span>
+          </nav>
+
+          <div className="inline-block px-6 py-2.5 rounded-full bg-white/10 border border-[#3482b9]/40 text-sm sm:text-base font-bold tracking-wider text-slate-100 uppercase mb-8 backdrop-blur-md shadow-sm">
             MCT IT Solutions (P) Ltd.
           </div>
 
@@ -262,12 +270,6 @@ export default function ContactPage() {
             >
               +91 9510879991
             </a>
-          </div>
-
-          <div className="inline-flex items-center gap-2 text-xs text-slate-300 bg-black/20 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/10">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span>→</span>
-            <span className="text-[#5ba6db] font-bold">Contact Us</span>
           </div>
 
         </div>

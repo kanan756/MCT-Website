@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InnovativeBackground from "@/components/InnovativeBackground";
+import PageTransitionLoader from "@/components/PageTransitionLoader";
 
 export const metadata: Metadata = {
   title: "MCT IT Solutions | Microsoft Dynamics 365 Partner",
@@ -37,6 +39,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-gray-50 text-gray-900 selection:bg-[#3482B9] selection:text-white" suppressHydrationWarning>
+        <Suspense fallback={null}>
+          <PageTransitionLoader />
+        </Suspense>
         <InnovativeBackground />
         <Navbar />
         <main className="flex-grow">

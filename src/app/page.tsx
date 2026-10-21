@@ -260,7 +260,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-[#e74c3c]/15 rounded-full blur-[130px] pointer-events-none z-0" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-[#3482b9]/40 text-xs sm:text-sm font-semibold tracking-wider text-slate-200 uppercase mb-6 backdrop-blur-md">
+          <div className="inline-block px-6 py-2.5 rounded-full bg-white/10 border border-[#3482b9]/40 text-sm sm:text-base font-bold tracking-wider text-slate-100 uppercase mb-8 backdrop-blur-md shadow-sm">
             MCT IT Solutions (P) Ltd.
           </div>
 
