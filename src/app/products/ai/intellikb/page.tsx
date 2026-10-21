@@ -128,7 +128,7 @@ export default function IntelliKBProductPage() {
               
               <div>
                 <h3 className="text-2xl font-black text-slate-900 mb-1">
-                  Features of INTX:
+                  Features of IntelliKB:
                 </h3>
               </div>
 
