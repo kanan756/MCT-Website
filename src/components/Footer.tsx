@@ -66,9 +66,9 @@ export default function Footer() {
                 <p className="text-slate-300 flex items-center gap-2.5">
                   <Globe className="w-4 h-4 text-[#3482b9]" />
                   <span>Website: </span>
-                  <a href="https://www.miracle-cloudtechnology.com/#" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                  <Link href="/" className="hover:text-white transition-colors">
                     www.miracle-cloudtechnology.com
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>
@@ -139,12 +139,12 @@ export default function Footer() {
 
             <ul className="space-y-3.5 text-sm">
               {[
-                { label: "Contact Us", href: "https://www.miracle-cloudtechnology.com/contact-us/" },
-                { label: "Blog", href: "https://www.miracle-cloudtechnology.com/blog/" },
-                { label: "Careers", href: "https://www.miracle-cloudtechnology.com/careers/" },
-                { label: "FAQ", href: "https://www.miracle-cloudtechnology.com/#" },
-                { label: "Terms & Conditions", href: "https://www.miracle-cloudtechnology.com/terms-conditions/" },
-                { label: "Privacy Policy", href: "https://www.miracle-cloudtechnology.com/privacy-policy/" },
+                { label: "Contact Us", href: "/contact" },
+                { label: "Blog", href: "/about" },
+                { label: "Careers", href: "/about" },
+                { label: "FAQ", href: "/#faq" },
+                { label: "Terms & Conditions", href: "/about" },
+                { label: "Privacy Policy", href: "/about" },
               ].map((link, idx) => (
                 <li key={idx} className="border-b border-slate-700/40 pb-2.5 last:border-0 last:pb-0">
                   <Link
@@ -165,19 +165,19 @@ export default function Footer() {
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 gap-6">
           <p className="text-center md:text-left">
             © Copyright{" "}
-            <Link href="https://www.miracle-cloudtechnology.com/#" className="text-slate-300 hover:text-white">
+            <Link href="/" className="text-slate-300 hover:text-white">
               MCT IT Solutions Pvt. Ltd 2026 All rights reserved
             </Link>
           </p>
 
           <div className="flex items-center gap-3 sm:gap-4 text-xs">
-            <Link href="https://www.miracle-cloudtechnology.com/#" className="hover:text-white transition-colors">Support</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Support</Link>
             <span className="text-slate-600">|</span>
-            <Link href="https://www.miracle-cloudtechnology.com/contact-us/" className="hover:text-white transition-colors">Contact Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link>
             <span className="text-slate-600">|</span>
-            <Link href="https://www.miracle-cloudtechnology.com/#" className="hover:text-white transition-colors">Disclaimer</Link>
+            <Link href="/about" className="hover:text-white transition-colors">Disclaimer</Link>
             <span className="text-slate-600">|</span>
-            <Link href="https://www.miracle-cloudtechnology.com/privacy-policy/" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/about" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>
 
           {/* Social Icons matching screenshot */}

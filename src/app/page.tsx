@@ -100,32 +100,27 @@ export default function Home() {
   ];
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  // Exact FAQ from prompt
+  // Exact FAQ
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const faqs = [
     {
       q: "What is the typical timeline for getting started with a Dynamics 365 project?",
-      link: "https://www.miracle-cloudtechnology.com/#1741186766833-b8936907-7216",
       a: "Our team can start your Dynamics 365 project within 1-2 weeks, depending on project scope and requirements. We’ll work with you to establish the timeline."
     },
     {
       q: "How do you determine the cost of a Dynamics 365 solution, and what factors impact the budget?",
-      link: "https://www.miracle-cloudtechnology.com/#1741186766986-e74fc22a-6d3c",
       a: "Pricing varies based on your specific needs. We assess project scope, complexity, and any additional customizations to provide a tailored budget."
     },
     {
       q: "What are the available payment options and terms for your services?",
-      link: "https://www.miracle-cloudtechnology.com/#1741187036533-acadaf4b-4741",
       a: "We offer flexible payment plans, including upfront payments and installment options. Specific terms are discussed during the project scoping phase."
     },
     {
       q: "Are your solutions optimized for mobile and responsive across different devices?",
-      link: "https://www.miracle-cloudtechnology.com/#1741187110669-1519e6c2-7ac3",
       a: "Yes, all our solutions are fully optimized for mobile, ensuring seamless performance across devices like smartphones, tablets, and desktops."
     },
     {
       q: "What ongoing support and marketing services do you offer after the app or system is launched?",
-      link: "https://www.miracle-cloudtechnology.com/#1741187139147-49657ac8-9dd6",
       a: "We provide ongoing support, including marketing, system updates, and performance optimization to ensure your solution continues to meet business goals."
     }
   ];
@@ -291,13 +286,13 @@ export default function Home() {
 
           <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
             <Link
-              href="https://www.miracle-cloudtechnology.com/contact-us/"
+              href="/contact"
               className="bg-[#3482b9] hover:bg-[#1f6595] text-white px-8 py-3.5 rounded-full font-bold text-sm tracking-wider uppercase shadow-lg shadow-[#3482b9]/30 transition-all hover:scale-105"
             >
               Get Started
             </Link>
             <Link
-              href="https://www.miracle-cloudtechnology.com/services/"
+              href="/services"
               className="bg-white/10 hover:bg-white/15 border border-white/20 text-white px-8 py-3.5 rounded-full font-bold text-sm tracking-wider uppercase transition-all"
             >
               Services
@@ -406,7 +401,7 @@ export default function Home() {
 
                 <div className="pt-5 border-t border-white/10">
                   <Link
-                    href="https://www.miracle-cloudtechnology.com/#"
+                    href="/services"
                     className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#5ba6db] group-hover:text-white transition-colors"
                   >
                     <span>Read More</span>
@@ -525,7 +520,7 @@ export default function Home() {
           </p>
 
           <Link
-            href="https://www.miracle-cloudtechnology.com/contact-us/"
+            href="/contact"
             className="inline-flex items-center gap-2 bg-[#3482b9] hover:bg-[#1f6595] text-white px-8 py-3.5 rounded-full font-bold text-sm uppercase tracking-wider shadow-md hover:shadow-lg transition-all"
           >
             <span>Become Our Client</span>
@@ -686,19 +681,16 @@ export default function Home() {
             {faqs.map((faq, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl bg-white border border-gray-200 overflow-hidden shadow-sm"
+                className="rounded-2xl bg-white border border-gray-200 overflow-hidden shadow-sm transition-colors"
               >
                 <button
+                  type="button"
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-slate-900 text-base hover:text-[#3482b9] transition-colors"
+                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-slate-900 text-base transition-colors"
                 >
-                  <Link
-                    href={faq.link}
-                    onClick={(e) => e.stopPropagation()}
-                    className="hover:underline"
-                  >
+                  <span className="no-underline select-none">
                     {faq.q}
-                  </Link>
+                  </span>
                   <ChevronDown
                     className={`w-5 h-5 shrink-0 transition-transform duration-300 text-[#3482b9] ${openFaq === idx ? "rotate-180" : ""
                       }`}
