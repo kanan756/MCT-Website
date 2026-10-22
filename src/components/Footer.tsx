@@ -143,7 +143,7 @@ export default function Footer() {
                 { label: "Blog", href: "/about" },
                 { label: "Careers", href: "/about/careers" },
                 { label: "FAQ", href: "/#faq" },
-                { label: "Terms & Conditions", href: "/about" },
+                { label: "Terms & Conditions", href: "/terms-and-conditions" },
                 { label: "Privacy Policy", href: "/about" },
               ].map((link, idx) => (
                 <li key={idx} className="border-b border-slate-700/40 pb-2.5 last:border-0 last:pb-0">
