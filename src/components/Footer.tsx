@@ -144,7 +144,7 @@ export default function Footer() {
                 { label: "Careers", href: "/about/careers" },
                 { label: "FAQ", href: "/#faq" },
                 { label: "Terms & Conditions", href: "/terms-and-conditions" },
-                { label: "Privacy Policy", href: "/about" },
+                { label: "Privacy Policy", href: "/privacy-policy" },
               ].map((link, idx) => (
                 <li key={idx} className="border-b border-slate-700/40 pb-2.5 last:border-0 last:pb-0">
                   <Link
@@ -177,7 +177,7 @@ export default function Footer() {
             <span className="text-slate-600">|</span>
             <Link href="/about" className="hover:text-white transition-colors">Disclaimer</Link>
             <span className="text-slate-600">|</span>
-            <Link href="/about" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>
 
           {/* Social Icons matching screenshot */}

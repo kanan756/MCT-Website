@@ -414,7 +414,7 @@ export default function TermsAndConditionsPage() {
                           <div key={pIdx} className="space-y-3">
                             <p>{p}</p>
                             <Link
-                              href="/terms-and-conditions"
+                              href="/privacy-policy"
                               className="inline-flex items-center gap-1.5 text-sm font-bold text-[#3482b9] hover:text-[#1f6595] transition-colors"
                             >
                               <span>View Privacy and Policy guidelines</span>
