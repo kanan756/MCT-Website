@@ -15,6 +15,13 @@ export default function Home() {
   // Testimonials strictly using user's exact provided texts & order
   const testimonials = [
     {
+      name: "Sandra Skairjeh",
+      company: "BlueRidge IT FZE",
+      role: "Vice President",
+      location: "UAE",
+      quote: "“We have had a very positive experience working with MCT IT Solutions PVT Ltd. They have supported our company on several Application Development and DevOps projects, and demonstrated reliability, commitment, responsiveness, and the willingness to go the extra mile.\n\nThe MCT team is easy to work with, professional, and genuinely invested in helping us. Whenever support is needed, they respond quickly and do their best to find solutions.\n\nWe truly value the partnership and appreciate the consistent service and dedication they bring to every project. Highly recommended.”"
+    },
+    {
       name: "Mr.Rehman",
       company: "Techspine Business Solutions WLL",
       role: "Founder",

@@ -22,7 +22,7 @@ export default function LeadershipPage() {
     },
     {
       name: "Sunny Macwan",
-      role: "Chief Information Officer & Graphic Designer",
+      role: "Chief Information Officer",
       image: "/sunny_01.png",
       bio: "Sunny is the Chief Information Officer at MCT IT Solutions. Communicates goals, projects, and timelines of the company to the department; plans ways to execute those goals within the department. Researching new systems to improve infrastructure. Selecting and implementing suitable technology to streamline all internal operations and help optimize their strategic benefits. Designing and customizing technological systems and platforms to improve customer experience. Collaborating with vendors and suppliers to acquire the best business solutions.",
       email: "sunnym@miraclecloud-technology.com",

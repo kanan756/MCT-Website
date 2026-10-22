@@ -7,6 +7,14 @@ import { ChevronRight, Quote, Star, ArrowUpRight, Award, Building2, Globe2 } fro
 export default function TestimonialsPage() {
   const testimonials = [
     {
+      name: "Sandra Skairjeh",
+      role: "Vice President",
+      company: "BlueRidge IT FZE",
+      location: "UAE",
+      quote:
+        "“We have had a very positive experience working with MCT IT Solutions PVT Ltd. They have supported our company on several Application Development and DevOps projects, and demonstrated reliability, commitment, responsiveness, and the willingness to go the extra mile.\n\nThe MCT team is easy to work with, professional, and genuinely invested in helping us. Whenever support is needed, they respond quickly and do their best to find solutions.\n\nWe truly value the partnership and appreciate the consistent service and dedication they bring to every project. Highly recommended.”",
+    },
+    {
       name: "Damjan Krivosija",
       role: "Client Partner",
       company: "Enterprise Partner",
