@@ -630,7 +630,7 @@ export default function ContactPage() {
             
             {/* Facebook */}
             <a
-              href="https://www.facebook.com/"
+              href="https://www.facebook.com/people/MCTIT-Solution-PVT-LTD/61556353773723/?_rdr"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -643,7 +643,7 @@ export default function ContactPage() {
 
             {/* LinkedIn */}
             <a
-              href="https://www.linkedin.com/"
+              href="https://www.linkedin.com/company/mctit/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -656,7 +656,7 @@ export default function ContactPage() {
 
             {/* Twitter / X */}
             <a
-              href="https://twitter.com/"
+              href="https://x.com/mctitsolutions"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Twitter / X"
@@ -669,7 +669,7 @@ export default function ContactPage() {
 
             {/* Instagram */}
             <a
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/mctitsolutionspvtltd/?hl=en"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -682,7 +682,7 @@ export default function ContactPage() {
 
             {/* YouTube */}
             <a
-              href="https://www.youtube.com/"
+              href="https://www.youtube.com/@mctitsolutionspvt.ltd.mcti1287"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="YouTube"
