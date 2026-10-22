@@ -7,6 +7,7 @@ import InnovativeBackground from "@/components/InnovativeBackground";
 import PageTransitionLoader from "@/components/PageTransitionLoader";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.miracle-cloudtechnology.com"),
   title: "MCT IT Solutions | Microsoft Dynamics 365 Partner",
   description: "MCT IT Solutions provides expert-led innovation in Microsoft Dynamics 365, Cloud Architecture, ERP, CRM, and Enterprise AI. Let us drive your digital transformation.",
   keywords: "Microsoft Dynamics 365, ERP, CRM, Power Platform, AI Integration, MCT IT Solutions",

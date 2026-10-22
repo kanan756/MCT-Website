@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, ArrowRight, CheckCircle2, ChevronDown, X, ZoomIn } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function TaxInvoiceProProductPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -111,9 +112,8 @@ export default function TaxInvoiceProProductPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start max-w-6xl mx-auto">
             
-            {/* Left Column: Image & Overview Paragraph */}
-            <div className="space-y-6">
-              
+            {/* Left Column: Image & Overview Paragraph with Left Entry */}
+            <ScrollReveal direction="left" duration={800} className="space-y-6">
               {/* Product Image: intx.png */}
               <div className="p-6 sm:p-8 rounded-3xl bg-[#f8fafc] border border-gray-200/90 shadow-sm flex items-center justify-center overflow-hidden">
                 <div className="relative w-full max-w-sm aspect-[16/10] flex items-center justify-center">
@@ -133,11 +133,10 @@ export default function TaxInvoiceProProductPage() {
                   INTX2018 is an advanced ERP application designed to streamline inventory, accounting, and taxation processes, with full GST compliance based on state and central tax calculations. It offers features like real-time stock tracking, purchase and sales management, automated reports, and customizable document printing, making it an ideal solution for efficient business operations.
                 </p>
               </div>
+            </ScrollReveal>
 
-            </div>
-
-            {/* Right Column: Features of INTX (User's Exact Verbatim Copy) */}
-            <div className="bg-[#f8fafc] p-8 sm:p-10 rounded-3xl border border-gray-200/90 shadow-sm space-y-6">
+            {/* Right Column: Features of INTX with Right Entry */}
+            <ScrollReveal direction="right" duration={800} className="bg-[#f8fafc] p-8 sm:p-10 rounded-3xl border border-gray-200/90 shadow-sm space-y-6">
               
               <div>
                 <h3 className="text-2xl font-black text-slate-900 mb-1">
@@ -220,7 +219,7 @@ export default function TaxInvoiceProProductPage() {
                 </Link>
               </div>
 
-            </div>
+            </ScrollReveal>
 
           </div>
 

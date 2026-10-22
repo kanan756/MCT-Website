@@ -80,7 +80,7 @@ export default function ProdCrmPage() {
       <section className="py-16 sm:py-20 bg-[#fbfcfd]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-8 max-w-6xl mx-auto">
 
             {/* PRODUCT 1: MULTISELECT */}
             <div className="rounded-3xl bg-white border border-gray-200/90 shadow-sm hover:shadow-2xl hover:border-[#3482b9]/50 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
@@ -161,6 +161,48 @@ export default function ProdCrmPage() {
               <div className="pb-8 pt-2 px-8 flex justify-center">
                 <Link
                   href="/products/crm/cleanmail-pro"
+                  className="px-8 py-3 rounded-full border-2 border-[#3482b9] text-[#3482b9] hover:bg-[#3482b9] hover:text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 inline-flex items-center gap-2"
+                >
+                  <span>MORE INFO</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+            </div>
+
+            {/* PRODUCT 3: SALESPRO */}
+            <div className="rounded-3xl bg-white border border-gray-200/90 shadow-sm hover:shadow-2xl hover:border-[#3482b9]/50 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+              
+              <div>
+                {/* Visual Header / SalesPro Banner with logo */}
+                <div className="w-full bg-[#f8fafc] border-b border-gray-100 p-8 sm:p-10 flex flex-col items-center justify-center min-h-[220px] relative overflow-hidden group-hover:bg-slate-100 transition-colors">
+                  <div className="relative w-48 h-28 flex items-center justify-center">
+                    <Image
+                      src="/salespro.png"
+                      alt="SalesPro"
+                      width={180}
+                      height={90}
+                      className="object-contain transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-7 sm:p-8 text-center flex flex-col items-center">
+                  <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-4 group-hover:text-[#3482b9] transition-colors">
+                    SALESPRO
+                  </h3>
+
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                    SalesPro simplifies data entry in Microsoft Dynamics 365 by combining intelligent address autofill with real-time email validation. It reduces manual effort, eliminates invalid records, and boosts sales productivity with seamless CRM integration.
+                  </p>
+                </div>
+              </div>
+
+              {/* Bottom Button */}
+              <div className="pb-8 pt-2 px-8 flex justify-center">
+                <Link
+                  href="/products/crm/salespro"
                   className="px-8 py-3 rounded-full border-2 border-[#3482b9] text-[#3482b9] hover:bg-[#3482b9] hover:text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 inline-flex items-center gap-2"
                 >
                   <span>MORE INFO</span>

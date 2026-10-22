@@ -9,6 +9,7 @@ import {
   ShieldCheck, Laptop, BarChart2, Users, Search,
   Code, Settings, Cloud, Database, Zap
 } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
   // Testimonials strictly using user's exact provided texts & order
@@ -423,46 +424,47 @@ export default function Home() {
 
             {/* Left Visual Image & Card */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 group">
-                {/* Enterprise Meeting & Dynamics 365 Image */}
-                <div className="relative w-full h-[380px] sm:h-[420px]">
-                  <Image
-                    src="/solutions-perspective.jpg"
-                    alt="MCT IT Solutions and Perspective - Enterprise Meeting with Dynamics 365"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 40vw"
-                    className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  />
-                  {/* Subtle gradient overlay to make float metric legible */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b3d]/90 via-[#0b1b3d]/30 to-transparent" />
+              <ScrollReveal direction="left" duration={800}>
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 group">
+                  {/* Enterprise Meeting & Dynamics 365 Image */}
+                  <div className="relative w-full h-[380px] sm:h-[420px]">
+                    <Image
+                      src="/solutions-perspective.jpg"
+                      alt="MCT IT Solutions and Perspective - Enterprise Meeting with Dynamics 365"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 40vw"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    />
+                    {/* Subtle gradient overlay to make float metric legible */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b3d]/90 via-[#0b1b3d]/30 to-transparent" />
+                  </div>
                 </div>
-
-                {/* Floating Metric Card Overlay */}
-
-              </div>
+              </ScrollReveal>
             </div>
 
             {/* Right Exact Content */}
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-[#3482b9]/20 text-[#3482b9] text-xs font-bold uppercase tracking-widest mb-4">
-                Solutions & Perspective
-              </div>
+              <ScrollReveal direction="right" duration={800}>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-[#3482b9]/20 text-[#3482b9] text-xs font-bold uppercase tracking-widest mb-4">
+                  Solutions & Perspective
+                </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight mb-8 tracking-tight">
-                We deliver solutions and perspective
-              </h2>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight mb-8 tracking-tight">
+                  We deliver solutions and perspective
+                </h2>
 
-              <div className="space-y-5 text-slate-600 text-base sm:text-lg leading-relaxed">
-                <p>
-                  As MCT IT Solutions continues to grow, we are recognized for our focus on delivering innovative solutions, technical excellence, and client-driven success. We’ve consistently delivered measurable results, including a 20% increase in operational efficiency for our clients, along with improved system reliability and seamless integrations that optimize business processes.
-                </p>
-                <p>
-                  We aim to build strong partnerships and nurture talent within our team of experts. Our goal is to empower businesses to thrive by offering solutions that align with their unique goals. Whether you’re a business owner seeking to enhance operations or a potential employee eager to innovate, we’re dedicated to providing the support and resources you need to succeed.
-                </p>
-                <p className="font-semibold text-slate-900 pt-2 border-l-4 border-[#3482b9] pl-4 bg-sky-50/50 py-3 rounded-r-xl">
-                  At MCT IT Solutions, we don’t just offer solutions—we offer valuable insights and perspectives that help your business grow and succeed.
-                </p>
-              </div>
+                <div className="space-y-5 text-slate-600 text-base sm:text-lg leading-relaxed">
+                  <p>
+                    As MCT IT Solutions continues to grow, we are recognized for our focus on delivering innovative solutions, technical excellence, and client-driven success. We’ve consistently delivered measurable results, including a 20% increase in operational efficiency for our clients, along with improved system reliability and seamless integrations that optimize business processes.
+                  </p>
+                  <p>
+                    We aim to build strong partnerships and nurture talent within our team of experts. Our goal is to empower businesses to thrive by offering solutions that align with their unique goals. Whether you’re a business owner seeking to enhance operations or a potential employee eager to innovate, we’re dedicated to providing the support and resources you need to succeed.
+                  </p>
+                  <p className="font-semibold text-slate-900 pt-2 border-l-4 border-[#3482b9] pl-4 bg-sky-50/50 py-3 rounded-r-xl">
+                    At MCT IT Solutions, we don’t just offer solutions—we offer valuable insights and perspectives that help your business grow and succeed.
+                  </p>
+                </div>
+              </ScrollReveal>
             </div>
 
           </div>
@@ -476,30 +478,34 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
 
             <div className="lg:col-span-5 flex justify-center">
-              <div className="w-full max-w-md p-4 text-center flex items-center justify-center">
-                <div className="relative w-full max-w-[380px] h-64 sm:h-72 mx-auto flex items-center justify-center">
-                  <Image
-                    src="/cleanmailpro.png"
-                    alt="CleanMail Pro Logo"
-                    width={400}
-                    height={300}
-                    className="object-contain w-full h-full max-h-64 scale-125 transition-transform duration-300 hover:scale-130"
-                    priority
-                  />
+              <ScrollReveal direction="left" duration={800} className="w-full max-w-md">
+                <div className="w-full p-4 text-center flex items-center justify-center">
+                  <div className="relative w-full max-w-[380px] h-64 sm:h-72 mx-auto flex items-center justify-center">
+                    <Image
+                      src="/cleanmailpro.png"
+                      alt="CleanMail Pro Logo"
+                      width={400}
+                      height={300}
+                      className="object-contain w-full h-full max-h-64 scale-125 transition-transform duration-300 hover:scale-130"
+                      priority
+                    />
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             </div>
 
             <div className="lg:col-span-7">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-sky-50 border border-[#3482b9]/25 text-[#3482b9] text-xs font-bold uppercase tracking-wider mb-3">
-                Product
-              </span>
+              <ScrollReveal direction="right" duration={800}>
+                <span className="inline-block px-4 py-1.5 rounded-full bg-sky-50 border border-[#3482b9]/25 text-[#3482b9] text-xs font-bold uppercase tracking-wider mb-3">
+                  Product
+                </span>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight mb-4">
                 CleanMail Pro
               </h2>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                 CleanMail Pro is an easy-to-use email validation tool that integrates directly with Microsoft Dynamics 365. It automatically checks and removes invalid email addresses from your lists, helping you improve email deliverability and reduce bounce rates. With real-time validation and seamless integration, CleanMail Pro ensures your email campaigns are more effective, saving you time and improving marketing results.
               </p>
+              </ScrollReveal>
             </div>
 
           </div>

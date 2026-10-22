@@ -22,6 +22,7 @@ import {
   FileText,
   ArrowUpRight
 } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function ProductsPage() {
   return (
@@ -253,25 +254,25 @@ export default function ProductsPage() {
 
             {/* Right Column: Dynamic Animated Image with Ambient Glows */}
             <div className="lg:col-span-5 flex justify-center relative">
-              
-              {/* Animated Ambient Blur Glow behind the image */}
-              <div className="absolute -top-8 -right-8 w-64 h-64 bg-[#3482b9]/25 rounded-full blur-3xl animate-pulse pointer-events-none" />
-              <div className="absolute -bottom-8 -left-8 w-60 h-60 bg-blue-600/20 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDelay: '1.5s' }} />
+              <ScrollReveal direction="right" duration={850} className="w-full flex justify-center">
+                {/* Animated Ambient Blur Glow behind the image */}
+                <div className="absolute -top-8 -right-8 w-64 h-64 bg-[#3482b9]/25 rounded-full blur-3xl animate-pulse pointer-events-none" />
+                <div className="absolute -bottom-8 -left-8 w-60 h-60 bg-blue-600/20 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDelay: '1.5s' }} />
 
-              {/* Main Image with Smooth Floating Micro-animation & Organic Rounded Shape */}
-              <div className="relative w-full max-w-lg aspect-[16/11] sm:aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-[#3482b9]/25 transition-all duration-700 hover:shadow-[#3482b9]/40 group hover:scale-[1.02]">
-                <Image
-                  src="/custom crm sytems.png"
-                  alt="Custom CRM Systems for Your Success"
-                  fill
-                  className="object-cover object-center transition-transform duration-700 group-hover:scale-108"
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                />
+                {/* Main Image with Smooth Floating Micro-animation & Organic Rounded Shape */}
+                <div className="relative w-full max-w-lg aspect-[16/11] sm:aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-[#3482b9]/25 transition-all duration-700 hover:shadow-[#3482b9]/40 group hover:scale-[1.02]">
+                  <Image
+                    src="/custom crm sytems.png"
+                    alt="Custom CRM Systems for Your Success"
+                    fill
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-108"
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                  />
 
-                {/* Subtle Glassmorphic Overlay Gradient on bottom edge */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b3d]/30 via-transparent to-transparent pointer-events-none" />
-              </div>
-
+                  {/* Subtle Glassmorphic Overlay Gradient on bottom edge */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b3d]/30 via-transparent to-transparent pointer-events-none" />
+                </div>
+              </ScrollReveal>
             </div>
 
           </div>
