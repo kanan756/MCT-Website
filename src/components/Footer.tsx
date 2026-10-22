@@ -140,9 +140,7 @@ export default function Footer() {
             <ul className="space-y-3.5 text-sm">
               {[
                 { label: "Contact Us", href: "/contact" },
-                { label: "Blog", href: "/about" },
                 { label: "Careers", href: "/about/careers" },
-                { label: "FAQ", href: "/#faq" },
                 { label: "Terms & Conditions", href: "/terms-and-conditions" },
                 { label: "Privacy Policy", href: "/privacy-policy" },
               ].map((link, idx) => (
@@ -171,11 +169,11 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-3 sm:gap-4 text-xs">
-            <Link href="/contact" className="hover:text-white transition-colors">Support</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Support</Link>
             <span className="text-slate-600">|</span>
             <Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link>
             <span className="text-slate-600">|</span>
-            <Link href="/about" className="hover:text-white transition-colors">Disclaimer</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Disclaimer</Link>
             <span className="text-slate-600">|</span>
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>
