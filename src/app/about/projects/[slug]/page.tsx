@@ -359,7 +359,9 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                     Business Value Delivered
                   </h3>
                   <p className="text-slate-300 text-xs sm:text-sm mt-1">
-                    The solution provides a structured foundation for coordinating pet import operations and customer service activities.
+                    {project.slug === "uae-e-invoicing-integration-dynamics-365-business-central"
+                      ? "The integration provides a structured approach to managing e-invoicing activities within Business Central."
+                      : "The solution provides a structured foundation for coordinating pet import operations and customer service activities."}
                   </p>
                 </div>
 
@@ -378,6 +380,12 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                     </div>
                   ))}
                 </div>
+
+                {project.slug === "uae-e-invoicing-integration-dynamics-365-business-central" && (
+                  <p className="text-xs text-slate-400 italic pt-2 border-t border-white/10">
+                    These benefits describe the capabilities enabled by the solution; measured efficiency improvements or regulatory compliance outcomes have not been established by the supplied project information.
+                  </p>
+                )}
               </article>
 
               {/* Section 7: Technologies and Integrations Table */}
@@ -419,6 +427,17 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                     </tbody>
                   </table>
                 </div>
+
+                {project.slug === "uae-e-invoicing-integration-dynamics-365-business-central" && (
+                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p>
+                      <strong>Integration prerequisites:</strong> The solution requires configured service-provider API access and authentication, valid business master data, and seller onboarding. Peppol delivery also requires an appropriately registered receiver endpoint.
+                    </p>
+                    <p>
+                      The described transaction scope covers domestic UAE sales invoices in AED. The implementation details provided do not establish support for other invoice types or guarantee regulatory compliance or production acceptance.
+                    </p>
+                  </div>
+                )}
               </article>
 
             </main>
