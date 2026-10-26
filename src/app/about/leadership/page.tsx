@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, Mail } from "lucide-react";
+import { ChevronRight, Mail, User } from "lucide-react";
 
 export default function LeadershipPage() {
   const leaders = [
@@ -40,6 +40,20 @@ export default function LeadershipPage() {
       image: "/nilesh-scaled-thegem-person.jpg",
       bio: "Nilesh is the Chief Financial Officer at MCT IT Solutions. Manage the company’s financial planning. Plan and perform risk management duties. Analyze and manage the organization’s liabilities and investments. Plan, implement and manage investment strategies. Prepare current reports. Adhere to the law and company’s policies. Driving our company’s financial planning. Deciding on investment strategies by considering cash and liquidity risks.",
       email: "nkalma@miraclecloud-technology.com",
+    },
+    {
+      name: "Mihirsinh Gohil",
+      role: "Product Owner / Business Analyst",
+      image: "/",
+      bio: "Mihir is the Product Owner and Business Analyst at MCT IT Solutions. Collaborating with clients and stakeholders to define enterprise CRM and SaaS solutions. Managing the D365 CRM (Customer Service) product backlog, sprint planning, and Agile delivery. Configuring Microsoft Dynamics 365 CRM entities, security roles, and business rules while bridging client business objectives with technical engineering squads.",
+      email: "mgohil@miraclecloud-technology.com",
+    },
+    {
+      name: "Anas Shaikh",
+      role: "D365 Business Central Techno Functional Consultant",
+      image: "/anas.jfif",
+      bio: "Anas is the D365 Business Central Techno Functional Consultant at MCT IT Solutions. Architecting and developing enterprise solutions using Microsoft Dynamics 365 Business Central. Leading AL programming, complex business process customizations, system configurations, and automated testing. Ensuring robust ERP integrations, seamless business workflows, and end-to-end technical delivery for client enterprises.",
+      email: "anas@miraclecloud-technology.com",
     },
   ];
 
@@ -105,7 +119,7 @@ export default function LeadershipPage() {
           <div className="flex items-center justify-center gap-6 max-w-4xl mx-auto">
             <div className="flex-1 h-px bg-gray-200" />
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight uppercase px-4 whitespace-nowrap">
-              OUR TEAM
+              OUR LEADERS
             </h2>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
@@ -125,13 +139,22 @@ export default function LeadershipPage() {
                   {/* Executive Portrait with Double Ring & Brand Glow */}
                   <div className="relative group-hover:scale-105 transition-transform duration-500">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#3482b9] to-sky-300 blur-sm opacity-40 group-hover:opacity-80 transition-opacity" />
-                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-white shadow-xl bg-slate-100 shrink-0 ring-2 ring-slate-100 group-hover:ring-[#3482b9]/40 transition-all">
-                      <Image
-                        src={leader.image}
-                        alt={leader.name}
-                        fill
-                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                      />
+                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-white shadow-xl bg-slate-100 shrink-0 ring-2 ring-slate-100 group-hover:ring-[#3482b9]/40 transition-all flex items-center justify-center">
+                      {leader.image && leader.image !== "/" ? (
+                        <Image
+                          src={leader.image}
+                          alt={leader.name}
+                          fill
+                          className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-[#0b1b3d] to-[#3482b9] flex flex-col items-center justify-center text-white">
+                          <span className="text-2xl font-black tracking-wider">
+                            {leader.name.split(" ").map(n => n[0]).join("")}
+                          </span>
+                          <span className="text-[10px] font-bold text-sky-200 uppercase tracking-widest mt-0.5">MCT</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 

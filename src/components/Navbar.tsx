@@ -8,14 +8,19 @@ import { Menu, X, Mail, Phone, ChevronRight, ChevronDown } from "lucide-react";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeServiceCategory, setActiveServiceCategory] = useState<string | null>(null);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
+  const [mobileServiceCategoryOpen, setMobileServiceCategoryOpen] = useState<string | null>(null);
 
   const pathname = usePathname();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const productMenu = [
@@ -44,17 +49,69 @@ export default function Navbar() {
     }
   ];
 
+  const servicesMenu = [
+    {
+      id: "dynamics-365",
+      label: "Dynamics 365",
+      href: "/services#dynamics-365",
+      items: [
+        { label: "Microsoft Dynamics 365 Customer Engagement", href: "/services/customer-engagement" },
+        { label: "Microsoft Dynamics 365 Sales", href: "/services/sales" },
+        { label: "Microsoft Dynamics 365 Customer Service", href: "/services/customer-service" },
+        { label: "Microsoft Dynamics 365 Customer Insights", href: "/services/customer-insights" },
+        { label: "Microsoft Dynamics 365 Field Service", href: "/services/field-service" },
+        { label: "Microsoft Dynamics 365 Business Central", href: "/services/business-central" },
+        { label: "Finance & Operations", href: "/services/finance-operations" },
+        { label: "Supply Chain Management", href: "/services/supply-chain-management" },
+        { label: "Project Management", href: "/services/project-management" },
+        { label: "Dynamics HR", href: "/services/dynamics-hr" },
+        { label: "Payroll", href: "/services/payroll" },
+        { label: "Power Pages", href: "/services/power-pages" },
+        { label: "Power Apps", href: "/services/power-apps" },
+        { label: "Power Automate", href: "/services/power-automate" },
+      ]
+    },
+    {
+      id: "e-invoicing",
+      label: "E-Invoicing",
+      href: "/services#e-invoicing",
+      items: [
+        { label: "India E-Invoicing Integration", href: "/services/india-e-invoicing" },
+        { label: "UAE E-Invoicing Integration", href: "/services/uae-e-invoicing" },
+      ]
+    },
+    {
+      id: "web",
+      label: "WEB",
+      href: "/services#web",
+      items: [
+        { label: "Node.js", href: "/services/nodejs" },
+        { label: "React.js", href: "/services/reactjs" },
+      ]
+    },
+    {
+      id: "mobile",
+      label: "Mobile",
+      href: "/services#mobile",
+      items: [
+        { label: "React Native (Android)", href: "/services/react-native-android" },
+        { label: "Swift (iOS)", href: "/services/swift-ios" },
+      ]
+    }
+  ];
+
   const aboutMenu = [
     { label: "Leadership", href: "/about/leadership" },
     { label: "Testimonials", href: "/about/testimonials" },
     { label: "Careers", href: "/about/careers" },
     { label: "Projects", href: "/about/projects" },
+    { label: "Our Team", href: "/about/team" },
   ];
 
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "Products", href: "/products", hasDropdown: "products" },
-    { label: "Services", href: "/services" },
+    { label: "Services", href: "/services", hasDropdown: "services" },
     { label: "About us", href: "/about", hasDropdown: "about" },
     { label: "Contact Us", href: "/contact" },
   ];
@@ -80,6 +137,17 @@ export default function Navbar() {
     }, 200);
   };
 
+  const handleServicesMouseEnter = () => {
+    if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
+    setServicesDropdownOpen(true);
+  };
+
+  const handleServicesMouseLeave = () => {
+    servicesTimeoutRef.current = setTimeout(() => {
+      setServicesDropdownOpen(false);
+    }, 200);
+  };
+
   const handleAboutMouseEnter = () => {
     if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
     setAboutDropdownOpen(true);
@@ -90,6 +158,10 @@ export default function Navbar() {
       setAboutDropdownOpen(false);
     }, 200);
   };
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <header className="w-full z-50 sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
@@ -251,6 +323,101 @@ export default function Navbar() {
                           })}
                         </div>
 
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              if (link.hasDropdown === "services") {
+                return (
+                  <div
+                    key={idx}
+                    className="relative group py-6"
+                    onMouseEnter={handleServicesMouseEnter}
+                    onMouseLeave={handleServicesMouseLeave}
+                  >
+                    <Link
+                      href={link.href}
+                      className={`px-3.5 py-2 text-sm font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1 relative ${active
+                        ? "text-[#3482b9]"
+                        : "text-gray-700 hover:text-[#3482b9]"
+                        }`}
+                    >
+                      <span>{link.label}</span>
+                      {active && (
+                        <span className="absolute bottom-0 left-3.5 right-3.5 h-[3px] bg-[#3482b9] rounded-full animate-fade-in" />
+                      )}
+                    </Link>
+
+                    {/* Desktop Nested Flyout Dropdown for Services */}
+                    {servicesDropdownOpen && (
+                      <div
+                        className="absolute top-[calc(100%-6px)] left-0 flex bg-white/95 backdrop-blur-xl border border-gray-200/90 shadow-2xl rounded-2xl overflow-visible z-50 animate-fade-in ring-1 ring-black/5"
+                      >
+                        {/* Left Column: Categories (Dynamics 365, E-Invoicing, WEB, Mobile) */}
+                        <div className="w-52 bg-slate-50/70 p-2 space-y-1">
+                          {servicesMenu.map((cat) => {
+                            const isCurrentCat = activeServiceCategory === cat.id;
+                            return (
+                              <div
+                                key={cat.id}
+                                className="relative"
+                                onMouseEnter={() => setActiveServiceCategory(cat.id)}
+                              >
+                                <div
+                                  className={`w-full px-4 py-2.5 rounded-xl flex items-center justify-between text-sm font-bold tracking-wide transition-all ${isCurrentCat
+                                    ? "bg-white text-[#3482b9] shadow-sm border border-[#3482b9]/20"
+                                    : "text-slate-800 hover:bg-white/80 hover:text-[#3482b9]"
+                                    }`}
+                                >
+                                  <Link
+                                    href={cat.href}
+                                    onClick={() => {
+                                      setServicesDropdownOpen(false);
+                                      setActiveServiceCategory(null);
+                                    }}
+                                    className="flex-1 text-left hover:text-[#3482b9]"
+                                  >
+                                    {cat.label}
+                                  </Link>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setActiveServiceCategory(activeServiceCategory === cat.id ? null : cat.id);
+                                    }}
+                                    className="p-1 -mr-1 rounded hover:bg-slate-100"
+                                    aria-label={`Toggle ${cat.label} submenu`}
+                                  >
+                                    <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${isCurrentCat ? "text-[#3482b9] translate-x-1" : "text-slate-400"}`} />
+                                  </button>
+                                </div>
+
+                                {/* Directly Aligned Sub-services Flyout (Opens adjacent to hovered category) */}
+                                {isCurrentCat && (
+                                  <div
+                                    className="absolute left-[calc(100%+8px)] top-0 w-64 max-h-[420px] overflow-y-auto bg-white/95 backdrop-blur-xl border border-gray-200/90 shadow-2xl rounded-2xl p-2 z-50 animate-fade-in space-y-1 ring-1 ring-black/5 scrollbar-thin"
+                                  >
+                                    {cat.items.map((sub, sIdx) => (
+                                      <Link
+                                        key={sIdx}
+                                        href={sub.href}
+                                        onClick={() => {
+                                          setServicesDropdownOpen(false);
+                                          setActiveServiceCategory(null);
+                                        }}
+                                        className="block px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 hover:text-[#3482b9] hover:bg-sky-50/70 transition-colors"
+                                      >
+                                        {sub.label}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -425,6 +592,82 @@ export default function Navbar() {
                           </div>
                         );
                       })}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            if (link.hasDropdown === "services") {
+              return (
+                <div key={idx} className="rounded-xl overflow-hidden bg-slate-50/70 border border-gray-100">
+                  <div className="flex items-center justify-between px-3.5 py-2.5">
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`text-sm font-bold uppercase tracking-wider ${active ? "text-[#3482b9]" : "text-gray-800"
+                        }`}
+                    >
+                      {link.label}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                      className="p-1.5 text-slate-500 hover:text-[#3482b9]"
+                      aria-label="Toggle Services Submenu"
+                    >
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform ${mobileServicesOpen ? "rotate-180 text-[#3482b9]" : ""
+                          }`}
+                      />
+                    </button>
+                  </div>
+
+                  {mobileServicesOpen && (
+                    <div className="px-3 pb-3 pt-1 space-y-2 border-t border-gray-200/60 bg-white">
+                      {servicesMenu.map((cat) => (
+                        <div key={cat.id} className="rounded-lg border border-gray-100 p-2">
+                          <div className="w-full flex items-center justify-between text-xs font-bold text-slate-900 uppercase py-1">
+                            <Link
+                              href={cat.href}
+                              onClick={() => setIsOpen(false)}
+                              className="flex-1 hover:text-[#3482b9]"
+                            >
+                              {cat.label}
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setMobileServiceCategoryOpen(
+                                  mobileServiceCategoryOpen === cat.id ? null : cat.id
+                                )
+                              }
+                              className="p-1 -mr-1"
+                              aria-label={`Toggle ${cat.label} items`}
+                            >
+                              <ChevronDown
+                                className={`w-3.5 h-3.5 text-slate-400 transition-transform ${mobileServiceCategoryOpen === cat.id ? "rotate-180 text-[#3482b9]" : ""
+                                  }`}
+                              />
+                            </button>
+                          </div>
+
+                          {mobileServiceCategoryOpen === cat.id && (
+                            <div className="mt-1.5 pl-2 space-y-1.5 border-l-2 border-[#3482b9] max-h-48 overflow-y-auto">
+                              {cat.items.map((item, iIdx) => (
+                                <Link
+                                  key={iIdx}
+                                  href={item.href}
+                                  onClick={() => setIsOpen(false)}
+                                  className="block py-1 text-xs text-slate-600 hover:text-[#3482b9] font-medium"
+                                >
+                                  {item.label}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>

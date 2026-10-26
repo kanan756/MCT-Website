@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MapPin, Phone, Mail, Globe, Send, CheckCircle } from "lucide-react";
 
 export default function Footer() {
+  const pathname = usePathname();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,6 +145,7 @@ export default function Footer() {
 
             <ul className="space-y-3.5 text-sm">
               {[
+                { label: "Our Team", href: "/about/team" },
                 { label: "Contact Us", href: "/contact" },
                 { label: "Careers", href: "/about/careers" },
                 { label: "Terms & Conditions", href: "/terms-and-conditions" },
