@@ -105,7 +105,6 @@ export default function Navbar() {
     { label: "Testimonials", href: "/about/testimonials" },
     { label: "Careers", href: "/about/careers" },
     { label: "Projects", href: "/about/projects" },
-    { label: "Our Team", href: "/about/team" },
   ];
 
   const navLinks = [

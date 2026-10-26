@@ -575,20 +575,14 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              {/* OUR TEAM Button linking to the new /about/team subpage */}
-              <div className="pt-2 flex flex-wrap items-center gap-3">
+              {/* OUR TEAM Button matching reference screenshot */}
+              <div className="pt-2">
                 <Link
-                  href="/about/team"
+                  href="/about/leadership"
                   className="px-8 py-3 rounded-md bg-[#3482b9] hover:bg-[#1f6595] text-white font-black text-xs uppercase tracking-wider transition-all duration-200 shadow-lg shadow-[#3482b9]/30 inline-flex items-center gap-2 group"
                 >
                   <span>OUR TEAM</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/about/leadership"
-                  className="px-6 py-3 rounded-md bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 inline-flex items-center gap-2"
-                >
-                  <span>LEADERSHIP</span>
                 </Link>
               </div>
 
