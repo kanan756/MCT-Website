@@ -51,7 +51,7 @@ export default function LeadershipPage() {
     {
       name: "Anas Shaikh",
       role: "D365 Business Central Techno Functional Consultant",
-      image: "/anas.jfif",
+      image: "/anas.png",
       bio: "Anas is the D365 Business Central Techno Functional Consultant at MCT IT Solutions. Architecting and developing enterprise solutions using Microsoft Dynamics 365 Business Central. Leading AL programming, complex business process customizations, system configurations, and automated testing. Ensuring robust ERP integrations, seamless business workflows, and end-to-end technical delivery for client enterprises.",
       email: "anas@miraclecloud-technology.com",
     },
