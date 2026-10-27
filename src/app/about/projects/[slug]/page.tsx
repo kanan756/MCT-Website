@@ -24,7 +24,10 @@ import {
   Tag
 } from "lucide-react";
 
-import { PROJECTS, getProjectBySlug } from "@/data/projects";
+import { PROJECTS } from "@/data/projects";
+import { getLiveProjects, getLiveProjectBySlug } from "@/lib/contentRepo";
+
+export const dynamic = "force-dynamic";
 
 interface ProjectDetailsPageProps {
   params: Promise<{
@@ -33,14 +36,15 @@ interface ProjectDetailsPageProps {
 }
 
 export async function generateStaticParams() {
-  return PROJECTS.map((project) => ({
+  const projects = await getLiveProjects();
+  return projects.map((project) => ({
     slug: project.slug,
   }));
 }
 
 export async function generateMetadata({ params }: ProjectDetailsPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getLiveProjectBySlug(slug);
 
   if (!project) {
     return {
@@ -56,7 +60,7 @@ export async function generateMetadata({ params }: ProjectDetailsPageProps): Pro
 
 export default async function ProjectDetailsPage({ params }: ProjectDetailsPageProps) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getLiveProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -214,7 +218,7 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                   </span>
                 </div>
 
-                <div className="relative w-full h-72 sm:h-96 md:h-[520px] rounded-2xl overflow-hidden bg-slate-50 border border-slate-200 group shadow-sm flex items-center justify-center p-2">
+                <div className="relative w-full h-72 sm:h-96 md:h-[520px] rounded-2xl overflow-hidden bg-transparent group flex items-center justify-center p-0">
                   <Image
                     src={project.image}
                     alt={`${project.name} Application Screenshot`}
@@ -257,15 +261,8 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                     <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                       Business Challenge
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-500">
-                      Coordinating Multi-Stage Operations &amp; Time-Sensitive Approvals
-                    </p>
                   </div>
                 </div>
-
-                <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
-                  Managing pet imports involves multiple stages, customer information requirements, payment confirmation, government permit coordination, and time-sensitive airport pickup and delivery activities. The solution addresses the need to coordinate these activities within a structured process, including:
-                </p>
 
                 <div className="space-y-3 pt-1">
                   {project.businessChallenges.map((challenge, cIdx) => (
@@ -293,15 +290,8 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                     <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                       Solution Delivered
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-500">
-                      Microsoft Dynamics 365 Customer Service + Connected Driver Mobile App
-                    </p>
                   </div>
                 </div>
-
-                <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
-                  The solution combines Microsoft Dynamics 365 Customer Service (On-Premises) with a connected Driver Mobile App to manage the pet import service lifecycle. Our implementation covers the following key areas:
-                </p>
 
                 <div className="space-y-3 pt-1">
                   {project.solutionDelivered.map((sol, sIdx) => (

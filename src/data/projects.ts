@@ -256,6 +256,241 @@ export const PROJECTS: Project[] = [
         purpose: "Tracking Tax Authority acknowledgement information returned through the connected service"
       }
     ]
+  },
+  {
+    slug: "appsource-real-estate-property-management-business-central",
+    name: "AppSource-Published Real Estate & Property Management Solution",
+    solutionCategory: "Microsoft Dynamics 365 Business Central • Real Estate & Property Management",
+    tagline:
+      "A certified Microsoft AppSource real estate management extension for Microsoft Dynamics 365 Business Central, uniting leasing operations, tenancy agreements, rental invoicing, and a self-service Power Apps Portal.",
+    client: "UAE Real Estate & Property Management Organizations",
+    location: "UAE",
+    duration: "Ongoing",
+    year: "2024",
+    image: "/real-estate.png",
+    heroImage: "/erp.png",
+    tags: [
+      "Dynamics 365 Business Central",
+      "Real Estate Management",
+      "Microsoft AppSource",
+      "Power Apps Portal",
+      "ERP Extension Development"
+    ],
+    summary:
+      "Developed and published a comprehensive real estate management extension for Microsoft Dynamics 365 Business Central, supporting property listings, leasing, tenancy agreements, contract generation, and rental invoicing. Integrated with a Power Apps Portal for customer and vendor self-service, the solution enables connected property operations and successfully completed Microsoft AppSource certification and publication.",
+    overview: [
+      "Developed and published a comprehensive real estate management extension for Microsoft Dynamics 365 Business Central, designed to support property management organizations in the UAE. The solution centralizes property listings, leasing operations, tenancy agreements, contract generation, and rental invoicing within an integrated ERP environment.",
+      "The implementation also included a connected Power Apps Portal, enabling customers and vendors to access property information, submit documents, raise inquiries, and monitor contract statuses through self-service functionality.",
+      "The extension was prepared for Microsoft AppSource certification through technical validation, automated testing, permission configuration, and translation support. Following successful submission and certification, the solution was published on Microsoft AppSource."
+    ],
+    businessChallenges: [
+      "Centralized Property Administration: Maintaining property listings and related information within a centralized business application.",
+      "Tenancy & Contract Workflows: Managing tenancy agreements, contract generation, and rental invoicing through structured workflows.",
+      "Stakeholder Access: Providing customers and vendors with convenient access to relevant property and contract information.",
+      "Document & Inquiry Intake: Enabling external stakeholders to submit documents and raise inquiries through a connected portal.",
+      "Disconnected Processes: Connecting self-service portal activities with Business Central to reduce disconnected administrative processes.",
+      "Microsoft AppSource Compliance: Preparing a reusable Business Central extension to satisfy Microsoft AppSource technical and certification requirements."
+    ],
+    solutionDelivered: [
+      "Real Estate Management Extension: Developed property listing, leasing, tenancy agreement, contract generation, and rental invoicing functionality within Business Central.",
+      "Industry-Specific Workflow Customization: Implemented business processes aligned with real estate operations, property administration, and financial activities.",
+      "Power Apps Portal Integration: Developed a connected portal to facilitate interaction between Business Central and external customers and vendors.",
+      "Customer and Vendor Self-Service: Enabled portal users to access property listings, submit documents, raise inquiries, and monitor contract statuses.",
+      "Integrated Data Management: Established connected processes between the portal and Business Central to support information accessibility and coordinated operations.",
+      "AppSource Certification Preparation: Prepared application permission sets, translation files, automated tests, and technical validation components required for certification.",
+      "Extension Signing and Authorization: Supported signing and publisher authorization activities through approved organizational processes.",
+      "AppSource Publication: Completed the application submission and certification process and published the extension on Microsoft AppSource.",
+      "Quality Assurance: Performed testing and validation activities to support application reliability and publication readiness."
+    ],
+    capabilities: [
+      {
+        title: "Centralized Property Management",
+        description:
+          "Manage property listings and related business information through a dedicated real estate extension within Business Central."
+      },
+      {
+        title: "Leasing and Tenancy Management",
+        description:
+          "Support leasing operations, tenancy agreements, contract generation, and rental invoicing through structured processes."
+      },
+      {
+        title: "Customer and Vendor Self-Service Portal",
+        description:
+          "Provide external users with access to property listings, document submission, inquiry creation, and contract status information."
+      },
+      {
+        title: "Integrated Business Processes",
+        description:
+          "Connect portal activities with Business Central to support coordinated property operations and information exchange."
+      },
+      {
+        title: "Microsoft AppSource Publication",
+        description:
+          "Deliver an extension that successfully completed the AppSource submission and certification process, including required technical validation."
+      },
+      {
+        title: "Application Testing and Authorization",
+        description:
+          "Implement automated tests, application permission sets, translation files, and signing-related processes to support extension quality and publication requirements."
+      }
+    ],
+    businessValues: [
+      "Centralized property operations by bringing property information, leasing activities, contracts, and rental invoicing into Business Central.",
+      "Streamlined tenancy administration through more structured management of rental agreements and related financial processes.",
+      "Reduced administrative effort by enabling external users to submit documents and inquiries through self-service functionality.",
+      "Improved stakeholder engagement through a connected channel for customers and vendors.",
+      "Improved information accessibility by connecting portal interactions with ERP processes.",
+      "Standardized application distribution by making the certified extension available through Microsoft AppSource.",
+      "Extended ERP capabilities with industry-specific property management functionality."
+    ],
+    technologies: [
+      {
+        name: "Microsoft Dynamics 365 Business Central",
+        purpose: "Core ERP platform hosting real estate management functionality"
+      },
+      {
+        name: "Business Central Extension",
+        purpose: "Property, leasing, tenancy, contract, and rental invoicing functionality"
+      },
+      {
+        name: "Microsoft Power Apps Portal",
+        purpose: "Customer and vendor self-service interface"
+      },
+      {
+        name: "Business Central–Portal Integration",
+        purpose: "Connected business processes and information exchange"
+      },
+      {
+        name: "Microsoft AppSource",
+        purpose: "Extension certification and publication"
+      },
+      {
+        name: "Automated Testing and Technical Validation",
+        purpose: "Application quality assurance and certification readiness"
+      },
+      {
+        name: "Application Permission Sets & Translation Files",
+        purpose: "Extension authorization configuration and multilingual readiness"
+      }
+    ]
+  },
+  {
+    slug: "enterprise-business-central-on-premises-development-cicd",
+    name: "Enterprise Business Central On-Premises Development & CI/CD",
+    solutionCategory: "Microsoft Dynamics 365 Business Central • Industrial Manufacturing & Wholesale",
+    tagline:
+      "Enterprise Microsoft Dynamics 365 Business Central On-Premises development, multi-extension dependency management, Azure DevOps CI/CD automation, and industrial manufacturing enhancements.",
+    client: "European Flue & Commercial Exhaust Manufacturer",
+    location: "Europe",
+    duration: "Ongoing",
+    year: "2024",
+    image: "/On-Premises.png",
+    heroImage: "/erp.png",
+    tags: [
+      "Dynamics 365 Business Central",
+      "AL Development",
+      "Azure DevOps CI/CD",
+      "On-Premises ERP",
+      "Application Lifecycle Management"
+    ],
+    summary:
+      "Supported enterprise Microsoft Dynamics 365 Business Central On-Premises development for a manufacturer and wholesale distributor of stainless steel flue systems and commercial exhaust solutions. The project included AL extension development, multi-extension dependency management, Azure DevOps CI/CD practices, custom reporting, structured testing, and controlled deployments across Development, Test, and Production environments.",
+    overview: [
+      "Supported the development, customization, maintenance, and continuous delivery of an enterprise Microsoft Dynamics 365 Business Central On-Premises solution for a European manufacturer and distributor specializing in stainless steel flue systems, chimneys, and high-temperature commercial exhaust solutions.",
+      "The project involved a multi-extension architecture with shared dependencies, specialized functional modules, and country-specific customizations. Development activities included AL extension development, customized reporting, business process enhancements, dependency management, and technical troubleshooting.",
+      "Using Azure DevOps, Git-based source control, and established CI/CD practices, the team supported structured development, testing, and controlled releases across Development, Test, and Production environments. Collaborative planning, code reviews, regression testing, and production issue resolution helped maintain the ERP environment while supporting ongoing business requirements."
+    ],
+    businessChallenges: [
+      "Multi-Extension Dependencies: Managing shared dependencies, specialized modules, and country-specific customizations across multiple applications.",
+      "Environment Validation: Validating changes before deployment through structured Development, Test, and Production environments.",
+      "Developer Coordination: Coordinating development tasks, effort estimates, code reviews, and delivery commitments across multiple developers.",
+      "Technical Complexity: Resolving AL compilation, extension packaging, application dependency, version compatibility, and publishing issues.",
+      "Production Stability: Investigating production defects and validating enhancements without disrupting existing ERP functionality.",
+      "Traceability & Source Control: Maintaining source control, testing practices, documentation, and traceability throughout the release lifecycle."
+    ],
+    solutionDelivered: [
+      "AL Extension Development: Developed, enhanced, and maintained custom AL functionality aligned with business requirements.",
+      "Multi-Extension Architecture: Supported interconnected extensions with shared libraries, specialized functional modules, and country-specific customizations.",
+      "Azure DevOps and CI/CD: Followed established pipelines and release workflows for build validation, testing, and controlled application deployment.",
+      "Environment Management: Supported the Development, Test, and Production lifecycle, including Docker-based local development and testing environments.",
+      "Source Control and Code Review: Used Git, feature branches, pull requests, and code reviews to coordinate changes across developers.",
+      "Dependency Management: Addressed extension dependencies, package compatibility, versioning, compilation, and publishing requirements.",
+      "Report Customization: Enhanced Business Central reports and layouts to include additional business information in operational documents.",
+      "Business Process Enhancements: Supported customizations across purchasing, sales, reporting, and manufacturing-related operations.",
+      "Testing and Production Support: Performed functional and regression testing, investigated defects, and resolved urgent development and deployment issues.",
+      "Collaborative Delivery: Contributed to effort estimation, task coordination, technical documentation, and delivery planning."
+    ],
+    capabilities: [
+      {
+        title: "Business Central AL Development",
+        description:
+          "Develop and maintain custom extensions to address manufacturing, wholesale distribution, reporting, and operational requirements."
+      },
+      {
+        title: "Multi-Extension and Dependency Management",
+        description:
+          "Work with interconnected applications, shared dependencies, version compatibility, and extension publishing requirements."
+      },
+      {
+        title: "CI/CD and Release Management",
+        description:
+          "Support structured build, validation, testing, and deployment practices using Azure DevOps and Git-based workflows."
+      },
+      {
+        title: "Custom Reports and Business Processes",
+        description:
+          "Extend report layouts and enhance purchasing, sales, manufacturing-related, and distribution workflows."
+      },
+      {
+        title: "Testing and Quality Assurance",
+        description:
+          "Perform functional testing, regression validation, and issue verification to help preserve existing application behavior."
+      },
+      {
+        title: "On-Premises Environment and Production Support",
+        description:
+          "Troubleshoot AL compilation, extension publishing, configuration, dependency, and production issues across the ERP lifecycle."
+      }
+    ],
+    businessValues: [
+      "Supported organized extension development and management across interconnected applications.",
+      "Used structured environments and validation practices to help reduce deployment risks.",
+      "Applied source control, code reviews, and task coordination to support team-based delivery.",
+      "Used functional and regression testing to verify changes against business requirements.",
+      "Addressed technical defects and deployment challenges to help minimize operational disruption.",
+      "Maintained development, testing, and deployment procedures that support traceability across releases.",
+      "Delivered ongoing enhancements for manufacturing, wholesale distribution, and related business processes."
+    ],
+    technologies: [
+      {
+        name: "Microsoft Dynamics 365 Business Central On-Premises",
+        purpose: "Enterprise ERP platform"
+      },
+      {
+        name: "AL Language",
+        purpose: "Custom extension development and application enhancements"
+      },
+      {
+        name: "Azure DevOps",
+        purpose: "Development coordination and CI/CD workflows"
+      },
+      {
+        name: "Git",
+        purpose: "Source control, feature branches, and code collaboration"
+      },
+      {
+        name: "Business Central Extensions",
+        purpose: "Modular functionality, dependencies, and application customization"
+      },
+      {
+        name: "Docker-based Development Environment",
+        purpose: "Local development and testing environment"
+      },
+      {
+        name: "Automated Build and Testing Workflows",
+        purpose: "Validation and controlled release support"
+      }
+    ]
   }
 ];
 
