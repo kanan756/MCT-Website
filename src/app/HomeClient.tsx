@@ -7,7 +7,9 @@ import {
   ChevronDown, Star, ChevronLeft, ChevronRight,
   MapPin, Phone, Mail, Globe, ArrowRight,
   ShieldCheck, Laptop, BarChart2, Users, Search,
-  Code, Settings, Cloud, Database, Zap
+  Code, Settings, Cloud, Database, Zap,
+  Sparkles, Clock, CheckCircle2, AlertTriangle,
+  Flame, ShieldAlert, Rocket
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -292,18 +294,26 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-8">
             <Link
-              href="/contact"
-              className="bg-[#3482b9] hover:bg-[#1f6595] text-white px-8 py-3.5 rounded-full font-bold text-sm tracking-wider uppercase shadow-lg shadow-[#3482b9]/30 transition-all hover:scale-105"
+              href="/contact?type=poc"
+              className="inline-flex items-center gap-2 bg-[#3482b9] hover:bg-[#1f6595] text-white px-8 py-3.5 rounded-full font-extrabold text-xs sm:text-sm tracking-wider uppercase shadow-xl shadow-[#3482b9]/30 transition-all hover:scale-105"
             >
-              Get Started
+              <Rocket className="w-4 h-4" />
+              <span>Request Rapid POC</span>
             </Link>
+            <a
+              href="#mct-assurance"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white px-7 py-3.5 rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase transition-all backdrop-blur-md"
+            >
+              <span>Explore Our USPs</span>
+              <ChevronDown className="w-4 h-4 text-[#3482b9]" />
+            </a>
             <Link
               href="/services"
-              className="bg-white/10 hover:bg-white/15 border border-white/20 text-white px-8 py-3.5 rounded-full font-bold text-sm tracking-wider uppercase transition-all"
+              className="text-slate-300 hover:text-white px-5 py-3.5 font-bold text-xs sm:text-sm tracking-wider uppercase transition-colors"
             >
-              Services
+              All Services
             </Link>
           </div>
 
@@ -325,6 +335,213 @@ export default function Home() {
               />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 1.5 THE MCT ASSURANCE: OUR CORE DIFFERENTIATORS / USPS         */}
+      {/* ============================================================== */}
+      <section id="mct-assurance" className="w-full py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#0b1b3d] via-[#0f244e] to-[#0b1b3d] text-white relative overflow-hidden border-b border-white/10">
+        {/* Ambient Glows */}
+        <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-96 h-96 bg-[#3482b9]/20 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#3482b9]/40 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5ba6db] mb-4 backdrop-blur-md">
+              <Sparkles className="w-4 h-4 text-[#3482b9]" />
+              <span>Engineered for Reliability &amp; Speed</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight uppercase tracking-tight">
+              Why Forward-Thinking Enterprises <br className="hidden sm:inline" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5ba6db] via-[#3482b9] to-sky-200">
+                Choose MCT IT Solutions
+              </span>
+            </h2>
+            <p className="mt-4 text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed font-normal">
+              Eliminate software delivery risks, cut procurement delays, and secure high-availability support for your mission-critical Microsoft Dynamics 365 environments.
+            </p>
+          </div>
+
+          {/* 3 High-Impact Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-8">
+
+            {/* USP 1: Rapid Prototype & Miniature POC */}
+            <div className="group relative rounded-3xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-[#3482b9]/60 p-8 sm:p-9 flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(52,130,185,0.25)] backdrop-blur-xl">
+              <div>
+                {/* Metric pill */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
+                    <Rocket className="w-7 h-7" />
+                  </div>
+                  <span className="text-[11px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/70 border border-emerald-500/40 px-3 py-1 rounded-full">
+                    5–7 Day Turnaround
+                  </span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight font-['Montserrat',sans-serif]">
+                  Miniature POC Before Contract
+                </h3>
+
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-['Source_Sans_3',sans-serif]">
+                  Don’t commit your enterprise budget blindly. We build working, interactive miniature prototypes of your critical workflows first—validating architecture and eliminating financial surprises before formal kickoff.
+                </p>
+
+                <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300 pb-6 border-b border-white/10 font-medium">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Real working demo with test data</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Zero architectural guesswork</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Executive stakeholder alignment</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pt-6 flex items-center justify-between">
+                <Link
+                  href="/contact?type=poc"
+                  className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#5ba6db] group-hover:text-white transition-colors"
+                >
+                  <span>Request a 5-Day POC</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                </Link>
+                <span className="text-[11px] font-bold text-slate-400">Risk-Free</span>
+              </div>
+            </div>
+
+            {/* USP 2: Industry-Leading Turnaround Time (TAT) */}
+            <div className="group relative rounded-3xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-[#3482b9]/60 p-8 sm:p-9 flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(52,130,185,0.25)] backdrop-blur-xl">
+              <div>
+                {/* Metric pill */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
+                    <Clock className="w-7 h-7" />
+                  </div>
+                  <span className="text-[11px] font-black uppercase tracking-wider text-[#5ba6db] bg-[#3482b9]/20 border border-[#3482b9]/40 px-3 py-1 rounded-full">
+                    2x Faster Delivery
+                  </span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight font-['Montserrat',sans-serif]">
+                  Unmatched Turnaround Time (TAT)
+                </h3>
+
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-['Source_Sans_3',sans-serif]">
+                  By leveraging proven reusable AL extensions, pre-built API connectors, and agile Microsoft-certified pods, we ship customizations and ERP migrations in weeks rather than dragging on for quarters.
+                </p>
+
+                <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300 pb-6 border-b border-white/10 font-medium">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Pre-engineered AppSource modules</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Automated CI/CD release pipelines</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Direct access to senior developers</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pt-6 flex items-center justify-between">
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#5ba6db] group-hover:text-white transition-colors"
+                >
+                  <span>Explore Sprint Velocity</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                </Link>
+                <span className="text-[11px] font-bold text-slate-400">Agile Squads</span>
+              </div>
+            </div>
+
+            {/* USP 3: P0 & P1 Rapid Response within a Few Hours */}
+            <div className="group relative rounded-3xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-[#3482b9]/60 p-8 sm:p-9 flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(52,130,185,0.25)] backdrop-blur-xl">
+              <div>
+                {/* Metric pill */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
+                    <ShieldCheck className="w-7 h-7" />
+                  </div>
+                  <span className="text-[11px] font-black uppercase tracking-wider text-amber-300 bg-amber-950/70 border border-amber-500/40 px-3 py-1 rounded-full">
+                    P0 / P1 &lt; 2-4 Hours
+                  </span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight font-['Montserrat',sans-serif]">
+                  P0 / P1 Rapid Response SLA
+                </h3>
+
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-['Source_Sans_3',sans-serif]">
+                  When billing breaks, integrations stall, or an ERP sync halts, you can’t afford generic 48-hour help desks. Our technical escalation engineers respond to P0 and P1 severity incidents within hours with live triage.
+                </p>
+
+                <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300 pb-6 border-b border-white/10 font-medium">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Guaranteed rapid engineer assignment</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Real-time bridge &amp; root-cause analysis</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#3482b9] shrink-0" />
+                    <span>Proactive health &amp; telemetry monitoring</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pt-6 flex items-center justify-between">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#5ba6db] group-hover:text-white transition-colors"
+                >
+                  <span>View Support Protocols</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                </Link>
+                <span className="text-[11px] font-bold text-slate-400">Mission-Critical</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Trust Assurance Banner */}
+          <div className="mt-12 p-6 sm:p-8 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-md">
+            <div className="flex items-center gap-4 text-center md:text-left">
+              <div className="w-12 h-12 rounded-xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center shrink-0 hidden sm:flex">
+                <Flame className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="text-base sm:text-lg font-black text-white font-['Montserrat',sans-serif]">
+                  Have an urgent requirement or need an architectural review?
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-300 font-['Source_Sans_3',sans-serif]">
+                  Speak directly with our senior Microsoft Dynamics 365 consultants today. No sales pressure.
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="/contact?type=poc"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#3482b9] hover:bg-[#1f6595] text-white font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:scale-105 shrink-0"
+            >
+              <span>Get Started in 24 Hours</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
         </div>
       </section>
 
