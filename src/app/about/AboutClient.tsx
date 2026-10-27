@@ -16,6 +16,8 @@ import {
   TrendingUp,
   Mail,
   Layers,
+  Rocket,
+  Clock,
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -381,6 +383,79 @@ export default function AboutPage() {
 
             </div>
 
+          </div>
+
+          {/* Interactive USP Delivery Model Banner */}
+          <div className="pt-10 border-t border-gray-100 max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <span className="text-[11px] font-black uppercase tracking-widest text-[#3482b9] bg-sky-50 px-3.5 py-1.5 rounded-full border border-[#3482b9]/20">
+                The MCT Risk-Free Advantage
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+                How Our Delivery Model Protects Your Investment
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              
+              {/* Card 1 */}
+              <div className="p-6 rounded-2xl bg-[#0b1b3d] text-white border border-[#3482b9]/40 shadow-lg relative overflow-hidden group hover:border-[#3482b9] transition-all">
+                <div className="w-10 h-10 rounded-xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#3482b9] group-hover:text-white transition-all">
+                  <Rocket className="w-5 h-5" />
+                </div>
+                <div className="text-[11px] font-bold text-sky-400 uppercase tracking-widest mb-1">Pre-Contract Validation</div>
+                <h4 className="text-base font-black text-white mb-2">5–7 Day Miniature POC</h4>
+                <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                  Experience a working prototype with your real data schemas before signing large commitments. Zero surprise risk.
+                </p>
+                <Link
+                  href="/contact?type=poc"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#5ba6db] hover:text-white transition-colors"
+                >
+                  <span>Request miniature POC</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+              {/* Card 2 */}
+              <div className="p-6 rounded-2xl bg-[#0b1b3d] text-white border border-[#3482b9]/40 shadow-lg relative overflow-hidden group hover:border-[#3482b9] transition-all">
+                <div className="w-10 h-10 rounded-xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#3482b9] group-hover:text-white transition-all">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <div className="text-[11px] font-bold text-sky-400 uppercase tracking-widest mb-1">Agile Acceleration</div>
+                <h4 className="text-base font-black text-white mb-2">2x Faster Turnaround</h4>
+                <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                  Leverage our pre-built Business Central AL libraries and Power Automate connectors to launch twice as fast.
+                </p>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#5ba6db] hover:text-white transition-colors"
+                >
+                  <span>Explore sprint model</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+              {/* Card 3 */}
+              <div className="p-6 rounded-2xl bg-[#0b1b3d] text-white border border-[#3482b9]/40 shadow-lg relative overflow-hidden group hover:border-[#3482b9] transition-all">
+                <div className="w-10 h-10 rounded-xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#3482b9] group-hover:text-white transition-all">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div className="text-[11px] font-bold text-sky-400 uppercase tracking-widest mb-1">Enterprise SLA Guarantee</div>
+                <h4 className="text-base font-black text-white mb-2">&lt; 2–4 Hr P0/P1 SLA</h4>
+                <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                  Dedicated incident command bridge responds within hours for critical pipeline blockers, guaranteed.
+                </p>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#5ba6db] hover:text-white transition-colors"
+                >
+                  <span>View support terms</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+            </div>
           </div>
 
         </div>

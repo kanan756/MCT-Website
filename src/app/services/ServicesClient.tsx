@@ -21,9 +21,11 @@ import {
   Code2,
   FolderKanban,
   Users2,
-  Boxes,
   Compass,
-  Workflow
+  Workflow,
+  Rocket,
+  Clock,
+  ShieldAlert
 } from "lucide-react";
 import { servicesData, ServiceCategory, ServiceItem } from "@/data/services";
 
@@ -535,6 +537,102 @@ export default function ServicesPage() {
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Transparent sprint milestones, rigorous quality assurance, automated CI/CD pipelines, and dedicated post-launch SLAs.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 4.5 ENTERPRISE DELIVERY & INCIDENT SLA GUARANTEE               */}
+      {/* ============================================================== */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-[#0b1b3d] to-[#071329] text-white relative overflow-hidden border-t border-slate-800">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#3482b9]/15 rounded-full blur-[140px] pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#3482b9]/40 text-xs font-bold uppercase tracking-wider text-[#5ba6db] mb-4 backdrop-blur-md">
+              <ShieldAlert className="w-4 h-4 text-[#3482b9]" />
+              <span>Service Level Agreements &amp; Delivery Standards</span>
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight uppercase font-['Montserrat',sans-serif]">
+              Built for Speed. Backed by Rigorous SLAs.
+            </h2>
+            <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed font-['Source_Sans_3',sans-serif]">
+              Every enterprise project at MCT IT Solutions follows strict turn-around commitments, prototype validation, and mission-critical incident handling.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12">
+            {/* SLA Card 1 */}
+            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center">
+                    <Rocket className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/70 border border-emerald-500/40 px-3 py-1 rounded-full">
+                    Pre-Kickoff
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2 font-['Montserrat',sans-serif]">
+                  5-Day Miniature POC
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-['Source_Sans_3',sans-serif]">
+                  Before budget commitment, our consultants construct an interactive miniature prototype of your required workflow to validate feasibility, technical boundaries, and data mapping.
+                </p>
+              </div>
+              <div className="pt-6 border-t border-white/10 mt-6 flex items-center gap-2 text-xs text-[#5ba6db] font-bold">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span>Zero implementation surprise</span>
+              </div>
+            </div>
+
+            {/* SLA Card 2 */}
+            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center">
+                    <Clock className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-black uppercase tracking-wider text-[#5ba6db] bg-[#3482b9]/20 border border-[#3482b9]/40 px-3 py-1 rounded-full">
+                    Sprint Velocity
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2 font-['Montserrat',sans-serif]">
+                  Accelerated Turnaround (TAT)
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-['Source_Sans_3',sans-serif]">
+                  By utilizing modular AL extensions, reusable Power Automate flow libraries, and CI/CD pipelines, custom features ship in 2-week agile sprints without quality compromise.
+                </p>
+              </div>
+              <div className="pt-6 border-t border-white/10 mt-6 flex items-center gap-2 text-xs text-[#5ba6db] font-bold">
+                <CheckCircle2 className="w-4 h-4 text-[#5ba6db]" />
+                <span>Rapid production deployment</span>
+              </div>
+            </div>
+
+            {/* SLA Card 3 */}
+            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center">
+                    <ShieldAlert className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-300 bg-amber-950/70 border border-amber-500/40 px-3 py-1 rounded-full">
+                    SLA &lt; 2-4 Hours
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2 font-['Montserrat',sans-serif]">
+                  P0 &amp; P1 Incident Escalation
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-['Source_Sans_3',sans-serif]">
+                  Dedicated emergency response pods for system-down or blocker scenarios. Live escalation bridge within hours to ensure maximum business continuity and revenue protection.
+                </p>
+              </div>
+              <div className="pt-6 border-t border-white/10 mt-6 flex items-center gap-2 text-xs text-amber-300 font-bold">
+                <CheckCircle2 className="w-4 h-4 text-amber-400" />
+                <span>Immediate engineer assignment</span>
+              </div>
             </div>
           </div>
         </div>

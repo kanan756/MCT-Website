@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   MapPin,
   Phone,
@@ -11,16 +12,36 @@ import {
   CheckCircle,
   Globe2,
   ArrowRight,
-  ChevronRight
+  ChevronRight,
+  Rocket,
+  ShieldCheck,
+  Clock,
+  Sparkles
 } from "lucide-react";
 
-export default function ContactPage() {
+function ContactFormInner() {
+  const searchParams = useSearchParams();
+  const isPocInquiry = searchParams.get("type") === "poc";
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: "",
+    message: isPocInquiry
+      ? "Hi MCT Team, I would like to request a 5-Day Miniature POC to validate architecture and turnaround time before formal commitment."
+      : "",
     isRobotChecked: false,
+    inquiryType: isPocInquiry ? "poc" : "general",
   });
+
+  useEffect(() => {
+    if (isPocInquiry) {
+      setFormData((prev) => ({
+        ...prev,
+        inquiryType: "poc",
+        message: prev.message || "Hi MCT Team, I would like to request a 5-Day Miniature POC to validate architecture and turnaround time before formal commitment.",
+      }));
+    }
+  }, [isPocInquiry]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -455,6 +476,26 @@ export default function ContactPage() {
             <div className="lg:col-span-7">
               <div className="p-8 sm:p-10 rounded-3xl bg-white border border-gray-200 shadow-xl">
 
+                {/* USP Notice for Fast POC & P0/P1 SLA */}
+                <div className="mb-6 p-4 rounded-2xl bg-sky-50/80 border border-[#3482b9]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#3482b9] text-white flex items-center justify-center shrink-0">
+                      <Rocket className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-900">
+                        {isPocInquiry ? "Fast 5-Day Miniature POC Request" : "Need Quick Risk-Free Validation?"}
+                      </p>
+                      <p className="text-xs text-slate-600">
+                        Get a working miniature prototype before signing or fast 2–4h SLA triage.
+                      </p>
+                    </div>
+                  </div>
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+                    Zero Risk
+                  </span>
+                </div>
+
                 {submitted ? (
                   <div className="py-12 flex flex-col items-center justify-center text-center animate-fade-in">
                     <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 border border-emerald-200">
@@ -734,5 +775,13 @@ export default function ContactPage() {
       </section>
 
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#fbfcfd] flex items-center justify-center text-slate-500">Loading...</div>}>
+      <ContactFormInner />
+    </Suspense>
   );
 }
