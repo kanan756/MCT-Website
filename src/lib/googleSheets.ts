@@ -74,6 +74,14 @@ export async function initializeSheetTabs() {
       headers: ["id", "number", "title", "slug", "badge", "tagline", "summary", "accentColor", "bgGradient", "iconName", "subgroups", "items", "additionalItems"]
     },
     {
+      name: "Careers",
+      headers: ["id", "title", "department", "tags", "experience", "location", "qualification", "roleObjective", "roleResponsibilities", "keyResponsibilities", "whyJoinUs", "published"]
+    },
+    {
+      name: "JobApplications",
+      headers: ["id", "applyingFor", "areaOfInterest", "fullName", "email", "phone", "currentLocation", "totalExperience", "noticePeriod", "currentCtc", "expectedCtc", "portfolioUrl", "resumeFileName", "coverNote", "submittedAt", "status"]
+    },
+    {
       name: "Enquiries",
       headers: ["timestamp", "name", "email", "phone", "service", "message"]
     }
@@ -146,8 +154,11 @@ export async function getSheetRows(sheetName: string): Promise<Record<string, an
         } catch {
           // Keep as string
         }
-      } else if (val === "true") val = true;
-      else if (val === "false") val = false;
+      } else if (typeof val === "string" && (val.toLowerCase() === "true" || val === "1")) {
+        val = true;
+      } else if (typeof val === "string" && (val.toLowerCase() === "false" || val === "0")) {
+        val = false;
+      }
       item[h] = val;
     });
     rows.push(item);

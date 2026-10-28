@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -25,15 +25,29 @@ import {
   PenTool,
   Loader2,
   Upload,
-  ArrowUpRight
+  ArrowUpRight,
+  Plus,
+  Minus,
+  Check,
+  MapPin,
+  Calendar,
+  X,
+  Mail
 } from "lucide-react";
 
 import ScrollReveal from "@/components/ScrollReveal";
+import { CareerOpening, INITIAL_CAREERS } from "@/data/careers";
 
 export default function CareersPage() {
+  // Career Openings state
+  const [openings, setOpenings] = useState<CareerOpening[]>([]);
+  const [loadingOpenings, setLoadingOpenings] = useState(true);
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("All");
+  const [viewJobModal, setViewJobModal] = useState<CareerOpening | null>(null);
+  const [applyJobModal, setApplyJobModal] = useState<CareerOpening | null>(null);
+
+  // Application form state
   const [formData, setFormData] = useState({
-    applyingFor: "",
-    areaOfInterest: "",
     fullName: "",
     email: "",
     phone: "",
@@ -48,13 +62,12 @@ export default function CareersPage() {
     website: "", // honeypot
     consent: false,
   });
-
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
@@ -68,7 +81,7 @@ export default function CareersPage() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        setErrorMessage("Resume file size must be less than 5 MB.");
+        setErrorMessage("File must be smaller than 5 MB.");
         return;
       }
       setSelectedFile(file);
@@ -77,22 +90,16 @@ export default function CareersPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleApplicationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
 
     if (!formData.fullName.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.currentLocation.trim()) {
-      setErrorMessage("Please fill in all required personal contact details.");
+      setErrorMessage("Please complete all required fields (*).");
       return;
     }
-
-    if (!formData.applyingFor || !formData.totalExperience || !formData.noticePeriod) {
-      setErrorMessage("Please select your role, total experience, and notice period.");
-      return;
-    }
-
     if (!formData.consent) {
-      setErrorMessage("Please agree to the privacy policy to submit your application.");
+      setErrorMessage("Please agree to the privacy policy.");
       return;
     }
 
@@ -101,39 +108,42 @@ export default function CareersPage() {
       const res = await fetch("/api/careers/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          applyingFor: applyJobModal?.title || "Career Position",
+          areaOfInterest: applyJobModal?.department || "Consulting",
+        }),
       });
-
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to submit application.");
-      }
-
+      if (!res.ok) throw new Error(data.error || "Submission failed");
       setSubmitSuccess(true);
-      setSelectedFile(null);
-      setFormData({
-        applyingFor: "",
-        areaOfInterest: "",
-        fullName: "",
-        email: "",
-        phone: "",
-        currentLocation: "",
-        totalExperience: "",
-        noticePeriod: "",
-        currentCtc: "",
-        expectedCtc: "",
-        portfolioUrl: "",
-        resumeFileName: "",
-        coverNote: "",
-        website: "",
-        consent: false,
-      });
     } catch (err: any) {
-      setErrorMessage(err.message || "An unexpected error occurred. Please try again or email your resume directly.");
+      setErrorMessage(err.message || "Failed to submit. Please email your CV directly.");
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // Fetch dynamic openings from API
+  useEffect(() => {
+    async function fetchOpenings() {
+      try {
+        const res = await fetch("/api/careers", { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            setOpenings(data);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load career openings:", err);
+      } finally {
+        setLoadingOpenings(false);
+      }
+    }
+    fetchOpenings();
+  }, []);
+
   const whyJoinUs = [
     {
       title: "Work with new technologies",
@@ -448,451 +458,712 @@ export default function CareersPage() {
       </section>
 
       {/* ============================================================== */}
-      {/* 5.5 APPLICATION FORM (Styled in MCT Brand Colors & Fully Responsive) */}
+      {/* 5.5 // CURRENT OPENINGS (Matching User's Reference Screenshots) */}
       {/* ============================================================== */}
-      <section id="apply-form" className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden border-t border-slate-200">
-        {/* Subtle decorative brand-colored blur circles */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#3482b9]/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute -bottom-20 right-10 w-72 h-72 bg-[#0b1b3d]/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <section id="openings" className="py-16 sm:py-20 lg:py-24 bg-white relative overflow-hidden border-t border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#3482b9]/10 border border-[#3482b9]/25 text-xs sm:text-sm font-black tracking-wider text-[#3482b9] uppercase mb-4">
-              <Briefcase className="w-4 h-4 text-[#3482b9]" />
-              <span>Career Opportunities</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0b1b3d] uppercase tracking-tight font-['Montserrat',sans-serif] leading-tight">
-              Apply for this Position
+          {/* Section Header: "// Current Openings" */}
+          <div className="mb-10 sm:mb-14">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-['Montserrat',sans-serif] flex items-center gap-2">
+              <span className="text-slate-400 font-light">//</span>
+              <span>Current <strong className="font-black text-[#0b1b3d]">Openings</strong></span>
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-slate-600 font-['Source_Sans_3',sans-serif] leading-relaxed">
-              Take the next step in your career with MCT IT Solutions. Complete the form below to apply for our open roles or general employee openings.
-            </p>
           </div>
 
-          {/* Form Container Card - Website Brand Colors (#0b1b3d, #3482b9, White & Slate) */}
-          <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-8 md:p-10 lg:p-12 shadow-[0_15px_45px_-10px_rgba(11,27,61,0.08)]">
-            
-            {/* Top Brand Accent Bar */}
-            <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-6 rounded-xs bg-[#3482b9]" />
-                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                  Job Application Details
-                </span>
-              </div>
-              <span className="text-xs text-slate-500 font-semibold font-['Source_Sans_3',sans-serif]">
-                * Required Fields
-              </span>
+          {/* Loading State */}
+          {loadingOpenings && (
+            <div className="flex items-center justify-center py-16 gap-3 text-slate-500 font-['Source_Sans_3',sans-serif]">
+              <Loader2 className="w-6 h-6 animate-spin text-[#3482b9]" />
+              <span>Loading current openings...</span>
             </div>
+          )}
 
-            {/* Submission Success Alert */}
-            {submitSuccess && (
-              <div className="mb-8 p-5 sm:p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-start gap-4">
-                <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
-                <div className="space-y-1">
-                  <h4 className="font-black text-base font-['Montserrat',sans-serif] text-emerald-900">
-                    Application Submitted Successfully!
-                  </h4>
-                  <p className="text-sm text-emerald-800 leading-relaxed font-['Source_Sans_3',sans-serif]">
-                    Thank you for applying to MCT IT Solutions. Our talent acquisition team will review your application and contact you soon.
-                  </p>
-                </div>
+          {/* Empty State when no openings */}
+          {!loadingOpenings && openings.length === 0 && (
+            <div className="max-w-2xl mx-auto bg-slate-50 rounded-3xl border border-slate-200 p-8 sm:p-12 text-center shadow-xs">
+              <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center mx-auto mb-5">
+                <Briefcase className="w-8 h-8" />
               </div>
-            )}
-
-            {/* Error Alert */}
-            {errorMessage && (
-              <div className="mb-8 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-semibold font-['Source_Sans_3',sans-serif]">
-                {errorMessage}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              
-              {/* Applying for* */}
-              <div className="space-y-2">
-                <label htmlFor="applyingFor" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                  Applying for<span className="text-[#3482b9] ml-1">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    id="applyingFor"
-                    name="applyingFor"
-                    required
-                    value={formData.applyingFor}
-                    onChange={handleChange}
-                    className="w-full appearance-none px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                  >
-                    <option value="">select</option>
-                    <option value="Product Manager">Product Manager</option>
-                    <option value="Dynamics 365 Business Central Consultant">Dynamics 365 Business Central Consultant</option>
-                    <option value="Dynamics 365 Business Central AL Developer">Dynamics 365 Business Central AL Developer</option>
-                    <option value="Dynamics 365 CRM / Customer Engagement Consultant">Dynamics 365 CRM / Customer Engagement Consultant</option>
-                    <option value="Power Apps & Power Platform Developer">Power Apps &amp; Power Platform Developer</option>
-                    <option value="Full Stack Web Developer (React.js / Node.js)">Full Stack Web Developer (React.js / Node.js)</option>
-                    <option value="Mobile App Developer (React Native / iOS)">Mobile App Developer (React Native / iOS)</option>
-                    <option value="Cloud Solutions & DevOps Engineer">Cloud Solutions &amp; DevOps Engineer</option>
-                    <option value="QA & Enterprise Software Tester">QA &amp; Enterprise Software Tester</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
-                    <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                      <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Area of interest */}
-              <div className="space-y-2">
-                <label htmlFor="areaOfInterest" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                  Area of interest
-                </label>
-                <div className="relative">
-                  <select
-                    id="areaOfInterest"
-                    name="areaOfInterest"
-                    value={formData.areaOfInterest}
-                    onChange={handleChange}
-                    className="w-full appearance-none px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                  >
-                    <option value="">select</option>
-                    <option value="Dynamics 365 Business Central (ERP)">Dynamics 365 Business Central (ERP)</option>
-                    <option value="Dynamics 365 Customer Engagement (CRM)">Dynamics 365 Customer Engagement (CRM)</option>
-                    <option value="Power Platform (Power Apps, Automate, Pages)">Power Platform (Power Apps, Automate, Pages)</option>
-                    <option value="Proprietary Products (SalesPro, CleanMail Pro, TaxInvoicePro)">Proprietary Products (SalesPro, CleanMail Pro, TaxInvoicePro)</option>
-                    <option value="AI Solutions & Knowledge Base (IntelliKB)">AI Solutions &amp; Knowledge Base (IntelliKB)</option>
-                    <option value="E-Invoicing Integration (India & UAE)">E-Invoicing Integration (India &amp; UAE)</option>
-                    <option value="Web Development (React.js & Node.js)">Web Development (React.js &amp; Node.js)</option>
-                    <option value="Mobile App Development (React Native & Swift)">Mobile App Development (React Native &amp; Swift)</option>
-                    <option value="Cloud Infrastructure & DevOps">Cloud Infrastructure &amp; DevOps</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
-                    <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                      <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Full name* & Email* */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                <div className="space-y-2">
-                  <label htmlFor="fullName" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                    Full name<span className="text-[#3482b9] ml-1">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    required
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    placeholder="Your name"
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 placeholder:text-slate-400 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="email" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                    Email<span className="text-[#3482b9] ml-1">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="name@email.com"
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 placeholder:text-slate-400 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                  />
-                </div>
-              </div>
-
-              {/* Phone* & Current location* */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                <div className="space-y-2">
-                  <label htmlFor="phone" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                    Phone<span className="text-[#3482b9] ml-1">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    required
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+91 98765 43210"
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 placeholder:text-slate-400 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="currentLocation" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                    Current location<span className="text-[#3482b9] ml-1">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="currentLocation"
-                    name="currentLocation"
-                    required
-                    value={formData.currentLocation}
-                    onChange={handleChange}
-                    placeholder="City, country"
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 placeholder:text-slate-400 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                  />
-                </div>
-              </div>
-
-              {/* Total experience* & Notice period* */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                <div className="space-y-2">
-                  <label htmlFor="totalExperience" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                    Total experience<span className="text-[#3482b9] ml-1">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="totalExperience"
-                      name="totalExperience"
-                      required
-                      value={formData.totalExperience}
-                      onChange={handleChange}
-                      className="w-full appearance-none px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                    >
-                      <option value="">select</option>
-                      <option value="Fresher / < 1 year">Fresher / &lt; 1 year</option>
-                      <option value="1 - 3 years">1 - 3 years</option>
-                      <option value="3 - 5 years">3 - 5 years</option>
-                      <option value="5 - 8 years">5 - 8 years</option>
-                      <option value="8 - 10 years">8 - 10 years</option>
-                      <option value="10+ years">10+ years</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
-                      <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="noticePeriod" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                    Notice period<span className="text-[#3482b9] ml-1">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="noticePeriod"
-                      name="noticePeriod"
-                      required
-                      value={formData.noticePeriod}
-                      onChange={handleChange}
-                      className="w-full appearance-none px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                    >
-                      <option value="">select</option>
-                      <option value="Immediate Joiner">Immediate Joiner</option>
-                      <option value="15 Days or less">15 Days or less</option>
-                      <option value="30 Days (1 Month)">30 Days (1 Month)</option>
-                      <option value="45 Days">45 Days</option>
-                      <option value="60 Days (2 Months)">60 Days (2 Months)</option>
-                      <option value="90 Days (3 Months)">90 Days (3 Months)</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
-                      <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Current CTC (optional) & Expected CTC (optional) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                <div className="space-y-2">
-                  <label htmlFor="currentCtc" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                    Current CTC <span className="text-slate-400 font-normal text-xs">(optional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="currentCtc"
-                    name="currentCtc"
-                    value={formData.currentCtc}
-                    onChange={handleChange}
-                    placeholder="e.g. 12 LPA"
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 placeholder:text-slate-400 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="expectedCtc" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                    Expected CTC <span className="text-slate-400 font-normal text-xs">(optional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="expectedCtc"
-                    name="expectedCtc"
-                    value={formData.expectedCtc}
-                    onChange={handleChange}
-                    placeholder="e.g. 16 LPA"
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 placeholder:text-slate-400 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                  />
-                </div>
-              </div>
-
-              {/* LinkedIn, GitHub or portfolio (optional) */}
-              <div className="space-y-2">
-                <label htmlFor="portfolioUrl" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                  LinkedIn, GitHub or portfolio <span className="text-slate-400 font-normal text-xs">(optional)</span>
-                </label>
-                <input
-                  type="url"
-                  id="portfolioUrl"
-                  name="portfolioUrl"
-                  value={formData.portfolioUrl}
-                  onChange={handleChange}
-                  placeholder="https://"
-                  className="w-full px-4 py-3 sm:py-3.5 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 placeholder:text-slate-400 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs font-['Source_Sans_3',sans-serif]"
-                />
-              </div>
-
-              {/* Resume* Drag & Drop / File Input */}
-              <div className="space-y-2">
-                <label className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                  Resume<span className="text-[#3482b9] ml-1">*</span>
-                </label>
-                <label
-                  htmlFor="resume-upload"
-                  className="relative flex flex-col items-center justify-center p-6 sm:p-8 rounded-2xl border-2 border-dashed border-[#3482b9]/40 bg-slate-50/70 hover:bg-[#3482b9]/5 hover:border-[#3482b9] text-slate-800 transition-all cursor-pointer group shadow-2xs"
-                >
-                  <input
-                    type="file"
-                    id="resume-upload"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleFileChange}
-                    className="sr-only"
-                  />
-                  <div className="flex flex-col items-center text-center space-y-2">
-                    <div className="w-12 h-12 rounded-full bg-[#3482b9]/10 text-[#3482b9] flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Upload className="w-5 h-5" />
-                    </div>
-                    <p className="text-xs sm:text-sm font-bold text-slate-900">
-                      {selectedFile ? (
-                        <span className="text-emerald-600 font-extrabold flex items-center gap-1.5 justify-center">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                          <span className="truncate max-w-[260px] sm:max-w-md">{selectedFile.name}</span>
-                        </span>
-                      ) : (
-                        <>
-                          <span className="underline decoration-[#3482b9] decoration-2 font-black text-[#0b1b3d]">Choose a file</span>{" "}
-                          <span className="font-medium text-slate-600">or drag it here</span>
-                        </>
-                      )}
-                    </p>
-                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium">
-                      PDF, DOC or DOCX. Max 5 MB.
-                    </p>
-                  </div>
-                </label>
-              </div>
-
-              {/* Cover note (optional) */}
-              <div className="space-y-2">
-                <label htmlFor="coverNote" className="block text-xs sm:text-sm font-bold text-[#0b1b3d] font-['Montserrat',sans-serif]">
-                  Cover note <span className="text-slate-400 font-normal text-xs">(optional)</span>
-                </label>
-                <textarea
-                  id="coverNote"
-                  name="coverNote"
-                  rows={4}
-                  value={formData.coverNote}
-                  onChange={handleChange}
-                  placeholder="Anything you'd like the hiring team to know..."
-                  className="w-full p-4 rounded-xl border border-slate-300 bg-slate-50/70 hover:bg-white text-slate-800 placeholder:text-slate-400 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#3482b9] focus:bg-white focus:border-transparent transition-all shadow-xs resize-y font-['Source_Sans_3',sans-serif]"
-                />
-              </div>
-
-              {/* Honeypot field (hidden from real users) */}
-              <div className="hidden" aria-hidden="true">
-                <label htmlFor="website">Website</label>
-                <input
-                  type="text"
-                  id="website"
-                  name="website"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={formData.website}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Privacy Consent Checkbox */}
-              <div className="pt-2">
-                <label className="flex items-start gap-3 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    name="consent"
-                    checked={formData.consent}
-                    onChange={handleChange}
-                    className="mt-1 w-4 h-4 rounded text-[#3482b9] focus:ring-[#3482b9] border-slate-300 shrink-0"
-                  />
-                  <span className="text-xs sm:text-sm text-slate-600 leading-relaxed font-['Source_Sans_3',sans-serif]">
-                    I agree that MCT IT Solutions may store and process my details to evaluate my application, as described in the{" "}
-                    <Link href="/privacy-policy" className="underline hover:text-[#0b1b3d] font-semibold text-[#3482b9]">
-                      Privacy Policy
-                    </Link>.
-                  </span>
-                </label>
-              </div>
-
-              {/* Submit Application Button in Website Brand Style */}
-              <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+              <h3 className="text-2xl font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-3">
+                No Openings at the Moment
+              </h3>
+              <p className="text-slate-600 text-sm sm:text-base font-['Source_Sans_3',sans-serif] leading-relaxed max-w-lg mx-auto mb-6">
+                We do not have any active openings right now, but we are always looking for exceptional talent to join our team in the future.
+              </p>
+              <div className="inline-flex flex-col sm:flex-row items-center gap-3">
                 <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-[#0b1b3d] hover:bg-[#3482b9] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-lg shadow-[#0b1b3d]/15 hover:shadow-xl hover:shadow-[#3482b9]/25 hover:-translate-y-0.5 disabled:opacity-60 cursor-pointer font-['Montserrat',sans-serif]"
+                  type="button"
+                  onClick={() => {
+                    setApplyJobModal({
+                      id: "spontaneous",
+                      title: "Spontaneous Application",
+                      department: "General",
+                      experience: "Any",
+                      location: "Ahmedabad",
+                      qualification: "",
+                      roleObjective: "",
+                      roleResponsibilities: [],
+                      keyResponsibilities: [],
+                      whyJoinUs: [],
+                    });
+                    setSubmitSuccess(false);
+                    setErrorMessage("");
+                  }}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0b1b3d] hover:bg-[#3482b9] text-white font-bold text-sm uppercase tracking-wider transition-colors font-['Montserrat',sans-serif] shadow-md cursor-pointer"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin text-[#3482b9]" />
-                      <span>Submitting Application...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>SUBMIT APPLICATION</span>
-                      <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </>
-                  )}
+                  <Mail className="w-4 h-4" />
+                  <span>Send Your Resume (HR)</span>
                 </button>
-
-                <p className="text-[11px] sm:text-xs text-slate-500 font-['Source_Sans_3',sans-serif] text-center sm:text-right">
-                  Protected by reCAPTCHA and subject to Google{" "}
-                  <a
-                    href="https://policies.google.com/privacy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:text-slate-800"
-                  >
-                    Privacy
-                  </a>{" "}
-                  &amp;{" "}
-                  <a
-                    href="https://policies.google.com/terms"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:text-slate-800"
-                  >
-                    Terms
-                  </a>.
-                </p>
               </div>
+            </div>
+          )}
 
-            </form>
+          {/* Tabbed Openings Box (Aligned with MCT Brand Theme) */}
+          {!loadingOpenings && openings.length > 0 && (() => {
+            // Extract unique departments
+            const departments = ["All", ...Array.from(new Set(openings.map((o) => o.department || "Consulting")))];
+            const visibleOpenings = selectedDepartment === "All" 
+              ? openings 
+              : openings.filter((o) => (o.department || "Consulting") === selectedDepartment);
 
-          </div>
+            return (
+              <div className="border border-slate-200/90 rounded-2xl overflow-hidden bg-white shadow-lg shadow-slate-200/40">
+                <div className="grid grid-cols-1 md:grid-cols-12 min-h-[440px]">
+                  
+                  {/* Left Column: Count & Department Filter Tabs */}
+                  <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-slate-200/80 bg-slate-50/50 flex flex-col justify-between">
+                    <div>
+                      {/* Big Counter */}
+                      <div className="p-6 sm:p-8 border-b border-slate-200/70 bg-gradient-to-br from-white to-slate-50">
+                        <div className="text-4xl sm:text-5xl font-black text-[#0b1b3d] font-['Montserrat',sans-serif] leading-none mb-2">
+                          {openings.length}
+                        </div>
+                        <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500 font-['Montserrat',sans-serif]">
+                          Open Roles
+                        </div>
+                      </div>
+
+                      {/* Department List */}
+                      <nav className="divide-y divide-slate-100">
+                        {departments.map((dept) => {
+                          const isSelected = selectedDepartment === dept;
+                          const count = dept === "All" 
+                            ? openings.length 
+                            : openings.filter((o) => (o.department || "Consulting") === dept).length;
+
+                          return (
+                            <button
+                              key={dept}
+                              type="button"
+                              onClick={() => setSelectedDepartment(dept)}
+                              className={`w-full px-6 py-4 flex items-center justify-between text-left transition-all cursor-pointer ${
+                                isSelected
+                                  ? "bg-white text-[#3482b9] font-bold border-l-4 border-[#3482b9] shadow-xs"
+                                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/60 font-semibold"
+                              }`}
+                            >
+                              <span className="font-['Montserrat',sans-serif] text-sm">
+                                {dept === "All" ? "All Openings" : dept}
+                              </span>
+                              <span className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded-full ${
+                                isSelected 
+                                  ? "bg-[#3482b9] text-white shadow-xs" 
+                                  : "bg-slate-200/70 text-slate-600"
+                              }`}>
+                                {String(count).padStart(2, "0")}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </nav>
+                    </div>
+
+                    <div className="p-6 bg-slate-50 border-t border-slate-200/70 hidden md:block">
+                      <p className="text-xs text-slate-500 leading-relaxed font-['Source_Sans_3',sans-serif]">
+                        Don’t see your exact role? Send us your CV directly for future consideration.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Roles List */}
+                  <div className="md:col-span-8 p-6 sm:p-8 lg:p-10 flex flex-col divide-y divide-slate-100 bg-white">
+                    {visibleOpenings.length === 0 ? (
+                      <div className="py-16 text-center text-slate-400 font-['Source_Sans_3',sans-serif] text-sm">
+                        No openings in this department.
+                      </div>
+                    ) : (
+                      visibleOpenings.map((job, index) => {
+                        const indexNumber = String(index + 1).padStart(2, "0");
+
+                        return (
+                          <div
+                            key={job.id}
+                            className="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 group"
+                          >
+                            <div className="flex items-start gap-4 flex-1 min-w-0">
+                              {/* Outlined index number */}
+                              <span
+                                className="text-2xl sm:text-3xl font-black font-['Montserrat',sans-serif] text-slate-300 group-hover:text-[#3482b9] transition-colors shrink-0"
+                                style={{
+                                  WebkitTextStroke: "1.5px #3482b9",
+                                  color: "transparent",
+                                  opacity: 0.45,
+                                }}
+                              >
+                                {indexNumber}
+                              </span>
+
+                              <div className="space-y-2.5 flex-1 min-w-0">
+                                <h3
+                                  onClick={() => setViewJobModal(job)}
+                                  className="text-base sm:text-lg font-bold text-[#0b1b3d] font-['Montserrat',sans-serif] hover:text-[#3482b9] cursor-pointer transition-colors leading-snug"
+                                >
+                                  {job.title}
+                                </h3>
+
+                                {/* Tags (Experience, Location, Tags) */}
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  {(job.tags && job.tags.length > 0 ? job.tags : [job.experience, job.location]).map((tag, tIdx) => (
+                                    <span
+                                      key={tIdx}
+                                      className="px-2.5 py-1 rounded-md bg-[#3482b9]/8 text-[#0b1b3d] border border-[#3482b9]/15 text-[11px] sm:text-xs font-semibold font-['Source_Sans_3',sans-serif]"
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Actions: View Details & Apply Now */}
+                            <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
+                              <button
+                                type="button"
+                                onClick={() => setViewJobModal(job)}
+                                className="text-xs font-semibold text-slate-500 hover:text-[#3482b9] underline underline-offset-4 transition-colors cursor-pointer"
+                              >
+                                View Details
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setApplyJobModal(job);
+                                  setSubmitSuccess(false);
+                                  setErrorMessage("");
+                                }}
+                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#0b1b3d] hover:bg-[#3482b9] text-white text-xs sm:text-sm font-bold font-['Montserrat',sans-serif] transition-all cursor-pointer shadow-xs hover:shadow-md"
+                              >
+                                <span>Apply Now</span>
+                                <ArrowUpRight className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+
+                </div>
+              </div>
+            );
+          })()}
 
         </div>
       </section>
+
+      {/* ============================================================== */}
+      {/* 5.6 JOB DETAIL MODAL (Matching MCT Brand Theme)                 */}
+      {/* ============================================================== */}
+      {viewJobModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b1b3d]/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl max-w-3xl w-full p-6 sm:p-10 shadow-2xl border border-slate-100 relative max-h-[90vh] overflow-y-auto">
+            {/* Top Close */}
+            <button
+              onClick={() => setViewJobModal(null)}
+              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            {/* Department bar */}
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-5 h-1 bg-[#3482b9] rounded-full" />
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#3482b9] font-['Montserrat',sans-serif]">
+                {viewJobModal.department || "Consulting"}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0b1b3d] font-['Montserrat',sans-serif] tracking-tight mb-4">
+              {viewJobModal.title}
+            </h2>
+
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-2 pb-5 mb-6 border-b border-slate-200">
+              {(viewJobModal.tags && viewJobModal.tags.length > 0 ? viewJobModal.tags : [viewJobModal.experience, viewJobModal.location]).map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 rounded-md bg-[#3482b9]/10 text-[#0b1b3d] border border-[#3482b9]/20 text-xs font-semibold font-['Source_Sans_3',sans-serif]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="space-y-6 text-slate-700 font-['Source_Sans_3',sans-serif] text-sm sm:text-base leading-relaxed">
+              {/* About Us */}
+              <div>
+                <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
+                  About Us
+                </h3>
+                <p className="text-slate-600 pl-3.5">
+                  MCT IT Solutions is a technology innovator helping global enterprises optimize business processes, cloud infrastructure, and Microsoft Dynamics 365 solutions. We create an empowering work environment where ambitious professionals build high-impact digital solutions.
+                </p>
+              </div>
+
+              {/* Role Overview */}
+              {viewJobModal.roleObjective && (
+                <div>
+                  <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
+                    Role Overview
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed pl-3.5">
+                    {viewJobModal.roleObjective}
+                  </p>
+                </div>
+              )}
+
+              {/* Key Responsibilities */}
+              {((viewJobModal.keyResponsibilities && viewJobModal.keyResponsibilities.length > 0) || (viewJobModal.roleResponsibilities && viewJobModal.roleResponsibilities.length > 0)) && (
+                <div>
+                  <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
+                    Key Responsibilities
+                  </h3>
+                  <ul className="space-y-2 text-slate-600 pl-3.5">
+                    {(viewJobModal.keyResponsibilities?.length ? viewJobModal.keyResponsibilities : viewJobModal.roleResponsibilities).map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9] mt-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Requirements / Responsibilities */}
+              {viewJobModal.roleResponsibilities && viewJobModal.roleResponsibilities.length > 0 && viewJobModal.keyResponsibilities && viewJobModal.keyResponsibilities.length > 0 && (
+                <div>
+                  <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
+                    Requirements &amp; Technical Skills
+                  </h3>
+                  <ul className="space-y-2 text-slate-600 pl-3.5">
+                    {viewJobModal.roleResponsibilities.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9] mt-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* What We Offer / Why Join Us */}
+              {viewJobModal.whyJoinUs && viewJobModal.whyJoinUs.length > 0 && (
+                <div>
+                  <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
+                    What We Offer
+                  </h3>
+                  <ul className="space-y-2 text-slate-600 pl-3.5">
+                    {viewJobModal.whyJoinUs.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Bottom Apply Bar */}
+            <div className="mt-8 pt-6 border-t border-slate-200 flex items-center justify-between gap-4">
+              <button
+                type="button"
+                onClick={() => setViewJobModal(null)}
+                className="text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+              >
+                Close
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const job = viewJobModal;
+                  setViewJobModal(null);
+                  setApplyJobModal(job);
+                  setSubmitSuccess(false);
+                  setErrorMessage("");
+                }}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0b1b3d] hover:bg-[#3482b9] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all font-['Montserrat',sans-serif] shadow-md cursor-pointer"
+              >
+                <span>Apply Now</span>
+                <ArrowUpRight className="w-4 h-4 ml-1" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================== */}
+      {/* 5.7 SEND YOUR CV FORM MODAL (Matching Reference Screenshot 3)   */}
+      {/* ============================================================== */}
+      {applyJobModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-4xl w-full my-8 shadow-2xl border border-slate-200 overflow-hidden relative">
+            
+            {/* Close button */}
+            <button
+              onClick={() => setApplyJobModal(null)}
+              className="absolute top-5 right-5 z-20 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12">
+              
+              {/* Left Column: Title & Department Info */}
+              <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200 flex flex-col justify-between">
+                <div>
+                  <div className="text-xs text-slate-400 font-semibold mb-3 font-['Montserrat',sans-serif]">
+                    Careers / Send your CV
+                  </div>
+
+                  <h2 className="text-3xl sm:text-4xl font-black text-slate-900 font-['Montserrat',sans-serif] leading-tight mb-4">
+                    Send your <span className="text-[#3482b9]">CV</span>
+                  </h2>
+
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-['Source_Sans_3',sans-serif] mb-8">
+                    Tell us a little about yourself. It takes about two minutes, and every application is read by our talent acquisition team.
+                  </p>
+
+                  <div className="space-y-1 mb-8">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 font-['Montserrat',sans-serif]">
+                      Department
+                    </span>
+                    <div className="text-sm font-bold text-slate-800 font-['Montserrat',sans-serif]">
+                      {applyJobModal.department || "Consulting"}
+                    </div>
+                    <div className="text-xs font-semibold text-[#3482b9]">
+                      Applying for: {applyJobModal.title}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contact helper card */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 pt-4 border-t border-slate-200">
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1.5 font-['Montserrat',sans-serif]">
+                      <span className="w-1.5 h-1.5 bg-[#3482b9] rounded-xs" />
+                      Recruitment
+                    </span>
+                    <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1">
+                      +91 97260 03000
+                    </div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">
+                      Join our team
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1.5 font-['Montserrat',sans-serif]">
+                      <span className="w-1.5 h-1.5 bg-[#3482b9] rounded-xs" />
+                      Email
+                    </span>
+                    <div className="text-xs font-bold text-slate-900 mt-1 font-mono truncate">
+                      hr@miraclecloud-technology.com
+                    </div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">
+                      Careers inquiries
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Dark Form Panel matching Screenshot 3 */}
+              <div className="lg:col-span-7 bg-[#0b1b3d] p-6 sm:p-8 lg:p-10 text-white">
+                
+                {submitSuccess ? (
+                  <div className="py-16 text-center space-y-4">
+                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto">
+                      <CheckCircle2 className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-2xl font-black font-['Montserrat',sans-serif] text-white">
+                      Application Submitted!
+                    </h3>
+                    <p className="text-sm text-slate-300 max-w-sm mx-auto leading-relaxed font-['Source_Sans_3',sans-serif]">
+                      Thank you for applying for <strong>{applyJobModal.title}</strong>. Our hiring team will review your resume and contact you soon.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setApplyJobModal(null)}
+                      className="px-6 py-2.5 rounded-xl bg-[#3482b9] hover:bg-[#286895] text-white font-bold text-xs uppercase tracking-wider font-['Montserrat',sans-serif] cursor-pointer"
+                    >
+                      Close Window
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleApplicationSubmit} className="space-y-4 font-['Source_Sans_3',sans-serif]">
+                    
+                    {errorMessage && (
+                      <div className="p-3 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs font-semibold">
+                        {errorMessage}
+                      </div>
+                    )}
+
+                    {/* Applying for* */}
+                    <div className="space-y-1">
+                      <label className="block text-xs font-bold text-slate-200 font-['Montserrat',sans-serif]">
+                        Applying for*
+                      </label>
+                      <input
+                        type="text"
+                        readOnly
+                        value={applyJobModal.title}
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-slate-200 font-medium text-xs sm:text-sm focus:outline-none"
+                      />
+                    </div>
+
+                    {/* Full name* & Email* */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold text-slate-200 font-['Montserrat',sans-serif]">
+                          Full name*
+                        </label>
+                        <input
+                          type="text"
+                          name="fullName"
+                          required
+                          value={formData.fullName}
+                          onChange={handleFormChange}
+                          placeholder="Your name"
+                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold text-slate-200 font-['Montserrat',sans-serif]">
+                          Email*
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleFormChange}
+                          placeholder="name@email.com"
+                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Phone* & Current Location* */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold text-slate-200 font-['Montserrat',sans-serif]">
+                          Phone*
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          required
+                          value={formData.phone}
+                          onChange={handleFormChange}
+                          placeholder="+91 98765 43210"
+                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold text-slate-200 font-['Montserrat',sans-serif]">
+                          Current location*
+                        </label>
+                        <input
+                          type="text"
+                          name="currentLocation"
+                          required
+                          value={formData.currentLocation}
+                          onChange={handleFormChange}
+                          placeholder="City, country"
+                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Total experience* & Notice period* */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold text-slate-200 font-['Montserrat',sans-serif]">
+                          Total experience*
+                        </label>
+                        <select
+                          name="totalExperience"
+                          required
+                          value={formData.totalExperience}
+                          onChange={handleFormChange}
+                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                        >
+                          <option value="">select</option>
+                          <option value="Fresher / < 1 year">Fresher / &lt; 1 year</option>
+                          <option value="1 - 3 years">1 - 3 years</option>
+                          <option value="3 - 5 years">3 - 5 years</option>
+                          <option value="5 - 8 years">5 - 8 years</option>
+                          <option value="8+ years">8+ years</option>
+                        </select>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold text-slate-200 font-['Montserrat',sans-serif]">
+                          Notice period*
+                        </label>
+                        <select
+                          name="noticePeriod"
+                          required
+                          value={formData.noticePeriod}
+                          onChange={handleFormChange}
+                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                        >
+                          <option value="">select</option>
+                          <option value="Immediate Joiner">Immediate Joiner</option>
+                          <option value="15 Days or less">15 Days or less</option>
+                          <option value="30 Days (1 Month)">30 Days (1 Month)</option>
+                          <option value="45 Days">45 Days</option>
+                          <option value="60 Days (2 Months)">60 Days (2 Months)</option>
+                          <option value="90 Days">90 Days</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Current CTC & Expected CTC */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold text-slate-300 font-['Montserrat',sans-serif]">
+                          Current CTC <span className="text-slate-500 font-normal">(optional)</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="currentCtc"
+                          value={formData.currentCtc}
+                          onChange={handleFormChange}
+                          placeholder="e.g. 12 LPA"
+                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold text-slate-300 font-['Montserrat',sans-serif]">
+                          Expected CTC <span className="text-slate-500 font-normal">(optional)</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="expectedCtc"
+                          value={formData.expectedCtc}
+                          onChange={handleFormChange}
+                          placeholder="e.g. 16 LPA"
+                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Resume* Drag & Drop / Upload */}
+                    <div className="space-y-1">
+                      <label className="block text-xs font-bold text-slate-200 font-['Montserrat',sans-serif]">
+                        Resume*
+                      </label>
+                      <label
+                        htmlFor="cv-upload-modal"
+                        className="flex flex-col items-center justify-center p-4 rounded-xl border border-dashed border-slate-600 bg-slate-800/60 hover:bg-slate-800 hover:border-[#3482b9] cursor-pointer transition-colors text-center"
+                      >
+                        <input
+                          type="file"
+                          id="cv-upload-modal"
+                          accept=".pdf,.doc,.docx"
+                          onChange={handleFileChange}
+                          className="sr-only"
+                        />
+                        <div className="text-xs font-bold text-white">
+                          {selectedFile ? (
+                            <span className="text-emerald-400 flex items-center gap-1.5 justify-center">
+                              <Check className="w-4 h-4" />
+                              <span className="truncate max-w-[240px]">{selectedFile.name}</span>
+                            </span>
+                          ) : (
+                            <>
+                              <span className="underline decoration-[#3482b9]">Choose a file</span> or drag it here
+                            </>
+                          )}
+                        </div>
+                        <span className="text-[10px] text-slate-400 mt-0.5">
+                          PDF, DOC or DOCX. Max 5 MB.
+                        </span>
+                      </label>
+                    </div>
+
+                    {/* Cover note (optional) */}
+                    <div className="space-y-1">
+                      <label className="block text-xs font-bold text-slate-300 font-['Montserrat',sans-serif]">
+                        Cover note <span className="text-slate-500 font-normal">(optional)</span>
+                      </label>
+                      <textarea
+                        name="coverNote"
+                        rows={2}
+                        value={formData.coverNote}
+                        onChange={handleFormChange}
+                        placeholder="Anything you'd like the hiring team to know..."
+                        className="w-full p-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9] resize-none"
+                      />
+                    </div>
+
+                    {/* Consent */}
+                    <div className="pt-1">
+                      <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-300">
+                        <input
+                          type="checkbox"
+                          name="consent"
+                          checked={formData.consent}
+                          onChange={handleFormChange}
+                          className="mt-0.5 w-3.5 h-3.5 rounded text-[#3482b9] focus:ring-[#3482b9] border-slate-600 bg-slate-800"
+                        />
+                        <span>
+                          I agree that MCT IT Solutions may store and process my details to evaluate my application, as described in the Privacy Policy.
+                        </span>
+                      </label>
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="pt-3">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-white bg-white hover:bg-[#3482b9] hover:border-[#3482b9] text-slate-900 hover:text-white font-black text-xs sm:text-sm uppercase tracking-wider transition-all font-['Montserrat',sans-serif] cursor-pointer disabled:opacity-60"
+                      >
+                        <span className="w-2 h-2 bg-[#3482b9] rounded-xs" />
+                        <span>{isSubmitting ? "Submitting..." : "Submit Application"}</span>
+                        <ArrowUpRight className="w-4 h-4 ml-1" />
+                      </button>
+                    </div>
+
+                  </form>
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* ============================================================== */}
       {/* 6. CALL TO ACTION: READY TO ELEVATE YOUR CAREER                */}

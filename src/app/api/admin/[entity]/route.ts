@@ -10,29 +10,33 @@ import {
 import { INITIAL_BLOGS } from "@/data/blogs";
 import { PROJECTS } from "@/data/projects";
 import { servicesData } from "@/data/services";
+import { INITIAL_CAREERS } from "@/data/careers";
 
-type Entity = "blogs" | "projects" | "services";
+type Entity = "blogs" | "projects" | "services" | "careers";
 
 const SHEET_MAP: Record<Entity, string> = {
   blogs: "Blogs",
   projects: "Projects",
   services: "Services",
+  careers: "Careers",
 };
 
 const PRIMARY_KEY_MAP: Record<Entity, string> = {
   blogs: "slug",
   projects: "slug",
   services: "id",
+  careers: "id",
 };
 
 const STATIC_DATA_MAP: Record<Entity, any[]> = {
   blogs: INITIAL_BLOGS,
   projects: PROJECTS,
   services: servicesData,
+  careers: INITIAL_CAREERS,
 };
 
 function resolveEntity(param: string): Entity | null {
-  if (param === "blogs" || param === "projects" || param === "services") {
+  if (param === "blogs" || param === "projects" || param === "services" || param === "careers") {
     return param as Entity;
   }
   return null;
@@ -60,22 +64,20 @@ export async function GET(
     if (isGoogleConfigured()) {
       await initializeSheetTabs();
       const rows = await getSheetRows(SHEET_MAP[entity]);
-      if (rows.length > 0) {
-        return NextResponse.json(
-          {
-            data: rows,
-            source: "google_sheets",
-            count: rows.length,
+      return NextResponse.json(
+        {
+          data: rows || [],
+          source: "google_sheets",
+          count: (rows || []).length,
+        },
+        {
+          headers: {
+            "Cache-Control": "no-store, no-cache, must-revalidate",
           },
-          {
-            headers: {
-              "Cache-Control": "no-store, no-cache, must-revalidate",
-            },
-          }
-        );
-      }
+        }
+      );
     }
-    // Fallback to static data
+    // Fallback to static data ONLY if Google Sheets is not configured
     const staticData = STATIC_DATA_MAP[entity];
     return NextResponse.json(
       {

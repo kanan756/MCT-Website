@@ -223,6 +223,7 @@ function ContactFormInner() {
         name: "",
         email: "",
         message: "",
+        inquiryType: "",
         isRobotChecked: false,
       });
       setTimeout(() => setSubmitted(false), 5000);
