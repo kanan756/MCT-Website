@@ -566,7 +566,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. SERVICES SECTION: JIGNECT-INSPIRED BENTO GRID */}
+      {/* 2. SERVICES SECTION: MODERN TECH BENTO GRID */}
       <section className="w-full py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fbfcfd] via-white to-slate-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
 
@@ -625,7 +625,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2.5 CREDIBILITY STATS STRIP (Jignect inspired) */}
+      {/* 2.5 CREDIBILITY STATS STRIP */}
       <section className="w-full py-12 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white border-y border-slate-800 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(#3482b9_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
         <div className="max-w-7xl mx-auto relative z-10">

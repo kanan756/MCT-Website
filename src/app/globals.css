@@ -129,7 +129,7 @@ body {
   color: var(--primary);
 }
 
-/* Jignect-Style Modern Tech & Animation Tokens */
+/* Modern Tech & Animation Tokens */
 @keyframes pulseDot {
   0%, 100% {
     opacity: 1;
@@ -191,6 +191,7 @@ body {
   margin-right: 0.25rem;
 }
 
+.mct-badge,
 .jignect-badge {
   display: inline-flex;
   align-items: center;
