@@ -564,11 +564,16 @@ export default function ServicesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12">
             {/* SLA Card 1 */}
-            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between">
+            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between group">
               <div>
                 <div className="flex items-center justify-between mb-5">
-                  <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center">
-                    <Rocket className="w-6 h-6" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#3482b9] group-hover:text-white transition-all">
+                      <Rocket className="w-6 h-6" />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-slate-400">
+                      <span className="text-[#3482b9] font-black">//</span>001
+                    </span>
                   </div>
                   <span className="text-xs font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/70 border border-emerald-500/40 px-3 py-1 rounded-full">
                     Pre-Kickoff
@@ -588,11 +593,16 @@ export default function ServicesPage() {
             </div>
 
             {/* SLA Card 2 */}
-            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between">
+            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between group">
               <div>
                 <div className="flex items-center justify-between mb-5">
-                  <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center">
-                    <Clock className="w-6 h-6" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#3482b9] group-hover:text-white transition-all">
+                      <Clock className="w-6 h-6" />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-slate-400">
+                      <span className="text-[#3482b9] font-black">//</span>002
+                    </span>
                   </div>
                   <span className="text-xs font-black uppercase tracking-wider text-[#5ba6db] bg-[#3482b9]/20 border border-[#3482b9]/40 px-3 py-1 rounded-full">
                     Sprint Velocity
@@ -612,11 +622,16 @@ export default function ServicesPage() {
             </div>
 
             {/* SLA Card 3 */}
-            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between">
+            <div className="p-8 rounded-3xl bg-white/[0.04] border border-white/10 hover:border-[#3482b9]/60 transition-all duration-300 flex flex-col justify-between group">
               <div>
                 <div className="flex items-center justify-between mb-5">
-                  <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center">
-                    <ShieldAlert className="w-6 h-6" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-[#3482b9]/20 text-[#5ba6db] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#3482b9] group-hover:text-white transition-all">
+                      <ShieldAlert className="w-6 h-6" />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-slate-400">
+                      <span className="text-[#3482b9] font-black">//</span>003
+                    </span>
                   </div>
                   <span className="text-xs font-black uppercase tracking-wider text-amber-300 bg-amber-950/70 border border-amber-500/40 px-3 py-1 rounded-full">
                     SLA &lt; 2-4 Hours

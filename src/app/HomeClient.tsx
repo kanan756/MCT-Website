@@ -270,16 +270,21 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-[#e74c3c]/15 rounded-full blur-[130px] pointer-events-none z-0" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-block px-6 py-2.5 rounded-full bg-white/10 border border-[#3482b9]/40 text-sm sm:text-base font-bold tracking-wider text-slate-100 uppercase mb-8 backdrop-blur-md shadow-sm">
-            MCT IT Solutions (P) Ltd.
+          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/[0.08] border border-[#3482b9]/50 text-xs sm:text-sm font-bold tracking-wider text-slate-100 uppercase mb-8 backdrop-blur-md shadow-lg shadow-[#3482b9]/10">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#5ba6db] animate-pulse-dot" />
+            <span>Microsoft Dynamics 365 &amp; ERP Engineering — Now &amp; Beyond</span>
           </div>
 
           {/* Animated Text Content Container (min-h to prevent layout shift) */}
           <div className="min-h-[220px] sm:min-h-[190px] md:min-h-[210px] flex flex-col justify-center items-center">
             <div className="flex flex-col items-center">
+              <div className="text-xs sm:text-sm font-mono font-bold uppercase tracking-widest text-sky-400 mb-3 flex items-center gap-2">
+                <span className="text-[#3482b9] font-black">//</span>
+                <span>RAPID IMPLEMENTATION • RISK-FREE VALIDATION • MISSION-CRITICAL SLAS</span>
+              </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.2] max-w-5xl mx-auto mb-6">
                 <span>{heroSlides[currentHeroSlide].titlePrefix}</span>
-                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#5ba6db] to-[#3482b9] relative">
+                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#5ba6db] via-[#3482b9] to-sky-200 relative shimmer-text">
                   {displayedHighlight}
                   <span className="inline-block w-[3px] h-[0.9em] bg-[#5ba6db] ml-1 align-middle animate-pulse" />
                 </span>
@@ -287,31 +292,32 @@ export default function Home() {
 
               <p
                 key={currentHeroSlide}
-                className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto mb-8 transition-opacity duration-500"
+                className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto mb-8 transition-opacity duration-500 font-normal"
               >
                 {heroSlides[currentHeroSlide].desc}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-8">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-10">
             <Link
               href="/contact?type=poc"
-              className="inline-flex items-center gap-2 bg-[#3482b9] hover:bg-[#1f6595] text-white px-8 py-3.5 rounded-full font-extrabold text-xs sm:text-sm tracking-wider uppercase shadow-xl shadow-[#3482b9]/30 transition-all hover:scale-105"
+              className="group inline-flex items-center gap-3 bg-[#3482b9] hover:bg-[#1f6595] text-white px-8 py-4 rounded-full font-extrabold text-xs sm:text-sm tracking-wider uppercase shadow-xl shadow-[#3482b9]/30 transition-all hover:scale-105"
             >
-              <Rocket className="w-4 h-4" />
+              <span className="w-2 h-2 rounded-full bg-white group-hover:scale-125 transition-transform" />
               <span>Request Rapid POC</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
             <a
               href="#mct-assurance"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white px-7 py-3.5 rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase transition-all backdrop-blur-md"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white px-7 py-4 rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase transition-all backdrop-blur-md"
             >
               <span>Explore Our USPs</span>
               <ChevronDown className="w-4 h-4 text-[#3482b9]" />
             </a>
             <Link
               href="/services"
-              className="text-slate-300 hover:text-white px-5 py-3.5 font-bold text-xs sm:text-sm tracking-wider uppercase transition-colors"
+              className="text-slate-300 hover:text-white px-5 py-4 font-bold text-xs sm:text-sm tracking-wider uppercase transition-colors"
             >
               All Services
             </Link>
@@ -371,10 +377,15 @@ export default function Home() {
             {/* USP 1: Rapid Prototype & Miniature POC */}
             <div className="group relative rounded-3xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-[#3482b9]/60 p-8 sm:p-9 flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(52,130,185,0.25)] backdrop-blur-xl">
               <div>
-                {/* Metric pill */}
+                {/* Tech number & metric pill */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
-                    <Rocket className="w-7 h-7" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
+                      <Rocket className="w-6 h-6" />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-slate-400">
+                      <span className="text-[#3482b9] font-black">//</span>001
+                    </span>
                   </div>
                   <span className="text-[11px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/70 border border-emerald-500/40 px-3 py-1 rounded-full">
                     5–7 Day Turnaround
@@ -420,10 +431,15 @@ export default function Home() {
             {/* USP 2: Industry-Leading Turnaround Time (TAT) */}
             <div className="group relative rounded-3xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-[#3482b9]/60 p-8 sm:p-9 flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(52,130,185,0.25)] backdrop-blur-xl">
               <div>
-                {/* Metric pill */}
+                {/* Tech number & metric pill */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
-                    <Clock className="w-7 h-7" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
+                      <Clock className="w-6 h-6" />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-slate-400">
+                      <span className="text-[#3482b9] font-black">//</span>002
+                    </span>
                   </div>
                   <span className="text-[11px] font-black uppercase tracking-wider text-[#5ba6db] bg-[#3482b9]/20 border border-[#3482b9]/40 px-3 py-1 rounded-full">
                     2x Faster Delivery
@@ -469,10 +485,15 @@ export default function Home() {
             {/* USP 3: P0 & P1 Rapid Response within a Few Hours */}
             <div className="group relative rounded-3xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-[#3482b9]/60 p-8 sm:p-9 flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(52,130,185,0.25)] backdrop-blur-xl">
               <div>
-                {/* Metric pill */}
+                {/* Tech number & metric pill */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
-                    <ShieldCheck className="w-7 h-7" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#3482b9]/25 to-white/5 border border-white/15 flex items-center justify-center text-[#5ba6db] group-hover:bg-[#3482b9] group-hover:text-white transition-all duration-300 shadow-md">
+                      <ShieldCheck className="w-6 h-6" />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-slate-400">
+                      <span className="text-[#3482b9] font-black">//</span>003
+                    </span>
                   </div>
                   <span className="text-[11px] font-black uppercase tracking-wider text-amber-300 bg-amber-950/70 border border-amber-500/40 px-3 py-1 rounded-full">
                     P0 / P1 &lt; 2-4 Hours
@@ -545,38 +566,106 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. SERVICES SECTION */}
-      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-white border-b border-gray-100">
+      {/* 2. SERVICES SECTION: JIGNECT-INSPIRED BENTO GRID */}
+      <section className="w-full py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fbfcfd] via-white to-slate-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
 
-          <div className="text-center max-w-4xl mx-auto mb-14">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-sky-50 border border-[#3482b9]/25 text-[#3482b9] text-xs font-bold uppercase tracking-wider mb-3">
-              WHAT WE OFFER
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-50 border border-[#3482b9]/25 text-[#3482b9] text-xs font-bold uppercase tracking-wider mb-4 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-[#3482b9] animate-pulse"></span>
+              Full-Spectrum Microsoft Stack
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight mb-5">
-              SERVICES
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight mb-4 tracking-tight uppercase">
+              <span className="text-[#3482b9] font-mono">//</span> Core Solutions &amp; Engineering
             </h2>
-            <p className="text-slate-600 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
-              We specialize in Microsoft Dynamics 365 modules like Sales, Customer Service and Customer insight with expertise in Business Central and Power Platform.
+            <p className="text-slate-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto">
+              From foundational Dynamics 365 CRM to custom Business Central AL development and Power Platform automation.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6">
+          {/* Interactive Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {servicesList.map((service, idx) => (
-              <div
+              <Link
                 key={idx}
-                className="group p-6 rounded-2xl bg-[#fbfcfd] border border-gray-200 hover:border-[#3482b9] hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center"
+                href="/services"
+                className="group relative p-7 rounded-3xl bg-white border border-gray-200/80 hover:border-[#3482b9] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5 overflow-hidden"
               >
-                <div className="w-14 h-14 rounded-2xl bg-sky-50 group-hover:bg-[#3482b9] text-[#3482b9] group-hover:text-white flex items-center justify-center mb-4 transition-colors">
-                  <service.icon className="w-7 h-7" />
+                {/* Top Row: Icon + Tech Index */}
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-13 h-13 rounded-2xl bg-sky-50 group-hover:bg-[#3482b9] text-[#3482b9] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-sm p-3">
+                      <service.icon className="w-6 h-6" />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-slate-400 group-hover:text-[#3482b9] transition-colors">
+                      <span className="text-[#3482b9] font-black">//</span>00{idx + 1}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#3482b9] transition-colors tracking-wide uppercase mb-2 font-['Montserrat',sans-serif]">
+                    {service.title}
+                  </h3>
+
+                  <p className="text-xs text-slate-500 leading-relaxed font-['Source_Sans_3',sans-serif]">
+                    Enterprise-calibrated architecture with seamless data flows, custom pipelines, and dedicated support.
+                  </p>
                 </div>
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-[#3482b9] transition-colors tracking-wide">
-                  {service.title}
-                </h3>
-              </div>
+
+                {/* Bottom link indicator */}
+                <div className="pt-5 mt-5 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-[#3482b9]">
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity">Explore Capability</span>
+                  <div className="w-8 h-8 rounded-full bg-slate-50 group-hover:bg-[#3482b9] text-slate-400 group-hover:text-white flex items-center justify-center transition-all ml-auto">
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
 
+        </div>
+      </section>
+
+      {/* 2.5 CREDIBILITY STATS STRIP (Jignect inspired) */}
+      <section className="w-full py-12 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white border-y border-slate-800 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(#3482b9_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800">
+            <div className="pt-4 md:pt-0">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-200 to-[#5ba6db] font-mono mb-1">
+                10+
+              </div>
+              <div className="text-xs sm:text-sm text-slate-400 font-bold uppercase tracking-wider">
+                Years of Dynamics Expertise
+              </div>
+            </div>
+
+            <div className="pt-4 md:pt-0">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-200 to-[#5ba6db] font-mono mb-1">
+                50+
+              </div>
+              <div className="text-xs sm:text-sm text-slate-400 font-bold uppercase tracking-wider">
+                Global Clients Served
+              </div>
+            </div>
+
+            <div className="pt-4 md:pt-0">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-200 to-[#5ba6db] font-mono mb-1">
+                5-Day
+              </div>
+              <div className="text-xs sm:text-sm text-slate-400 font-bold uppercase tracking-wider">
+                Rapid Miniature POC TAT
+              </div>
+            </div>
+
+            <div className="pt-4 md:pt-0">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-200 to-[#5ba6db] font-mono mb-1">
+                &lt; 2-4h
+              </div>
+              <div className="text-xs sm:text-sm text-slate-400 font-bold uppercase tracking-wider">
+                P0 / P1 Severity SLA
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

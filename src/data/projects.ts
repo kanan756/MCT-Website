@@ -53,7 +53,7 @@ export const PROJECTS: Project[] = [
       "Pet Import Service uses Microsoft Dynamics 365 Customer Service to manage the pet import journey into the UAE, from customer inquiries and document processing to payment tracking, permit approvals, and final delivery. Integrated driver operations, structured workflows, and customer notifications support coordinated service delivery and end-to-end inquiry tracking.",
     overview: [
       "Pet Import Service is a customer service and operational management solution designed to coordinate the pet import process into the UAE, from the initial customer inquiry to airport pickup, final delivery, and feedback collection.",
-      "Built on Microsoft Dynamics 365 Customer Service (On-Premises), the solution enables service agents to manage inquiries, collect pet and customer information, prepare cost estimations, record payments, track import permit approvals, and coordinate delivery activities through a structured business process flow.",
+      "Built on Microsoft Dynamics 365 Customer Service, the solution enables service agents to manage inquiries, collect pet and customer information, prepare cost estimations, record payments, track import permit approvals, and coordinate delivery activities through a structured business process flow.",
       "A connected Driver Mobile App allows drivers to view assigned inquiries and update pickup and drop-off statuses, with updates synchronized to Dynamics 365 through its Web API. Automated workflows, customer email notifications, and dedicated records for estimations, payments, checklists, and feedback support a more organized and traceable service operation."
     ],
     businessChallenges: [
@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
     ],
     technologies: [
       {
-        name: "Microsoft Dynamics 365 Customer Service (On-Premises)",
+        name: "Microsoft Dynamics 365 Customer Service",
         purpose: "Central inquiry, case, and operational record management"
       },
       {
