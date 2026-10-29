@@ -207,7 +207,7 @@ function ContactFormInner() {
     },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
     if (!formData.isRobotChecked) {
@@ -216,8 +216,24 @@ function ContactFormInner() {
     }
     setValidationError("");
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          service: formData.inquiryType === "poc" ? "5-Day Miniature POC" : "General Inquiry",
+          message: formData.message,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to send inquiry");
+      }
+
       setSubmitted(true);
       setFormData({
         name: "",
@@ -227,7 +243,11 @@ function ContactFormInner() {
         isRobotChecked: false,
       });
       setTimeout(() => setSubmitted(false), 5000);
-    }, 1200);
+    } catch (err: any) {
+      setValidationError(err.message || "Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

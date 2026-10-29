@@ -83,7 +83,7 @@ export async function initializeSheetTabs() {
     },
     {
       name: "Enquiries",
-      headers: ["timestamp", "name", "email", "phone", "service", "message"]
+      headers: ["id", "name", "email", "phone", "service", "message", "submittedAt", "status"]
     }
   ];
 
