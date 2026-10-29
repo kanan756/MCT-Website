@@ -16,6 +16,9 @@ import {
   Workflow
 } from "lucide-react";
 import { getAllServiceItems, getServiceItemBySlug } from "@/data/servicesHelpers";
+import { getLiveServices } from "@/lib/contentRepo";
+
+export const dynamic = "force-dynamic";
 
 interface ServiceSubpageProps {
   params: Promise<{
@@ -24,7 +27,8 @@ interface ServiceSubpageProps {
 }
 
 export async function generateStaticParams() {
-  const allServices = getAllServiceItems();
+  const liveCategories = await getLiveServices();
+  const allServices = getAllServiceItems(liveCategories);
   return allServices.map((service) => ({
     slug: service.id,
   }));
@@ -32,7 +36,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ServiceSubpageProps): Promise<Metadata> {
   const { slug } = await params;
-  const service = getServiceItemBySlug(slug);
+  const liveCategories = await getLiveServices();
+  const service = getServiceItemBySlug(slug, liveCategories);
 
   if (!service) {
     return {
@@ -48,7 +53,8 @@ export async function generateMetadata({ params }: ServiceSubpageProps): Promise
 
 export default async function ServiceSubpage({ params }: ServiceSubpageProps) {
   const { slug } = await params;
-  const service = getServiceItemBySlug(slug);
+  const liveCategories = await getLiveServices();
+  const service = getServiceItemBySlug(slug, liveCategories);
 
   if (!service) {
     notFound();

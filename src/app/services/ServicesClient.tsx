@@ -27,15 +27,30 @@ import {
   Clock,
   ShieldAlert
 } from "lucide-react";
+import { useEffect } from "react";
 import { servicesData, ServiceCategory, ServiceItem } from "@/data/services";
 
 export default function ServicesPage() {
+  const [servicesList, setServicesList] = useState<ServiceCategory[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+
+  useEffect(() => {
+    fetch("/api/services", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.data && Array.isArray(json.data)) {
+          setServicesList(json.data);
+        }
+      })
+      .catch((err) => console.warn("Failed to fetch live services:", err))
+      .finally(() => setLoading(false));
+  }, []);
 
   const filteredCategories =
     activeCategory === "all"
-      ? servicesData
-      : servicesData.filter((cat) => cat.id === activeCategory);
+      ? servicesList
+      : servicesList.filter((cat) => cat.id === activeCategory);
 
   // Icon mapping helper
   const renderCategoryIcon = (iconName: string, className = "w-6 h-6") => {
@@ -147,7 +162,7 @@ export default function ServicesPage() {
             >
               All Services
             </button>
-            {servicesData.map((cat) => (
+            {servicesList.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
@@ -168,12 +183,26 @@ export default function ServicesPage() {
       {/* 3. MAIN SERVICES CONTENT CONTAINER                             */}
       {/* ============================================================== */}
       <div className="py-16 sm:py-20 lg:py-24 space-y-20 lg:space-y-28">
-        {filteredCategories.map((category) => (
-          <section
-            key={category.id}
-            id={category.id}
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28"
-          >
+        {loading ? (
+          <div className="text-center py-20 bg-white rounded-3xl border border-slate-200/90 max-w-xl mx-auto p-8 shadow-sm">
+            <div className="w-8 h-8 border-3 border-[#3482b9] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-xs sm:text-sm text-slate-500">Loading services...</p>
+          </div>
+        ) : filteredCategories.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-3xl border border-slate-200/90 max-w-xl mx-auto p-8 shadow-sm">
+            <Layers className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+            <h3 className="text-lg font-black text-slate-800 mb-1">No Services Available</h3>
+            <p className="text-xs sm:text-sm text-slate-500">
+              No services found. Add services via the Admin panel or Google Sheets.
+            </p>
+          </div>
+        ) : (
+          filteredCategories.map((category) => (
+            <section
+              key={category.id}
+              id={category.id}
+              className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-28"
+            >
             {/* Category Header Card */}
             <div className={`relative rounded-3xl p-6 sm:p-8 lg:p-10 bg-gradient-to-br ${category.bgGradient} border border-slate-200/80 shadow-lg mb-10 overflow-hidden`}>
               <div className="absolute top-0 right-0 translate-x-8 -translate-y-8 w-44 h-44 rounded-full bg-slate-900/5 blur-2xl pointer-events-none" />
@@ -478,7 +507,7 @@ export default function ServicesPage() {
               </div>
             )}
           </section>
-        ))}
+        )))}
       </div>
 
       {/* ============================================================== */}

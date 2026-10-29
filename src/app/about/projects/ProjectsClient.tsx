@@ -13,21 +13,23 @@ import {
   MapPin
 } from "lucide-react";
 
-import { PROJECTS, Project } from "@/data/projects";
+import { Project } from "@/data/projects";
 
 export default function ProjectsPage() {
-  const [projectsList, setProjectsList] = useState<Project[]>(PROJECTS);
+  const [projectsList, setProjectsList] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedTech, setSelectedTech] = useState<string>("All");
 
   useEffect(() => {
     fetch("/api/projects", { cache: "no-store" })
       .then((res) => res.json())
       .then((json) => {
-        if (json.data && Array.isArray(json.data) && json.data.length > 0) {
+        if (json.data && Array.isArray(json.data)) {
           setProjectsList(json.data);
         }
       })
-      .catch((err) => console.warn("Failed to fetch live projects, using fallback:", err));
+      .catch((err) => console.warn("Failed to fetch live projects:", err))
+      .finally(() => setLoading(false));
   }, []);
 
   // Filter categories based on core technologies / solutions
@@ -146,7 +148,12 @@ export default function ProjectsPage() {
             </div>
           </div>
 
-          {filteredProjects.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-16 bg-white rounded-3xl border border-slate-200/90 max-w-xl mx-auto p-8 shadow-sm">
+              <div className="w-8 h-8 border-3 border-[#3482b9] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+              <p className="text-xs sm:text-sm text-slate-500">Loading projects...</p>
+            </div>
+          ) : filteredProjects.length === 0 ? (
             <div className="text-center py-16 bg-white rounded-3xl border border-slate-200/90 max-w-xl mx-auto p-8 shadow-sm">
               <Layers className="w-12 h-12 text-slate-400 mx-auto mb-3" />
               <h3 className="text-lg font-black text-slate-800 mb-1">No Projects Found</h3>

@@ -7,10 +7,10 @@ export interface FlatServiceItem extends ServiceItem {
   subgroupName?: string;
 }
 
-export function getAllServiceItems(): FlatServiceItem[] {
+export function getAllServiceItems(categories: ServiceCategory[] = servicesData): FlatServiceItem[] {
   const result: FlatServiceItem[] = [];
 
-  servicesData.forEach((cat) => {
+  categories.forEach((cat) => {
     if (cat.subgroups) {
       cat.subgroups.forEach((sub) => {
         sub.items.forEach((item) => {
@@ -52,7 +52,7 @@ export function getAllServiceItems(): FlatServiceItem[] {
   return result;
 }
 
-export function getServiceItemBySlug(slug: string): FlatServiceItem | undefined {
-  const all = getAllServiceItems();
+export function getServiceItemBySlug(slug: string, categories: ServiceCategory[] = servicesData): FlatServiceItem | undefined {
+  const all = getAllServiceItems(categories);
   return all.find((item) => item.id === slug);
 }
