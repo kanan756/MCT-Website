@@ -149,7 +149,7 @@ export default function ServicesPage() {
       {/* ============================================================== */}
       {/* 2. CATEGORY FILTER TABS                                        */}
       {/* ============================================================== */}
-      <section className="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm py-4">
+      <section className="sticky top-20 md:top-[112px] z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             <button

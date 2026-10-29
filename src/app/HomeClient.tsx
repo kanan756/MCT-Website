@@ -135,16 +135,56 @@ export default function Home() {
     }
   ];
 
-  // 8 Exact Services
+  // 8 Exact Services with authentic platform logos
   const servicesList = [
-    { title: "CONSULTING", icon: Search },
-    { title: "IMPLEMENTATION", icon: Code },
-    { title: "INTEGRATION", icon: Settings },
-    { title: "SUPPORT", icon: ShieldCheck },
-    { title: "DEVELOPMENT", icon: Database },
-    { title: "MIGRATION", icon: Cloud },
-    { title: "POWER PLATFORM", icon: Zap },
-    { title: "ANALYTICS", icon: BarChart2 }
+    {
+      title: "CONSULTING",
+      icon: Search,
+      logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+      logoAlt: "Microsoft Dynamics 365"
+    },
+    {
+      title: "IMPLEMENTATION",
+      icon: Code,
+      logo: "https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg",
+      logoAlt: "Microsoft Azure"
+    },
+    {
+      title: "INTEGRATION",
+      icon: Settings,
+      logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+      logoAlt: "Enterprise Integration"
+    },
+    {
+      title: "SUPPORT",
+      icon: ShieldCheck,
+      logo: "/mct_icon.png",
+      logoAlt: "MCT IT Solutions"
+    },
+    {
+      title: "DEVELOPMENT",
+      icon: Database,
+      logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+      logoAlt: "Microsoft Cloud"
+    },
+    {
+      title: "MIGRATION",
+      icon: Cloud,
+      logo: "https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg",
+      logoAlt: "Azure Cloud Migration"
+    },
+    {
+      title: "POWER PLATFORM",
+      icon: Zap,
+      logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+      logoAlt: "Microsoft Power Platform"
+    },
+    {
+      title: "ANALYTICS",
+      icon: BarChart2,
+      logo: "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg",
+      logoAlt: "Microsoft Power BI"
+    }
   ];
 
   // 4 Why us cards
@@ -591,11 +631,23 @@ export default function Home() {
                 href="/services"
                 className="group relative p-7 rounded-3xl bg-white border border-gray-200/80 hover:border-[#3482b9] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5 overflow-hidden"
               >
-                {/* Top Row: Icon + Tech Index */}
+                {/* Top Row: Icon + Brand Logo + Tech Index */}
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-13 h-13 rounded-2xl bg-sky-50 group-hover:bg-[#3482b9] text-[#3482b9] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-sm p-3">
-                      <service.icon className="w-6 h-6" />
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-13 h-13 rounded-2xl bg-sky-50 group-hover:bg-[#3482b9] text-[#3482b9] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-sm p-3">
+                        <service.icon className="w-6 h-6" />
+                      </div>
+                      {service.logo && (
+                        <div className="h-8 px-2 py-1 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-center group-hover:bg-white transition-colors">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={service.logo}
+                            alt={service.logoAlt || service.title}
+                            className="h-4 w-auto max-w-[65px] object-contain"
+                          />
+                        </div>
+                      )}
                     </div>
                     <span className="font-mono text-xs font-bold text-slate-400 group-hover:text-[#3482b9] transition-colors">
                       <span className="text-[#3482b9] font-black">//</span>00{idx + 1}
@@ -611,11 +663,13 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Bottom link indicator */}
-                <div className="pt-5 mt-5 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-[#3482b9]">
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity">Explore Capability</span>
-                  <div className="w-8 h-8 rounded-full bg-slate-50 group-hover:bg-[#3482b9] text-slate-400 group-hover:text-white flex items-center justify-center transition-all ml-auto">
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                {/* Bottom link indicator with arrow centered */}
+                <div className="pt-5 mt-5 border-t border-gray-100 flex items-center justify-center relative text-xs font-bold text-[#3482b9]">
+                  <span className="absolute left-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    Explore Capability
+                  </span>
+                  <div className="w-9 h-9 rounded-full bg-slate-50 group-hover:bg-[#3482b9] text-slate-400 group-hover:text-white flex items-center justify-center transition-all shadow-sm">
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>
               </Link>
