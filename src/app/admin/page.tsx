@@ -149,8 +149,11 @@ function slugify(str: string) {
 }
 
 function formatDate(iso: string) {
+  if (!iso) return "—";
   try {
-    return new Date(iso).toLocaleDateString("en-IN", {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString("en-IN", {
       day: "2-digit",
       month: "short",
       year: "numeric",
