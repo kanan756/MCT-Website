@@ -26,6 +26,8 @@ function ContactFormInner() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
+    service: isPocInquiry ? "5-Day Miniature POC" : "",
     message: isPocInquiry
       ? "Hi MCT Team, I would like to request a 5-Day Miniature POC to validate architecture and turnaround time before formal commitment."
       : "",
@@ -38,6 +40,7 @@ function ContactFormInner() {
       setFormData((prev) => ({
         ...prev,
         inquiryType: "poc",
+        service: "5-Day Miniature POC",
         message: prev.message || "Hi MCT Team, I would like to request a 5-Day Miniature POC to validate architecture and turnaround time before formal commitment.",
       }));
     }
@@ -224,7 +227,8 @@ function ContactFormInner() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          service: formData.inquiryType === "poc" ? "5-Day Miniature POC" : "General Inquiry",
+          phone: formData.phone || "",
+          service: formData.service || (formData.inquiryType === "poc" ? "5-Day Miniature POC" : "General Inquiry"),
           message: formData.message,
         }),
       });
@@ -238,6 +242,8 @@ function ContactFormInner() {
       setFormData({
         name: "",
         email: "",
+        phone: "",
+        service: "",
         message: "",
         inquiryType: "",
         isRobotChecked: false,
@@ -545,19 +551,59 @@ function ContactFormInner() {
                       />
                     </div>
 
-                    {/* Email */}
+                    {/* Email and Phone Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Email */}
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="Your Email"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-gray-200 text-slate-900 text-sm focus:outline-none focus:border-[#3482b9] focus:bg-white transition-all shadow-sm"
+                        />
+                      </div>
+
+                      {/* Phone */}
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                          Phone Number
+                        </label>
+                        <input
+                          type="tel"
+                          placeholder="+91 98765 43210"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-gray-200 text-slate-900 text-sm focus:outline-none focus:border-[#3482b9] focus:bg-white transition-all shadow-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Service Selection */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Email *
+                        Service Interested In
                       </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="Your Email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      <select
+                        value={formData.service}
+                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                         className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-gray-200 text-slate-900 text-sm focus:outline-none focus:border-[#3482b9] focus:bg-white transition-all shadow-sm"
-                      />
+                      >
+                        <option value="">Select a Service (Optional)</option>
+                        <option value="5-Day Miniature POC">5-Day Miniature POC (Fast Prototyping)</option>
+                        <option value="Microsoft Dynamics 365 CRM">Microsoft Dynamics 365 CRM</option>
+                        <option value="Microsoft Dynamics 365 Business Central (ERP)">Microsoft Dynamics 365 Business Central (ERP)</option>
+                        <option value="Supply Chain & Warehouse Management">Supply Chain & Warehouse Management</option>
+                        <option value="Human Resource Management (HRMS)">Human Resource Management (HRMS)</option>
+                        <option value="E-Invoicing & Compliance (ZATCA / UAE / KSA)">E-Invoicing & Compliance (ZATCA / UAE / KSA)</option>
+                        <option value="Power Platform & Automation">Power Platform & Automation</option>
+                        <option value="Web & Mobile App Development">Web & Mobile App Development</option>
+                        <option value="General Consultation">General Consultation</option>
+                      </select>
                     </div>
 
                     {/* Message */}
