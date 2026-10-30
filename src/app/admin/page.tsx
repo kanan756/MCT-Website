@@ -1558,7 +1558,6 @@ export default function AdminPage() {
         <nav style={{ flex: 1, padding: "16px 12px", display: "flex", flexDirection: "column", gap: "8px", overflowY: "auto" }}>
           {NAV_ITEMS.map((item) => {
             const isActive = activeTab === item.id;
-            const newCount = item.id === "enquiries" ? enquiries.filter((e) => e.status === "New").length : 0;
             return (
               <button
                 key={item.id}
@@ -1593,15 +1592,7 @@ export default function AdminPage() {
                     <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: "13px", letterSpacing: "0.5px", textTransform: "uppercase", flex: 1 }}>
                       {item.label}
                     </span>
-                    {newCount > 0 && (
-                      <span style={{ background: MCT_RED, color: "#fff", borderRadius: "20px", padding: "1px 7px", fontSize: "10px", fontWeight: 700 }}>
-                        {newCount}
-                      </span>
-                    )}
                   </>
-                )}
-                {!sidebarOpen && newCount > 0 && (
-                  <span style={{ position: "absolute", top: "6px", right: "6px", width: "8px", height: "8px", background: MCT_RED, borderRadius: "50%" }} />
                 )}
               </button>
             );
