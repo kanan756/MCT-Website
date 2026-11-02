@@ -22,6 +22,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
+import BlogCommentForm from "./BlogCommentForm";
 
 export const dynamic = "force-dynamic";
 
@@ -426,78 +427,9 @@ export default async function BlogPostDetailPage({
                 </div>
               </ScrollReveal>
 
-              {/* ── 6. LEAVE A COMMENT SECTION matching exact screenshot form ── */}
+              {/* ── 6. LEAVE A COMMENT SECTION (Interactive form with Google Sheets sync) ── */}
               <ScrollReveal direction="up" duration={700}>
-                <div className="pt-10 border-t border-slate-200 space-y-6">
-                  <div className="flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5 text-[#3482b9]" />
-                    <h3 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
-                      LEAVE <span className="text-[#3482b9]">A COMMENT</span>
-                    </h3>
-                  </div>
-
-                  <form className="space-y-4">
-                    <div>
-                      <textarea
-                        rows={6}
-                        placeholder="Message *"
-                        required
-                        className="w-full p-4 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-[#3482b9] focus:ring-1 focus:ring-[#3482b9] resize-y bg-white text-slate-800 transition-all shadow-sm"
-                      ></textarea>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="relative">
-                        <input
-                          type="text"
-                          placeholder="Name *"
-                          required
-                          className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-[#3482b9] focus:ring-1 focus:ring-[#3482b9] bg-white text-slate-800 pr-10 shadow-sm"
-                        />
-                        <User className="w-4 h-4 text-slate-400 absolute right-3 top-3.5" />
-                      </div>
-
-                      <div className="relative">
-                        <input
-                          type="email"
-                          placeholder="Mail *"
-                          required
-                          className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-[#3482b9] focus:ring-1 focus:ring-[#3482b9] bg-white text-slate-800 pr-10 shadow-sm"
-                        />
-                        <Mail className="w-4 h-4 text-slate-400 absolute right-3 top-3.5" />
-                      </div>
-
-                      <div className="relative">
-                        <input
-                          type="url"
-                          placeholder="Website"
-                          className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-[#3482b9] focus:ring-1 focus:ring-[#3482b9] bg-white text-slate-800 pr-10 shadow-sm"
-                        />
-                        <Globe className="w-4 h-4 text-slate-400 absolute right-3 top-3.5" />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-xs text-slate-500 pt-1">
-                      <input
-                        type="checkbox"
-                        id="save-comment-info"
-                        className="w-4 h-4 border-slate-300 rounded text-[#3482b9] focus:ring-[#3482b9]"
-                      />
-                      <label htmlFor="save-comment-info" className="cursor-pointer select-none">
-                        Save my name, email, and website in this browser for the next time I comment.
-                      </label>
-                    </div>
-
-                    <div className="pt-2">
-                      <button
-                        type="button"
-                        className="px-8 py-3.5 rounded-full bg-[#3482b9] hover:bg-[#1f6595] text-white text-xs font-black uppercase tracking-wider transition-all shadow-md shadow-[#3482b9]/30 hover:scale-105 cursor-pointer"
-                      >
-                        SEND COMMENT
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                <BlogCommentForm postSlug={slug} />
               </ScrollReveal>
 
             </article>
