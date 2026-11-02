@@ -147,6 +147,7 @@ export default function Footer() {
               {[
                 { label: "Contact Us", href: "/contact" },
                 { label: "Careers", href: "/about/careers" },
+                { label: "Blog", href: "/blog" },
                 { label: "Terms & Conditions", href: "/terms-and-conditions" },
                 { label: "Privacy Policy", href: "/privacy-policy" },
               ].map((link, idx) => (
