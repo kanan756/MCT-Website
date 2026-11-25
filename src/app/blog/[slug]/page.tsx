@@ -76,13 +76,16 @@ export default async function BlogPostDetailPage({
 
   const recentPosts = allBlogs.filter((b) => b.published !== false && b.slug !== slug).slice(0, 5);
 
-  // Group Categories with count
-  const categoriesMap = new Map<string, number>();
-  allBlogs.forEach((b) => {
-    if (b.category) {
-      categoriesMap.set(b.category, (categoriesMap.get(b.category) || 0) + 1);
-    }
-  });
+  // Filter related articles (same category or recent other posts)
+  const relatedArticles = allBlogs
+    .filter((b) => b.published !== false && b.slug !== slug)
+    .sort((a, b) => {
+      // Prioritize same category
+      if (a.category === post.category && b.category !== post.category) return -1;
+      if (b.category === post.category && a.category !== post.category) return 1;
+      return 0;
+    })
+    .slice(0, 3);
 
   return (
     <div id="page" className="flex flex-col w-full bg-[#fbfcfd] text-slate-800 antialiased selection:bg-[#3482b9] selection:text-white">
@@ -577,6 +580,94 @@ export default async function BlogPostDetailPage({
           </div>
         </div>
       </section>
+
+      {/* ============================================================== */}
+      {/* 2.5 RELATED ARTICLES SECTION (Point 7 Requirement)            */}
+      {/* ============================================================== */}
+      {relatedArticles.length > 0 && (
+        <section className="py-16 sm:py-20 bg-slate-50 border-t border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+              <div>
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-[#3482b9]/25 text-[#3482b9] text-[11px] font-bold uppercase tracking-wider mb-2 font-['Montserrat',sans-serif]">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Further Reading</span>
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight font-['Montserrat',sans-serif]">
+                  Related Articles
+                </h3>
+              </div>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#3482b9] hover:text-[#1f6595] uppercase tracking-wider font-['Montserrat',sans-serif]"
+              >
+                <span>Explore All Insights</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {relatedArticles.map((item) => (
+                <article
+                  key={item.slug}
+                  className="group bg-white rounded-3xl border border-slate-200/90 hover:border-[#3482b9] overflow-hidden flex flex-col justify-between shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div>
+                    {/* 16:9 Thumbnail image container */}
+                    <div className="relative aspect-[16/9] w-full bg-slate-100 overflow-hidden">
+                      <Image
+                        src={item.image || "/blog-business-central.jpg"}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      {item.category && (
+                        <div className="absolute top-3 left-3 bg-[#0b1b3d]/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider font-['Montserrat',sans-serif]">
+                          {item.category}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-6 space-y-3">
+                      <div className="flex items-center gap-2 text-[11px] text-slate-500 font-mono">
+                        <Calendar className="w-3.5 h-3.5 text-[#3482b9]" />
+                        <span>{item.date || "2026"}</span>
+                        {item.readTime && (
+                          <>
+                            <span>•</span>
+                            <span>{item.readTime}</span>
+                          </>
+                        )}
+                      </div>
+
+                      <h4 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#3482b9] transition-colors leading-snug line-clamp-2 font-['Montserrat',sans-serif]">
+                        <Link href={`/blog/${item.slug}`}>
+                          {item.title}
+                        </Link>
+                      </h4>
+
+                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 font-['Source_Sans_3',sans-serif]">
+                        {item.summary || item.excerpt || ""}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="px-6 pb-6 pt-2">
+                    <Link
+                      href={`/blog/${item.slug}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#3482b9] group-hover:text-[#1f6595] font-['Montserrat',sans-serif]"
+                    >
+                      <span>Read Article</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ============================================================== */}
       {/* 3. CTA DEMO BANNER: Matching Homepage & About footer CTA        */}
