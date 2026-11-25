@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "MCT IT Solutions | Microsoft Dynamics 365 Partner",
   description: "MCT IT Solutions provides expert-led innovation in Microsoft Dynamics 365, Cloud Architecture, ERP, CRM, and Enterprise AI. Let us drive your digital transformation.",
   keywords: "Microsoft Dynamics 365, ERP, CRM, Power Platform, AI Integration, MCT IT Solutions",
+  icons: {
+    icon: [
+      { url: "/mct_icon.png", sizes: "any" },
+      { url: "/icon.png" },
+    ],
+    shortcut: "/mct_icon.png",
+    apple: "/mct_icon.png",
+  },
   openGraph: {
     title: "MCT IT Solutions | Digital Transformation Experts",
     description: "Expert-led innovation in Microsoft Dynamics 365, Cloud Architecture, and Enterprise AI.",
