@@ -76,6 +76,14 @@ export default async function BlogPostDetailPage({
 
   const recentPosts = allBlogs.filter((b) => b.published !== false && b.slug !== slug).slice(0, 5);
 
+  // Group Categories with count
+  const categoriesMap = new Map<string, number>();
+  allBlogs.forEach((b) => {
+    if (b.category) {
+      categoriesMap.set(b.category, (categoriesMap.get(b.category) || 0) + 1);
+    }
+  });
+
   // Filter related articles (same category or recent other posts)
   const relatedArticles = allBlogs
     .filter((b) => b.published !== false && b.slug !== slug)
@@ -648,7 +656,7 @@ export default async function BlogPostDetailPage({
                       </h4>
 
                       <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 font-['Source_Sans_3',sans-serif]">
-                        {item.summary || item.excerpt || ""}
+                        {item.summary || ""}
                       </p>
                     </div>
                   </div>
