@@ -776,57 +776,61 @@ export default function CareersPage() {
       {/* 5.6 JOB DETAIL MODAL (Matching MCT Brand Theme)                 */}
       {/* ============================================================== */}
       {viewJobModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b1b3d]/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-3xl w-full p-6 sm:p-10 shadow-2xl border border-slate-100 relative max-h-[90vh] overflow-y-auto">
-            {/* Top Close */}
-            <button
-              onClick={() => setViewJobModal(null)}
-              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-colors cursor-pointer"
-            >
-              <X className="w-4 h-4" />
-            </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#0b1b3d]/70 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-2xl w-full my-auto shadow-2xl border border-slate-100 relative max-h-[88vh] flex flex-col overflow-hidden">
+            
+            {/* Modal Header */}
+            <div className="p-6 sm:p-8 pb-4 border-b border-slate-100 relative pr-14 shrink-0 bg-gradient-to-b from-slate-50/80 to-white">
+              <button
+                onClick={() => setViewJobModal(null)}
+                aria-label="Close modal"
+                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            {/* Department bar */}
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-5 h-1 bg-[#3482b9] rounded-full" />
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#3482b9] font-['Montserrat',sans-serif]">
-                {viewJobModal.department || "Consulting"}
-              </span>
-            </div>
-
-            {/* Title */}
-            <h2 className="text-2xl sm:text-3xl font-black text-[#0b1b3d] font-['Montserrat',sans-serif] tracking-tight mb-4">
-              {viewJobModal.title}
-            </h2>
-
-            {/* Badges */}
-            <div className="flex flex-wrap items-center gap-2 pb-5 mb-6 border-b border-slate-200">
-              {(viewJobModal.tags && viewJobModal.tags.length > 0 ? viewJobModal.tags : [viewJobModal.experience, viewJobModal.location]).map((tag, idx) => (
-                <span
-                  key={idx}
-                  className="px-3 py-1 rounded-md bg-[#3482b9]/10 text-[#0b1b3d] border border-[#3482b9]/20 text-xs font-semibold font-['Source_Sans_3',sans-serif]"
-                >
-                  {tag}
+              <div className="flex items-center gap-2 mb-2.5">
+                <span className="w-5 h-1 bg-[#3482b9] rounded-full" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#3482b9] font-['Montserrat',sans-serif]">
+                  {viewJobModal.department || "Consulting"}
                 </span>
-              ))}
+              </div>
+
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-[#0b1b3d] font-['Montserrat',sans-serif] tracking-tight leading-snug">
+                {viewJobModal.title}
+              </h2>
+
+              {/* Tags */}
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-3.5">
+                {(viewJobModal.tags && viewJobModal.tags.length > 0 ? viewJobModal.tags : [viewJobModal.experience, viewJobModal.location]).map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2.5 py-1 rounded-md bg-[#3482b9]/10 text-[#0b1b3d] border border-[#3482b9]/20 text-[11px] sm:text-xs font-semibold font-['Source_Sans_3',sans-serif]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            <div className="space-y-6 text-slate-700 font-['Source_Sans_3',sans-serif] text-sm sm:text-base leading-relaxed">
+            {/* Modal Scrollable Body */}
+            <div className="p-6 sm:p-8 overflow-y-auto space-y-6 text-slate-700 font-['Source_Sans_3',sans-serif] text-xs sm:text-sm leading-relaxed divide-y divide-slate-100">
+              
               {/* About Us */}
-              <div>
-                <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+              <div className="first:pt-0 pt-5">
+                <h3 className="text-xs sm:text-sm font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
                   About Us
                 </h3>
-                <p className="text-slate-600 pl-3.5">
+                <p className="text-slate-600 pl-3.5 leading-relaxed">
                   MCT IT Solutions is a technology innovator helping global enterprises optimize business processes, cloud infrastructure, and Microsoft Dynamics 365 solutions. We create an empowering work environment where ambitious professionals build high-impact digital solutions.
                 </p>
               </div>
 
               {/* Role Overview */}
               {viewJobModal.roleObjective && (
-                <div>
-                  <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+                <div className="pt-5">
+                  <h3 className="text-xs sm:text-sm font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
                     Role Overview
                   </h3>
@@ -838,8 +842,8 @@ export default function CareersPage() {
 
               {/* Key Responsibilities */}
               {((viewJobModal.keyResponsibilities && viewJobModal.keyResponsibilities.length > 0) || (viewJobModal.roleResponsibilities && viewJobModal.roleResponsibilities.length > 0)) && (
-                <div>
-                  <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+                <div className="pt-5">
+                  <h3 className="text-xs sm:text-sm font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2.5 uppercase tracking-wide flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
                     Key Responsibilities
                   </h3>
@@ -854,10 +858,10 @@ export default function CareersPage() {
                 </div>
               )}
 
-              {/* Requirements / Responsibilities */}
+              {/* Requirements / Technical Skills */}
               {viewJobModal.roleResponsibilities && viewJobModal.roleResponsibilities.length > 0 && viewJobModal.keyResponsibilities && viewJobModal.keyResponsibilities.length > 0 && (
-                <div>
-                  <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
+                <div className="pt-5">
+                  <h3 className="text-xs sm:text-sm font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2.5 uppercase tracking-wide flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
                     Requirements &amp; Technical Skills
                   </h3>
@@ -874,14 +878,14 @@ export default function CareersPage() {
 
               {/* What We Offer / Why Join Us */}
               {viewJobModal.whyJoinUs && viewJobModal.whyJoinUs.length > 0 && (
-                <div>
-                  <h3 className="text-sm sm:text-base font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2 uppercase tracking-wide flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#3482b9]" />
+                <div className="pt-5">
+                  <h3 className="text-xs sm:text-sm font-black text-[#0b1b3d] font-['Montserrat',sans-serif] mb-2.5 uppercase tracking-wide flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                     What We Offer
                   </h3>
-                  <ul className="space-y-2 text-slate-600 pl-3.5">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600 pl-3.5">
                     {viewJobModal.whyJoinUs.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5">
+                      <li key={idx} className="flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
                         <span>{item}</span>
                       </li>
@@ -891,12 +895,12 @@ export default function CareersPage() {
               )}
             </div>
 
-            {/* Bottom Apply Bar */}
-            <div className="mt-8 pt-6 border-t border-slate-200 flex items-center justify-between gap-4">
+            {/* Bottom Sticky Action Footer */}
+            <div className="p-4 sm:p-6 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between gap-4 shrink-0">
               <button
                 type="button"
                 onClick={() => setViewJobModal(null)}
-                className="text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                className="text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer px-3 py-2"
               >
                 Close
               </button>
@@ -912,94 +916,96 @@ export default function CareersPage() {
                 }}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0b1b3d] hover:bg-[#3482b9] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all font-['Montserrat',sans-serif] shadow-md cursor-pointer"
               >
-                <span>Apply Now</span>
+                <span>Apply for this Role</span>
                 <ArrowUpRight className="w-4 h-4 ml-1" />
               </button>
             </div>
+
           </div>
         </div>
       )}
 
       {/* ============================================================== */}
-      {/* 5.7 SEND YOUR CV FORM MODAL (Matching Reference Screenshot 3)   */}
+      {/* 5.7 SEND YOUR CV FORM MODAL (Streamlined, Centered & Responsive) */}
       {/* ============================================================== */}
       {applyJobModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-4xl w-full my-8 shadow-2xl border border-slate-200 overflow-hidden relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-4xl w-full my-auto shadow-2xl border border-slate-200 overflow-hidden relative max-h-[92vh] flex flex-col">
             
             {/* Close button */}
             <button
               onClick={() => setApplyJobModal(null)}
-              className="absolute top-5 right-5 z-20 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer"
+              aria-label="Close application modal"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 w-9 h-9 rounded-full bg-white/90 sm:bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors cursor-pointer shadow-sm"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 overflow-y-auto flex-1">
               
               {/* Left Column: Title & Department Info */}
               <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200 flex flex-col justify-between">
                 <div>
-                  <div className="text-xs text-slate-400 font-semibold mb-3 font-['Montserrat',sans-serif]">
+                  <div className="text-xs text-slate-400 font-semibold mb-2 sm:mb-3 font-['Montserrat',sans-serif]">
                     Careers / Send your CV
                   </div>
 
-                  <h2 className="text-3xl sm:text-4xl font-black text-slate-900 font-['Montserrat',sans-serif] leading-tight mb-4">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 font-['Montserrat',sans-serif] leading-tight mb-3 sm:mb-4">
                     Send your <span className="text-[#3482b9]">CV</span>
                   </h2>
 
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-['Source_Sans_3',sans-serif] mb-8">
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-['Source_Sans_3',sans-serif] mb-6 sm:mb-8">
                     Tell us a little about yourself. It takes about two minutes, and every application is read by our talent acquisition team.
                   </p>
 
-                  <div className="space-y-1 mb-8">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 font-['Montserrat',sans-serif]">
-                      Department
+                  <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-1 mb-6">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-['Montserrat',sans-serif]">
+                      Target Department
                     </span>
                     <div className="text-sm font-bold text-slate-800 font-['Montserrat',sans-serif]">
                       {applyJobModal.department || "Consulting"}
                     </div>
-                    <div className="text-xs font-semibold text-[#3482b9]">
+                    <div className="text-xs font-semibold text-[#3482b9] truncate">
                       Applying for: {applyJobModal.title}
                     </div>
                   </div>
                 </div>
 
                 {/* Contact helper card */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 pt-4 border-t border-slate-200">
-                  <div className="p-3.5 rounded-xl bg-white border border-slate-200">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 pt-4 border-t border-slate-200">
+                  <div className="p-3 rounded-xl bg-white border border-slate-200">
                     <span className="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1.5 font-['Montserrat',sans-serif]">
                       <span className="w-1.5 h-1.5 bg-[#3482b9] rounded-xs" />
                       Recruitment
                     </span>
-                    <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1">
+                    <div className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">
                       +91 97260 03000
                     </div>
-                    <div className="text-[11px] text-slate-500 mt-0.5">
+                    <div className="text-[10px] text-slate-500">
                       Join our team
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-white border border-slate-200">
+                  <div className="p-3 rounded-xl bg-white border border-slate-200">
                     <span className="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1.5 font-['Montserrat',sans-serif]">
                       <span className="w-1.5 h-1.5 bg-[#3482b9] rounded-xs" />
                       Email
                     </span>
-                    <div className="text-xs font-bold text-slate-900 mt-1 font-mono truncate">
+                    <div className="text-xs font-bold text-slate-900 mt-0.5 font-mono truncate">
                       hr@miraclecloud-technology.com
                     </div>
-                    <div className="text-[11px] text-slate-500 mt-0.5">
+                    <div className="text-[10px] text-slate-500">
                       Careers inquiries
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Right Column: Dark Form Panel matching Screenshot 3 */}
-              <div className="lg:col-span-7 bg-[#0b1b3d] p-6 sm:p-8 lg:p-10 text-white">
+              {/* Right Column: Dark Form Panel */}
+              <div className="lg:col-span-7 bg-[#0b1b3d] p-6 sm:p-8 lg:p-10 text-white flex flex-col justify-center">
                 
                 {submitSuccess ? (
-                  <div className="py-16 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
+                  <div className="py-12 sm:py-16 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
                     <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/10">
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
@@ -1011,7 +1017,7 @@ export default function CareersPage() {
                         Application Submitted!
                       </h3>
                     </div>
-                    <p className="text-sm text-slate-300 max-w-sm mx-auto leading-relaxed font-['Source_Sans_3',sans-serif]">
+                    <p className="text-xs sm:text-sm text-slate-300 max-w-sm mx-auto leading-relaxed font-['Source_Sans_3',sans-serif]">
                       Thank you for applying for <strong className="text-white font-semibold">{applyJobModal.title}</strong>. Our talent acquisition team has received your application and resume (<span className="text-slate-400 font-mono text-xs">{formData.resumeFileName}</span>) and will get in touch with you shortly.
                     </p>
                     <div className="pt-2">
@@ -1044,7 +1050,7 @@ export default function CareersPage() {
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleApplicationSubmit} className="space-y-4 font-['Source_Sans_3',sans-serif]">
+                  <form onSubmit={handleApplicationSubmit} className="space-y-3.5 font-['Source_Sans_3',sans-serif]">
                     
                     {errorMessage && (
                       <div className="p-3 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs font-semibold">
@@ -1061,7 +1067,7 @@ export default function CareersPage() {
                         type="text"
                         readOnly
                         value={applyJobModal.title}
-                        className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-slate-200 font-medium text-xs sm:text-sm focus:outline-none"
+                        className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-slate-200 font-medium text-xs sm:text-sm focus:outline-none"
                       />
                     </div>
 
@@ -1078,7 +1084,7 @@ export default function CareersPage() {
                           value={formData.fullName}
                           onChange={handleFormChange}
                           placeholder="Your name"
-                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                          className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
                         />
                       </div>
                       <div className="space-y-1">
@@ -1092,7 +1098,7 @@ export default function CareersPage() {
                           value={formData.email}
                           onChange={handleFormChange}
                           placeholder="name@email.com"
-                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                          className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
                         />
                       </div>
                     </div>
@@ -1110,7 +1116,7 @@ export default function CareersPage() {
                           value={formData.phone}
                           onChange={handleFormChange}
                           placeholder="+91 98765 43210"
-                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                          className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
                         />
                       </div>
                       <div className="space-y-1">
@@ -1124,7 +1130,7 @@ export default function CareersPage() {
                           value={formData.currentLocation}
                           onChange={handleFormChange}
                           placeholder="City, country"
-                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                          className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
                         />
                       </div>
                     </div>
@@ -1140,7 +1146,7 @@ export default function CareersPage() {
                           required
                           value={formData.totalExperience}
                           onChange={handleFormChange}
-                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                          className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-white font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
                         >
                           <option value="">select</option>
                           <option value="Fresher / < 1 year">Fresher / &lt; 1 year</option>
@@ -1159,7 +1165,7 @@ export default function CareersPage() {
                           required
                           value={formData.noticePeriod}
                           onChange={handleFormChange}
-                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                          className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-white font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
                         >
                           <option value="">select</option>
                           <option value="Immediate Joiner">Immediate Joiner</option>
@@ -1184,7 +1190,7 @@ export default function CareersPage() {
                           value={formData.currentCtc}
                           onChange={handleFormChange}
                           placeholder="e.g. 12 LPA"
-                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                          className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
                         />
                       </div>
                       <div className="space-y-1">
@@ -1197,7 +1203,7 @@ export default function CareersPage() {
                           value={formData.expectedCtc}
                           onChange={handleFormChange}
                           placeholder="e.g. 16 LPA"
-                          className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
+                          className="w-full px-3.5 py-2 rounded-lg bg-slate-800/90 border border-slate-700 text-white placeholder:text-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#3482b9]"
                         />
                       </div>
                     </div>
@@ -1223,7 +1229,7 @@ export default function CareersPage() {
                       </div>
                       <label
                         htmlFor="cv-upload-modal"
-                        className={`flex flex-col items-center justify-center p-4 rounded-xl border border-dashed transition-all cursor-pointer text-center ${
+                        className={`flex flex-col items-center justify-center p-3.5 rounded-xl border border-dashed transition-all cursor-pointer text-center ${
                           selectedFile
                             ? "border-emerald-500/80 bg-emerald-950/20"
                             : "border-slate-600 bg-slate-800/60 hover:bg-slate-800 hover:border-[#3482b9]"
@@ -1248,8 +1254,8 @@ export default function CareersPage() {
                               </span>
                             </div>
                           ) : (
-                            <div className="space-y-1">
-                              <Upload className="w-5 h-5 mx-auto text-slate-400 mb-1" />
+                            <div className="space-y-0.5">
+                              <Upload className="w-4 h-4 mx-auto text-slate-400 mb-0.5" />
                               <div>
                                 <span className="underline decoration-[#3482b9] text-[#3482b9]">Choose a file</span> or drag it here
                               </div>
@@ -1257,7 +1263,7 @@ export default function CareersPage() {
                           )}
                         </div>
                         {!selectedFile && (
-                          <span className="text-[10px] text-slate-400 mt-1">
+                          <span className="text-[10px] text-slate-400 mt-0.5">
                             Supported formats: PDF, DOCX, DOC (Maximum size: 5 MB)
                           </span>
                         )}
@@ -1280,27 +1286,27 @@ export default function CareersPage() {
                     </div>
 
                     {/* Consent */}
-                    <div className="pt-1">
+                    <div className="pt-0.5">
                       <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-300">
                         <input
                           type="checkbox"
                           name="consent"
                           checked={formData.consent}
                           onChange={handleFormChange}
-                          className="mt-0.5 w-3.5 h-3.5 rounded text-[#3482b9] focus:ring-[#3482b9] border-slate-600 bg-slate-800"
+                          className="mt-0.5 w-3.5 h-3.5 rounded text-[#3482b9] focus:ring-[#3482b9] border-slate-600 bg-slate-800 shrink-0"
                         />
-                        <span>
+                        <span className="text-[11px] leading-tight text-slate-400">
                           I agree that MCT IT Solutions may store and process my details to evaluate my application, as described in the Privacy Policy.
                         </span>
                       </label>
                     </div>
 
                     {/* Submit Button */}
-                    <div className="pt-3">
+                    <div className="pt-2">
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-white bg-white hover:bg-[#3482b9] hover:border-[#3482b9] text-slate-900 hover:text-white font-black text-xs sm:text-sm uppercase tracking-wider transition-all font-['Montserrat',sans-serif] cursor-pointer disabled:opacity-60"
+                        className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white bg-white hover:bg-[#3482b9] hover:border-[#3482b9] text-slate-900 hover:text-white font-black text-xs sm:text-sm uppercase tracking-wider transition-all font-['Montserrat',sans-serif] cursor-pointer disabled:opacity-60 shadow-md"
                       >
                         <span className="w-2 h-2 bg-[#3482b9] rounded-xs" />
                         <span>{isSubmitting ? "Submitting..." : "Submit Application"}</span>
