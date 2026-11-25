@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import BlogCommentForm from "./BlogCommentForm";
+import SocialShare from "./SocialShare";
 
 export const dynamic = "force-dynamic";
 
@@ -436,6 +437,15 @@ export default async function BlogPostDetailPage({
                     </div>
                   </div>
                 </div>
+              </ScrollReveal>
+
+              {/* ── Social Sharing Section ── */}
+              <ScrollReveal direction="up" duration={700}>
+                <SocialShare
+                  title={post.title}
+                  url={`https://www.miracle-cloudtechnology.com/blog/${slug}`}
+                  summary={post.summary || post.title}
+                />
               </ScrollReveal>
 
               {/* ── 6. LEAVE A COMMENT SECTION (Interactive form with Google Sheets sync) ── */}
