@@ -1104,6 +1104,9 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.title = "Admin Portal | MCT IT Solutions";
+    }
     checkStatus();
 
     // Responsive initial sidebar state
