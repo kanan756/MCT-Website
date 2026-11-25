@@ -1460,14 +1460,6 @@ export default function AdminPage() {
                 )}
               </button>
             </form>
-
-            <div style={{ marginTop: "20px", padding: "12px", background: "#f8f9fa", borderRadius: "8px", textAlign: "center" }}>
-              <div style={{ fontSize: "11px", color: "#9ca3af", fontFamily: "'Source Sans 3',sans-serif" }}>
-                Set credentials in <span style={{ fontFamily: "monospace", color: MCT_BLUE, fontWeight: 600 }}>.env.local</span> →{" "}
-                <span style={{ fontFamily: "monospace" }}>ADMIN_USERNAME</span> &{" "}
-                <span style={{ fontFamily: "monospace" }}>ADMIN_PASSWORD</span>
-              </div>
-            </div>
           </div>
         </div>
 
