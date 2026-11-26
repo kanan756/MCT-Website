@@ -80,6 +80,8 @@ interface Enquiry {
   name: string;
   email: string;
   phone: string;
+  company?: string;
+  country?: string;
   service: string;
   message: string;
   submittedAt: string;
@@ -2156,7 +2158,7 @@ export default function AdminPage() {
                     <table style={{ width: "100%", minWidth: "800px", borderCollapse: "collapse" }}>
                     <thead>
                       <tr style={{ background: "#f9fafb", borderBottom: "1px solid #f0f0f0" }}>
-                        {["ID", "Name", "Email", "Phone", "Service", "Message", "Date", "Status"].map((h) => (
+                        {["ID", "Name", "Email", "Company & Region", "Phone", "Service", "Message", "Date", "Status"].map((h) => (
                           <th key={h} style={{ padding: "14px 18px", textAlign: "left", fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: "11px", color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.7px", whiteSpace: "nowrap" }}>
                             {h}
                           </th>
@@ -2189,6 +2191,10 @@ export default function AdminPage() {
                             </td>
                             <td style={{ padding: "14px 18px" }}>
                               <a href={`mailto:${enq.email}`} style={{ fontSize: "13px", color: MCT_BLUE, textDecoration: "none", fontFamily: "'Source Sans 3',sans-serif" }}>{enq.email}</a>
+                            </td>
+                            <td style={{ padding: "14px 18px", fontSize: "13px", color: "#374151", fontFamily: "'Source Sans 3',sans-serif" }}>
+                              <div><strong>{enq.company || "—"}</strong></div>
+                              {enq.country && <div style={{ fontSize: "11px", color: "#6b7280" }}>{enq.country}</div>}
                             </td>
                             <td style={{ padding: "14px 18px", fontSize: "13px", color: "#374151", fontFamily: "'Source Sans 3',sans-serif" }}>{enq.phone || "—"}</td>
                             <td style={{ padding: "14px 18px" }}>

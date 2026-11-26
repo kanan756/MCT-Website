@@ -26,6 +26,8 @@ function ContactFormInner() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    company: "",
+    country: "",
     phone: "",
     service: isPocInquiry ? "5-Day Miniature POC" : "",
     message: isPocInquiry
@@ -33,6 +35,7 @@ function ContactFormInner() {
       : "",
     isRobotChecked: false,
     inquiryType: isPocInquiry ? "poc" : "general",
+    honeypot: "", // anti-spam hidden field
   });
 
   useEffect(() => {
@@ -227,9 +230,12 @@ function ContactFormInner() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
+          company: formData.company || "",
+          country: formData.country || "",
           phone: formData.phone || "",
           service: formData.service || (formData.inquiryType === "poc" ? "5-Day Miniature POC" : "General Inquiry"),
           message: formData.message,
+          honeypot: formData.honeypot,
         }),
       });
 
@@ -242,11 +248,14 @@ function ContactFormInner() {
       setFormData({
         name: "",
         email: "",
+        company: "",
+        country: "",
         phone: "",
         service: "",
         message: "",
         inquiryType: "",
         isRobotChecked: false,
+        honeypot: "",
       });
       setTimeout(() => setSubmitted(false), 5000);
     } catch (err: any) {
@@ -497,6 +506,41 @@ function ContactFormInner() {
                 </p>
               </div>
 
+              {/* Consultation Booking Action Box */}
+              <div className="p-6 rounded-2xl bg-gradient-to-br from-[#0b1b3d] to-[#163777] text-white space-y-4 shadow-lg border border-[#3482b9]/40 mt-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#3482b9]/30 text-sky-300 flex items-center justify-center shrink-0 border border-sky-400/30">
+                    <Calendar className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold uppercase tracking-wider text-white">
+                      Prefer a Live 1-on-1 Consultation?
+                    </h4>
+                    <p className="text-xs text-slate-300">
+                      Book a dedicated architecture discussion with our certified Dynamics 365 consultants.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-1 flex flex-wrap gap-2.5">
+                  <a
+                    href="mailto:contact@miraclecloud-technology.com?subject=Request%20for%20Architecture%20Consultation&body=Hello%20MCT%20Team%2C%0A%0AI%20would%20like%20to%20schedule%20a%20consultation%20to%20discuss%20our%20enterprise%20requirements.%0A%0ACompany%3A%0APreferred%20Time%3A%0ATopics%3A"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#3482b9] hover:bg-[#1f6595] text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:scale-105"
+                  >
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>Book Strategy Call</span>
+                  </a>
+
+                  <a
+                    href="tel:+919879796033"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold tracking-wider transition-all duration-300 border border-white/20"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-sky-300" />
+                    <span>Call Direct: +91 98797 96033</span>
+                  </a>
+                </div>
+              </div>
+
             </div>
 
             {/* Right Column: Name, Email, Message Form */}
@@ -539,12 +583,12 @@ function ContactFormInner() {
                     {/* Name */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Name *
+                        Full Name *
                       </label>
                       <input
                         type="text"
                         required
-                        placeholder="Your Name"
+                        placeholder="Your Full Name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-gray-200 text-slate-900 text-sm focus:outline-none focus:border-[#3482b9] focus:bg-white transition-all shadow-sm"
@@ -553,15 +597,15 @@ function ContactFormInner() {
 
                     {/* Email and Phone Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Email */}
+                      {/* Business Email */}
                       <div>
                         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                          Email *
+                          Business Email *
                         </label>
                         <input
                           type="email"
                           required
-                          placeholder="Your Email"
+                          placeholder="name@company.com"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-gray-200 text-slate-900 text-sm focus:outline-none focus:border-[#3482b9] focus:bg-white transition-all shadow-sm"
@@ -582,6 +626,49 @@ function ContactFormInner() {
                         />
                       </div>
                     </div>
+
+                    {/* Company and Country Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Company Name */}
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                          Company / Organization
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Company Ltd."
+                          value={formData.company}
+                          onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                          className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-gray-200 text-slate-900 text-sm focus:outline-none focus:border-[#3482b9] focus:bg-white transition-all shadow-sm"
+                        />
+                      </div>
+
+                      {/* Country */}
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                          Country / Region
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="United Arab Emirates, India, USA..."
+                          value={formData.country}
+                          onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                          className="w-full px-4 py-3.5 rounded-xl bg-slate-50 border border-gray-200 text-slate-900 text-sm focus:outline-none focus:border-[#3482b9] focus:bg-white transition-all shadow-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Hidden Honeypot for Server-Side Bot/Spam Protection */}
+                    <input
+                      type="text"
+                      name="website_url_check"
+                      value={formData.honeypot}
+                      onChange={(e) => setFormData({ ...formData, honeypot: e.target.value })}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      className="hidden"
+                      aria-hidden="true"
+                    />
 
                     {/* Service Selection */}
                     <div>
