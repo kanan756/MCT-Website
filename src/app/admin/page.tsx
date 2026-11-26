@@ -2066,7 +2066,11 @@ export default function AdminPage() {
                                   <a href={`mailto:${app.email}`} style={{ color: MCT_BLUE, textDecoration: "none" }}>{app.email}</a>
                                 </div>
                                 <div style={{ fontSize: "12px", color: "#6b7280", fontFamily: "'Source Sans 3',sans-serif" }}>
-                                  {app.phone}
+                                  {app.phone && app.phone !== "#ERROR!" ? (
+                                    <a href={`tel:${app.phone}`} style={{ color: "#4b5563", textDecoration: "none" }}>{app.phone}</a>
+                                  ) : (
+                                    <span style={{ color: "#9ca3af", fontStyle: "italic" }}>Phone not provided</span>
+                                  )}
                                 </div>
                               </td>
                               <td style={{ padding: "16px 18px", fontSize: "12px", color: "#6b7280", fontFamily: "'Source Sans 3',sans-serif", whiteSpace: "nowrap" }}>

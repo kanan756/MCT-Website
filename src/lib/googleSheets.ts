@@ -267,22 +267,22 @@ export async function upsertSheetRow(
   });
 
   if (foundRowIndex > 0) {
-    // Update existing row
+    // Update existing row (using RAW so phone numbers with + don't trigger formula errors)
     await sheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
       range: `${sheetName}!A${foundRowIndex}`,
-      valueInputOption: "USER_ENTERED",
+      valueInputOption: "RAW",
       requestBody: {
         values: [rowValues]
       }
     });
     return { action: "updated", rowIndex: foundRowIndex };
   } else {
-    // Append new row
+    // Append new row (using RAW)
     await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
       range: `${sheetName}!A1`,
-      valueInputOption: "USER_ENTERED",
+      valueInputOption: "RAW",
       insertDataOption: "INSERT_ROWS",
       requestBody: {
         values: [rowValues]

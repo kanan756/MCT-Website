@@ -247,7 +247,7 @@ export async function POST(request: Request) {
         await sheets.spreadsheets.values.append({
           spreadsheetId: SPREADSHEET_ID,
           range: "JobApplications!A:P",
-          valueInputOption: "USER_ENTERED",
+          valueInputOption: "RAW",
           insertDataOption: "INSERT_ROWS",
           requestBody: {
             values: [
