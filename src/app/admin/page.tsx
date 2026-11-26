@@ -1301,6 +1301,14 @@ export default function AdminPage() {
   // ── Application CRUD ──────────────────────────────────────────────────────
 
   const updateApplicationStatus = async (app: JobApplication, newStatus: string) => {
+    // Optimistic UI update so the table never flashes empty
+    setApplications((prev) =>
+      prev.map((item) => (item.id === app.id ? { ...item, status: newStatus } : item))
+    );
+    if (applicationModal && applicationModal.id === app.id) {
+      setApplicationModal({ ...applicationModal, status: newStatus });
+    }
+
     try {
       const res = await fetch("/api/admin/applications", {
         method: "POST",
@@ -1310,12 +1318,9 @@ export default function AdminPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to update status");
       showToast(`Status updated to "${newStatus}"!`);
-      if (applicationModal && applicationModal.id === app.id) {
-        setApplicationModal({ ...applicationModal, status: newStatus });
-      }
-      await loadData();
     } catch (err: any) {
       showToast(err.message || "Update failed", "error");
+      await loadData(); // Revert on actual failure
     }
   };
 

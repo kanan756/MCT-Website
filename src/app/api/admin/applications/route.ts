@@ -242,14 +242,16 @@ export async function POST(req: Request) {
     await initializeSheetTabs();
     await upsertSheetRow("JobApplications", "id", body.id, body);
 
-    // If application has an email and a changed/relevant status, send automated email
+    // Background email dispatch (non-blocking) so HTTP response returns immediately without timing out
     if (body.email && body.status && body.status !== "New") {
-      await sendCandidateStatusEmail({
+      sendCandidateStatusEmail({
         fullName: body.fullName || "Candidate",
         email: body.email,
         applyingFor: body.applyingFor || "Position",
         status: body.status,
         id: body.id,
+      }).catch((mailErr) => {
+        console.warn("Background email dispatch failed:", mailErr);
       });
     }
 
