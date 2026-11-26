@@ -544,71 +544,103 @@ export default function AboutPage() {
       </section>
 
       {/* ============================================================== */}
-      {/* 6. LEADERSHIP TEAM PROFILE GRID                                */}
+      {/* 6. EXECUTIVE LEADERSHIP SPOTLIGHT & CTA                       */}
       {/* ============================================================== */}
-      <section className="py-20 sm:py-24 bg-white border-b border-gray-100">
+      <section className="py-20 sm:py-24 bg-gradient-to-b from-white via-slate-50/50 to-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-black tracking-wider uppercase text-[#3482b9] bg-sky-50 border border-sky-100 font-['Montserrat',sans-serif]">
-              Executive Team
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight font-['Montserrat',sans-serif]">
-              Meet Our Leadership
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 font-['Source_Sans_3',sans-serif]">
-              Seasoned directors driving technological excellence, client success, and ethical engineering.
-            </p>
-          </div>
+          <div className="relative rounded-3xl bg-gradient-to-br from-[#0b1b3d] via-[#132c5e] to-[#0b1b3d] text-white p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl border border-[#3482b9]/30">
+            {/* Ambient background glows */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#3482b9]/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {leaders.map((lead, idx) => (
-              <div
-                key={idx}
-                className="relative rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-[0_20px_45px_rgba(52,130,185,0.14)] hover:border-[#3482b9]/60 transition-all duration-300 p-8 flex flex-col justify-between items-center text-center group overflow-hidden"
-              >
-                {/* Top decorative accent */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#3482b9] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <div className="space-y-5 text-center flex flex-col items-center w-full">
-                  {/* Portrait with professional ring */}
-                  <div className="relative w-36 h-36 rounded-full p-1 bg-gradient-to-tr from-[#3482b9]/30 to-sky-200 group-hover:from-[#3482b9] group-hover:to-sky-400 transition-all duration-300 shadow-md">
-                    <div className="relative w-full h-full rounded-full overflow-hidden bg-slate-100 border-2 border-white">
-                      <Image
-                        src={lead.image}
-                        alt={lead.name}
-                        fill
-                        sizes="(max-width: 640px) 144px, 144px"
-                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5 w-full">
-                    <h3 className="text-lg font-black text-slate-900 group-hover:text-[#3482b9] transition-colors font-['Montserrat',sans-serif]">
-                      {lead.name}
-                    </h3>
-                    <div className="inline-block px-3 py-1 rounded-full bg-sky-50 border border-[#3482b9]/20 text-[11px] font-bold text-[#1f6595] tracking-wide">
-                      {lead.role}
-                    </div>
-                  </div>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal font-['Source_Sans_3',sans-serif] text-center line-clamp-4">
-                    {lead.bio}
-                  </p>
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+              
+              {/* Left Column: Heading, Vision & Action */}
+              <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black tracking-wider uppercase text-sky-300 bg-white/10 border border-white/20 backdrop-blur-md">
+                  <span className="w-2 h-2 rounded-full bg-[#3482b9] animate-pulse" />
+                  Executive Leadership
                 </div>
 
-                <div className="pt-6 border-t border-slate-100 mt-6 w-full flex justify-center">
-                  <a
-                    href={`mailto:${lead.email}`}
-                    className="w-full py-2.5 px-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#3482b9] hover:bg-sky-50/70 text-xs font-bold text-[#3482b9] hover:text-[#1f6595] transition-all duration-300 flex items-center justify-center gap-2 group/btn break-all"
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
+                  Guided by Experienced Enterprise{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5ba6db] to-[#3482b9]">
+                    Architects & Visionaries
+                  </span>
+                </h2>
+
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal max-w-2xl">
+                  Our executive team combines over 25+ years of cumulative expertise across Microsoft Dynamics 365, enterprise ERP/CRM modernization, cloud infrastructure, and AI engineering. Discover the leaders shaping our technology strategy and client delivery worldwide.
+                </p>
+
+                <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                  <Link
+                    href="/about/leadership"
+                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#3482b9] hover:bg-[#1f6595] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-lg shadow-[#3482b9]/30 hover:scale-105"
                   >
-                    <Mail className="w-3.5 h-3.5 text-[#3482b9] shrink-0 group-hover/btn:scale-110 transition-transform" />
-                    <span className="truncate">{lead.email}</span>
+                    <span>Meet the Full Leadership Team</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+
+                  <a
+                    href="mailto:rmb@miraclecloud-technology.com"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold tracking-wider transition-all duration-300 border border-white/20"
+                  >
+                    <Mail className="w-4 h-4 text-sky-300" />
+                    <span>Connect with Leadership</span>
                   </a>
                 </div>
               </div>
-            ))}
+
+              {/* Right Column: Stacked Leadership Avatar Preview Showcase */}
+              <div className="lg:col-span-5 flex flex-col items-center justify-center">
+                <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-6">
+                  
+                  {/* Overlapping Portraits Bar */}
+                  <div className="flex items-center justify-center -space-x-3 sm:-space-x-4">
+                    {leaders.slice(0, 5).map((l, idx) => (
+                      <div
+                        key={idx}
+                        className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 sm:border-3 border-white shadow-lg bg-slate-100 hover:scale-110 hover:z-20 transition-transform duration-300 ring-2 ring-[#0b1b3d]"
+                        title={`${l.name} - ${l.role}`}
+                      >
+                        <Image
+                          src={l.image}
+                          alt={l.name}
+                          fill
+                          sizes="64px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Summary Metric pill */}
+                  <div className="text-center space-y-1">
+                    <p className="text-xs font-bold uppercase tracking-widest text-sky-300">
+                      5 Executive Directors & Heads
+                    </p>
+                    <p className="text-xs text-slate-300">
+                      Ravi Brahmbhatt • Nihal Bhatasna • Sunny Macwan • Nilesh Kalma • Kaushal Lalani
+                    </p>
+                  </div>
+
+                  {/* Link Pill */}
+                  <div className="pt-2 text-center">
+                    <Link
+                      href="/about/leadership"
+                      className="text-xs font-bold text-sky-400 hover:text-white inline-flex items-center gap-1 group transition-colors"
+                    >
+                      <span>Read detailed executive bios & roles</span>
+                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
           </div>
 
         </div>
