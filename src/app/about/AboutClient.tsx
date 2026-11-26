@@ -565,40 +565,46 @@ export default function AboutPage() {
             {leaders.map((lead, idx) => (
               <div
                 key={idx}
-                className="rounded-3xl bg-[#f8fafc] border border-gray-200/90 shadow-sm hover:shadow-xl hover:border-[#3482b9]/50 transition-all duration-300 p-7 flex flex-col justify-between group"
+                className="relative rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-[0_20px_45px_rgba(52,130,185,0.14)] hover:border-[#3482b9]/60 transition-all duration-300 p-8 flex flex-col justify-between items-center text-center group overflow-hidden"
               >
-                <div className="space-y-5 text-center flex flex-col items-center">
-                  {/* Uniform portrait container */}
-                  <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden border-4 border-white shadow-md bg-white group-hover:scale-105 transition-transform duration-300">
-                    <Image
-                      src={lead.image}
-                      alt={lead.name}
-                      fill
-                      className="object-cover object-top"
-                    />
+                {/* Top decorative accent */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#3482b9] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div className="space-y-5 text-center flex flex-col items-center w-full">
+                  {/* Portrait with professional ring */}
+                  <div className="relative w-36 h-36 rounded-full p-1 bg-gradient-to-tr from-[#3482b9]/30 to-sky-200 group-hover:from-[#3482b9] group-hover:to-sky-400 transition-all duration-300 shadow-md">
+                    <div className="relative w-full h-full rounded-full overflow-hidden bg-slate-100 border-2 border-white">
+                      <Image
+                        src={lead.image}
+                        alt={lead.name}
+                        fill
+                        sizes="(max-width: 640px) 144px, 144px"
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
                   </div>
 
-                  <div className="space-y-1">
-                    <h3 className="text-lg font-black text-slate-900 font-['Montserrat',sans-serif]">
+                  <div className="space-y-1.5 w-full">
+                    <h3 className="text-lg font-black text-slate-900 group-hover:text-[#3482b9] transition-colors font-['Montserrat',sans-serif]">
                       {lead.name}
                     </h3>
-                    <p className="text-xs font-bold text-[#3482b9] uppercase tracking-wider">
+                    <div className="inline-block px-3 py-1 rounded-full bg-sky-50 border border-[#3482b9]/20 text-[11px] font-bold text-[#1f6595] tracking-wide">
                       {lead.role}
-                    </p>
+                    </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal font-['Source_Sans_3',sans-serif] text-center">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal font-['Source_Sans_3',sans-serif] text-center line-clamp-4">
                     {lead.bio}
                   </p>
                 </div>
 
-                <div className="pt-5 border-t border-gray-200/70 mt-6 flex justify-center">
+                <div className="pt-6 border-t border-slate-100 mt-6 w-full flex justify-center">
                   <a
                     href={`mailto:${lead.email}`}
-                    className="text-xs font-semibold text-slate-600 hover:text-[#3482b9] transition-colors inline-flex items-center gap-1.5 break-all"
+                    className="w-full py-2.5 px-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#3482b9] hover:bg-sky-50/70 text-xs font-bold text-[#3482b9] hover:text-[#1f6595] transition-all duration-300 flex items-center justify-center gap-2 group/btn break-all"
                   >
-                    <Mail className="w-3.5 h-3.5 text-[#3482b9] shrink-0" />
-                    <span>{lead.email}</span>
+                    <Mail className="w-3.5 h-3.5 text-[#3482b9] shrink-0 group-hover/btn:scale-110 transition-transform" />
+                    <span className="truncate">{lead.email}</span>
                   </a>
                 </div>
               </div>

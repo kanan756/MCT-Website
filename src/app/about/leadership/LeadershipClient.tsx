@@ -131,6 +131,7 @@ export default function LeadershipPage() {
                           src={leader.image}
                           alt={leader.name}
                           fill
+                          sizes="(max-width: 640px) 144px, 144px"
                           className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
