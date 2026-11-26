@@ -506,6 +506,17 @@ export default async function ProjectDetailsPage({ params }: ProjectDetailsPageP
                   </div>
                 </div>
 
+                {/* Professional Compliance & Confidentiality Notice */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 text-center space-y-1.5 text-xs text-slate-500 font-['Source_Sans_3',sans-serif]">
+                  <div className="flex items-center justify-center gap-1.5 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>Verified Project Engagement</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-slate-500">
+                    Client names and proprietary operational metrics have been generalized to uphold strict NDA confidentiality and enterprise data compliance agreements.
+                  </p>
+                </div>
+
               </div>
             </aside>
 

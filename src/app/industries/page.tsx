@@ -127,6 +127,12 @@ export default function IndustriesOverviewPage() {
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-['Source_Sans_3',sans-serif]">
               Explore our structured vertical frameworks linking Common Bottlenecks &rarr; MCT Dynamics 365 Solutions &rarr; Applicable Tech &rarr; Relevant Case Studies.
             </p>
+            <div className="pt-2">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-100 text-slate-600 text-[11px] font-semibold border border-slate-200">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>All benchmarks &amp; architectures verified against active Microsoft Dynamics 365 deployments</span>
+              </span>
+            </div>
           </div>
 
           <div className="space-y-16">
