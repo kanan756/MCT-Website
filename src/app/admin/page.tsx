@@ -36,10 +36,7 @@ import {
   Save,
   Layers,
   FileCheck,
-  Crop,
-  Sparkles,
 } from "lucide-react";
-import ImageEditorModal from "@/components/ImageEditorModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -1086,8 +1083,6 @@ export default function AdminPage() {
   const [careerModal, setCareerModal] = useState<"new" | CareerOpening | null>(null);
   const [applicationModal, setApplicationModal] = useState<JobApplication | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<{ entity: string; key: string; label: string } | null>(null);
-  const [imageEditorOpen, setImageEditorOpen] = useState(false);
-  const [imageEditorTarget, setImageEditorTarget] = useState<"blog" | "project" | null>(null);
 
   // Toast
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -1696,29 +1691,6 @@ export default function AdminPage() {
               />
             </div>
           )}
-
-          {/* Creative Studio Quick Action */}
-          <button
-            onClick={() => setImageEditorOpen(true)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "8px 14px",
-              borderRadius: "10px",
-              border: `1px solid ${MCT_BLUE}40`,
-              background: "#eff6ff",
-              color: MCT_BLUE,
-              cursor: "pointer",
-              fontFamily: "'Montserrat',sans-serif",
-              fontWeight: 700,
-              fontSize: "12px",
-              transition: "all 0.15s",
-            }}
-          >
-            <Sparkles size={14} color={MCT_BLUE} />
-            <span>Creative Studio</span>
-          </button>
 
           {/* Action Button */}
           {activeTab === "blogs" && (
@@ -2423,21 +2395,47 @@ export default function AdminPage() {
       {/* ── Toast ── */}
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
-      {/* Interactive Framer Motion Photo Editor & Studio */}
-      <ImageEditorModal
-        isOpen={imageEditorOpen}
-        onClose={() => {
-          setImageEditorOpen(false);
-          setImageEditorTarget(null);
-        }}
-        onSave={(dataUrl) => {
-          showToast("Image enhanced and applied!");
-        }}
-      />
-
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes slideUp { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+        @keyframes slideUp { from { transform: translateY(12px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        /* Sleek Executive Glass & Elevation */
+        .admin-page-content {
+          animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .admin-stats-card {
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease !important;
+        }
+        .admin-stats-card:hover {
+          transform: translateY(-3px) !important;
+          box-shadow: 0 12px 24px -8px rgba(52, 130, 185, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.04) !important;
+          border-color: rgba(52, 130, 185, 0.35) !important;
+        }
+
+        /* Table Row Interactive Elevation */
+        .admin-table-container table tbody tr {
+          transition: background-color 0.15s ease, transform 0.15s ease !important;
+        }
+        .admin-table-container table tbody tr:hover {
+          background-color: #f8fafc !important;
+        }
+
+        /* Modern Crisp Scrollbar */
+        .admin-table-container::-webkit-scrollbar {
+          height: 6px;
+        }
+        .admin-table-container::-webkit-scrollbar-track {
+          background: #f1f5f9;
+        }
+        .admin-table-container::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 9999px;
+        }
+        .admin-table-container::-webkit-scrollbar-thumb:hover {
+          background: #94a3b8;
+        }
         * { box-sizing: border-box; }
 
         /* Responsive Breakpoints */
