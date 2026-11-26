@@ -111,27 +111,27 @@ export default function LeadershipPage() {
           </div>
 
           {/* Leaders Grid: Unique Modern Executive Card Design */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch max-w-6xl mx-auto">
             {leaders.map((leader, idx) => (
               <div
                 key={idx}
-                className="relative rounded-3xl bg-gradient-to-b from-white via-slate-50/50 to-white border border-slate-200/90 hover:border-[#3482b9]/60 p-8 flex flex-col justify-between items-center text-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(52,130,185,0.18)] hover:-translate-y-2 group overflow-hidden"
+                className="relative rounded-2xl sm:rounded-3xl bg-gradient-to-b from-white via-slate-50/50 to-white border border-slate-200/90 hover:border-[#3482b9]/60 p-6 sm:p-8 flex flex-col justify-between items-center text-center transition-all duration-500 hover:shadow-[0_20px_50px_rgba(52,130,185,0.18)] hover:-translate-y-1.5 group overflow-hidden"
               >
                 {/* Top Subtle Gradient Accent Glow */}
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-[#3482b9] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute -top-16 -right-16 w-32 h-32 bg-[#3482b9]/10 rounded-full blur-2xl group-hover:bg-[#3482b9]/25 transition-all duration-500 pointer-events-none" />
 
-                <div className="space-y-5 flex flex-col items-center w-full relative z-10">
+                <div className="space-y-4 sm:space-y-5 flex flex-col items-center w-full relative z-10">
                   {/* Executive Portrait with Double Ring & Brand Glow */}
                   <div className="relative group-hover:scale-105 transition-transform duration-500">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#3482b9] to-sky-300 blur-sm opacity-40 group-hover:opacity-80 transition-opacity" />
-                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-white shadow-xl bg-slate-100 shrink-0 ring-2 ring-slate-100 group-hover:ring-[#3482b9]/40 transition-all flex items-center justify-center">
+                    <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden border-4 border-white shadow-xl bg-slate-100 shrink-0 ring-2 ring-slate-100 group-hover:ring-[#3482b9]/40 transition-all flex items-center justify-center">
                       {leader.image && leader.image !== "/" ? (
                         <Image
                           src={leader.image}
                           alt={leader.name}
                           fill
-                          sizes="(max-width: 640px) 144px, 144px"
+                          sizes="(max-width: 640px) 128px, 144px"
                           className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
@@ -146,8 +146,8 @@ export default function LeadershipPage() {
                   </div>
 
                   {/* Name & Role Badge */}
-                  <div className="space-y-2 w-full">
-                    <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight group-hover:text-[#3482b9] transition-colors">
+                  <div className="space-y-1.5 w-full">
+                    <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight group-hover:text-[#3482b9] transition-colors">
                       {leader.name}
                     </h3>
                     <div className="inline-block px-3 py-1 rounded-full bg-sky-50 border border-[#3482b9]/25 text-[11px] sm:text-xs font-bold text-[#1f6595] tracking-wide">
@@ -162,7 +162,7 @@ export default function LeadershipPage() {
                 </div>
 
                 {/* Email Footer Link with Button Capsule */}
-                <div className="pt-6 border-t border-slate-200/80 w-full flex justify-center relative z-10 mt-6">
+                <div className="pt-5 sm:pt-6 border-t border-slate-200/80 w-full flex justify-center relative z-10 mt-5 sm:mt-6">
                   <a
                     href={`mailto:${leader.email}`}
                     className="w-full py-2.5 px-4 rounded-xl bg-white border border-slate-200 hover:border-[#3482b9] hover:bg-sky-50/70 text-xs font-bold text-[#3482b9] hover:text-[#1f6595] transition-all duration-300 flex items-center justify-center gap-2 shadow-xs group/btn break-all"

@@ -549,16 +549,16 @@ export default function AboutPage() {
       <section className="py-20 sm:py-24 bg-gradient-to-b from-white via-slate-50/50 to-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="relative rounded-3xl bg-gradient-to-br from-[#0b1b3d] via-[#132c5e] to-[#0b1b3d] text-white p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl border border-[#3482b9]/30">
+          <div className="relative rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0b1b3d] via-[#132c5e] to-[#0b1b3d] text-white p-6 sm:p-10 lg:p-14 overflow-hidden shadow-2xl border border-[#3482b9]/30">
             {/* Ambient background glows */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#3482b9]/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-72 sm:w-96 h-72 sm:h-96 bg-[#3482b9]/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-60 sm:w-80 h-60 sm:h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
               
               {/* Left Column: Heading, Vision & Action */}
-              <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black tracking-wider uppercase text-sky-300 bg-white/10 border border-white/20 backdrop-blur-md">
+              <div className="lg:col-span-7 space-y-5 sm:space-y-6 text-center lg:text-left">
+                <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-black tracking-wider uppercase text-sky-300 bg-white/10 border border-white/20 backdrop-blur-md">
                   <span className="w-2 h-2 rounded-full bg-[#3482b9] animate-pulse" />
                   Executive Leadership
                 </div>
@@ -570,46 +570,46 @@ export default function AboutPage() {
                   </span>
                 </h2>
 
-                <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal max-w-2xl">
+                <p className="text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed font-normal max-w-2xl mx-auto lg:mx-0">
                   Our executive team combines over 25+ years of cumulative expertise across Microsoft Dynamics 365, enterprise ERP/CRM modernization, cloud infrastructure, and AI engineering. Discover the leaders shaping our technology strategy and client delivery worldwide.
                 </p>
 
-                <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4">
                   <Link
                     href="/about/leadership"
-                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#3482b9] hover:bg-[#1f6595] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-lg shadow-[#3482b9]/30 hover:scale-105"
+                    className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-[#3482b9] hover:bg-[#1f6595] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-lg shadow-[#3482b9]/30 hover:scale-105 active:scale-95 text-center"
                   >
                     <span>Meet the Full Leadership Team</span>
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-4 h-4 shrink-0" />
                   </Link>
 
                   <a
                     href="mailto:rmb@miraclecloud-technology.com"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold tracking-wider transition-all duration-300 border border-white/20"
+                    className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold tracking-wider transition-all duration-300 border border-white/20 active:scale-95 text-center"
                   >
-                    <Mail className="w-4 h-4 text-sky-300" />
+                    <Mail className="w-4 h-4 text-sky-300 shrink-0" />
                     <span>Connect with Leadership</span>
                   </a>
                 </div>
               </div>
 
               {/* Right Column: Stacked Leadership Avatar Preview Showcase */}
-              <div className="lg:col-span-5 flex flex-col items-center justify-center">
-                <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-6">
+              <div className="lg:col-span-5 flex flex-col items-center justify-center w-full">
+                <div className="w-full max-w-md p-5 sm:p-7 md:p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-5 sm:space-y-6">
                   
                   {/* Overlapping Portraits Bar */}
-                  <div className="flex items-center justify-center -space-x-3 sm:-space-x-4">
+                  <div className="flex items-center justify-center -space-x-2.5 sm:-space-x-3 md:-space-x-4">
                     {leaders.slice(0, 5).map((l, idx) => (
                       <div
                         key={idx}
-                        className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 sm:border-3 border-white shadow-lg bg-slate-100 hover:scale-110 hover:z-20 transition-transform duration-300 ring-2 ring-[#0b1b3d]"
+                        className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 sm:border-3 border-white shadow-lg bg-slate-100 hover:scale-110 hover:z-20 transition-transform duration-300 ring-2 ring-[#0b1b3d] shrink-0"
                         title={`${l.name} - ${l.role}`}
                       >
                         <Image
                           src={l.image}
                           alt={l.name}
                           fill
-                          sizes="64px"
+                          sizes="(max-width: 640px) 48px, (max-width: 768px) 56px, 64px"
                           className="object-cover object-top"
                         />
                       </div>
@@ -617,23 +617,23 @@ export default function AboutPage() {
                   </div>
 
                   {/* Summary Metric pill */}
-                  <div className="text-center space-y-1">
-                    <p className="text-xs font-bold uppercase tracking-widest text-sky-300">
+                  <div className="text-center space-y-1 px-2">
+                    <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-sky-300">
                       5 Executive Directors & Heads
                     </p>
-                    <p className="text-xs text-slate-300">
+                    <p className="text-[11px] sm:text-xs text-slate-300 leading-normal">
                       Ravi Brahmbhatt • Nihal Bhatasna • Sunny Macwan • Nilesh Kalma • Kaushal Lalani
                     </p>
                   </div>
 
                   {/* Link Pill */}
-                  <div className="pt-2 text-center">
+                  <div className="pt-1 text-center">
                     <Link
                       href="/about/leadership"
-                      className="text-xs font-bold text-sky-400 hover:text-white inline-flex items-center gap-1 group transition-colors"
+                      className="text-xs font-bold text-sky-400 hover:text-white inline-flex items-center justify-center gap-1 group transition-colors py-1"
                     >
                       <span>Read detailed executive bios & roles</span>
-                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
                     </Link>
                   </div>
 
