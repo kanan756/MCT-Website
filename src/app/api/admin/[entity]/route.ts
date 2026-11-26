@@ -62,22 +62,41 @@ export async function GET(
 
   try {
     if (isGoogleConfigured()) {
-      await initializeSheetTabs();
-      const rows = await getSheetRows(SHEET_MAP[entity]);
-      return NextResponse.json(
-        {
-          data: rows || [],
-          source: "google_sheets",
-          count: (rows || []).length,
-        },
-        {
-          headers: {
-            "Cache-Control": "no-store, no-cache, must-revalidate",
+      try {
+        await initializeSheetTabs();
+        const rows = await getSheetRows(SHEET_MAP[entity]);
+        return NextResponse.json(
+          {
+            data: rows || [],
+            source: "google_sheets",
+            count: (rows || []).length,
           },
-        }
-      );
+          {
+            headers: {
+              "Cache-Control": "no-store, no-cache, must-revalidate",
+            },
+          }
+        );
+      } catch (sheetErr: any) {
+        console.error(`Google Sheets fetch error for ${entity}:`, sheetErr);
+        // Resilient fallback to static data so the admin panel is never empty/broken
+        const staticData = STATIC_DATA_MAP[entity] || [];
+        return NextResponse.json(
+          {
+            data: staticData,
+            source: "static_fallback",
+            count: staticData.length,
+            warning: sheetErr.message || "Failed to read Google Sheets, using cached fallback",
+          },
+          {
+            headers: {
+              "Cache-Control": "no-store, no-cache, must-revalidate",
+            },
+          }
+        );
+      }
     }
-    // Fallback to static data ONLY if Google Sheets is not configured
+    // Fallback to static data if Google Sheets is not configured
     const staticData = STATIC_DATA_MAP[entity];
     return NextResponse.json(
       {

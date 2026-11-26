@@ -15,16 +15,31 @@ export function isGoogleConfigured(): boolean {
   );
 }
 
+function formatPrivateKey(key: string): string {
+  let cleaned = key.trim();
+  // Strip wrapping single or double quotes
+  if (
+    (cleaned.startsWith('"') && cleaned.endsWith('"')) ||
+    (cleaned.startsWith("'") && cleaned.endsWith("'"))
+  ) {
+    cleaned = cleaned.slice(1, -1).trim();
+  }
+  // Replace literal '\n' sequences with real newlines
+  cleaned = cleaned.replace(/\\n/g, "\n");
+  // Normalize Windows \r\n to \n
+  cleaned = cleaned.replace(/\r\n/g, "\n");
+  return cleaned;
+}
+
 function getAuth() {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  let privateKey = process.env.GOOGLE_PRIVATE_KEY;
+  let rawKey = process.env.GOOGLE_PRIVATE_KEY;
 
-  if (!email || !privateKey) {
+  if (!email || !rawKey) {
     throw new Error("Missing Google Service Account credentials");
   }
 
-  // Handle newline escapes in private keys in env vars
-  privateKey = privateKey.replace(/\\n/g, "\n");
+  const privateKey = formatPrivateKey(rawKey);
 
   return new google.auth.JWT({
     email,
