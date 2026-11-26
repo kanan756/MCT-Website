@@ -3,9 +3,9 @@ import { cookies } from "next/headers";
 
 export const ADMIN_COOKIE_NAME = "mct_admin_session";
 
-// You can customize the credentials here or via environment variables
-export const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin@miraclecloud.com";
-export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "MctAdmin2025!";
+// Compulsory default admin credentials
+export const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin@mctitsolutions.com";
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "MctAdmin2026!";
 
 export async function verifyAdminSession(req?: NextRequest): Promise<boolean> {
   const cookieStore = await cookies();

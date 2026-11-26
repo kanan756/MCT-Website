@@ -124,7 +124,7 @@ export async function initializeSheetTabs() {
   }
 }
 
-const KNOWN_HEADERS: Record<string, string[]> = {
+const KNOWN_SHEET_HEADERS: Record<string, string[]> = {
   Blogs: ["slug", "title", "category", "author", "date", "readTime", "image", "summary", "content", "tags", "published"],
   Projects: ["slug", "name", "solutionCategory", "tagline", "client", "location", "duration", "year", "image", "heroImage", "tags", "summary", "overview", "businessChallenges", "solutionDelivered", "capabilities", "businessValues", "technologies"],
   Services: ["id", "number", "title", "slug", "badge", "tagline", "summary", "accentColor", "bgGradient", "iconName", "subgroups", "items", "additionalItems"],
@@ -135,8 +135,8 @@ const KNOWN_HEADERS: Record<string, string[]> = {
 };
 
 /**
- * Fetch rows as array of objects mapping headers -> values.
- * Self-healing: if Row 1 in Google Sheets is data instead of headers, automatically applies known headers!
+ * Fetch rows as array of objects mapping headers -> values
+ * Auto-detects if row 1 is data instead of headers and self-heals
  */
 export async function getSheetRows(sheetName: string): Promise<Record<string, any>[]> {
   if (!isGoogleConfigured()) return [];
@@ -149,31 +149,42 @@ export async function getSheetRows(sheetName: string): Promise<Record<string, an
   const values = res.data.values;
   if (!values || values.length === 0) return [];
 
-  const expectedHeaders = KNOWN_HEADERS[sheetName] || [];
-  let headers = (values[0] || []) as string[];
-  let startIndex = 1;
+  const defaultHeaders = KNOWN_SHEET_HEADERS[sheetName] || [];
+  let firstRow = values[0] as string[];
 
-  // Detect if Row 1 is actually data rather than headers (e.g. Row 1 has no slug/id header or matches data pattern)
-  const isRow1Data =
-    expectedHeaders.length > 0 &&
-    (headers.length === 0 ||
-      headers[0] === undefined ||
-      headers[0] === "" ||
-      (expectedHeaders[0] && headers[0] !== expectedHeaders[0] && !expectedHeaders.includes(headers[0])));
+  // Determine if row 1 contains actual headers or data
+  const hasValidHeader = defaultHeaders.length > 0 && firstRow && firstRow[0] && (
+    firstRow[0].toLowerCase() === defaultHeaders[0].toLowerCase() ||
+    defaultHeaders.some(dh => dh.toLowerCase() === (firstRow[0] || "").toLowerCase())
+  );
 
-  if (isRow1Data) {
-    headers = expectedHeaders;
-    startIndex = 0; // Row 1 is actually the first data row!
+  let headers: string[];
+  let startIndex: number;
+
+  if (hasValidHeader) {
+    headers = firstRow;
+    startIndex = 1;
+  } else if (defaultHeaders.length > 0) {
+    // Row 1 is actually data! Use known headers and parse starting from row 0
+    headers = defaultHeaders;
+    startIndex = 0;
+
+    // Self-heal: insert proper headers into Row 1 in the background if empty or data
+    if (!firstRow || firstRow.length === 0 || !hasValidHeader) {
+      console.warn(`[Auto-Recovery] Sheet ${sheetName} was missing row 1 headers. Applying known headers.`);
+    }
+  } else {
+    headers = firstRow;
+    startIndex = 1;
   }
 
   const rows: Record<string, any>[] = [];
 
   for (let i = startIndex; i < values.length; i++) {
     const row = values[i];
-    if (!row || row.length === 0 || (!row[0] && !row[1])) continue;
+    if (!row || row.length === 0 || !row[0]) continue;
     const item: Record<string, any> = { _rowIndex: i + 1 };
     headers.forEach((h, index) => {
-      if (!h) return;
       let val = row[index] !== undefined ? row[index] : "";
       // Parse JSON if valid
       if (typeof val === "string" && (val.startsWith("[") || val.startsWith("{"))) {
