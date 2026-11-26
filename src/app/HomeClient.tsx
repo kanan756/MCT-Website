@@ -10,7 +10,8 @@ import {
   Code, Settings, Cloud, Database, Zap,
   Sparkles, Clock, CheckCircle2, AlertTriangle,
   Flame, ShieldAlert, Rocket, Layers, Workflow,
-  Factory, Landmark, ShoppingCart, Truck, HeartPulse, Building
+  Factory, Landmark, ShoppingCart, Truck, HeartPulse, Building,
+  Calendar
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -1646,21 +1647,22 @@ export default function Home() {
             Partner with proven Microsoft Dynamics 365, Business Central, and Power Platform specialists. Get rapid miniature proof-of-concept turnaround and guaranteed response SLAs.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2.5 bg-white text-slate-900 hover:bg-[#3482b9] hover:text-white px-8 py-4 rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider transition-all shadow-xl font-['Montserrat',sans-serif] cursor-pointer hover:scale-105"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-white text-slate-900 hover:bg-[#3482b9] hover:text-white px-8 py-4 rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl font-['Montserrat',sans-serif] cursor-pointer hover:scale-105 active:scale-95 group text-center"
             >
-              <Mail className="w-4 h-4 text-[#3482b9] group-hover:text-white" />
+              <Mail className="w-4 h-4 text-[#3482b9] group-hover:text-white transition-colors shrink-0" />
               <span>Contact Us</span>
             </Link>
 
             <Link
               href="/contact?type=poc"
-              className="inline-flex items-center gap-2.5 bg-[#3482b9] hover:bg-[#1f6595] text-white px-8 py-4 rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-[#3482b9]/30 transition-all hover:scale-105 font-['Montserrat',sans-serif] cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[#3482b9] hover:bg-[#1f6595] text-white px-8 py-4 rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-[#3482b9]/30 transition-all duration-300 hover:scale-105 active:scale-95 font-['Montserrat',sans-serif] cursor-pointer text-center"
             >
+              <Calendar className="w-4 h-4 text-sky-200 shrink-0" />
               <span>Schedule a Consultation</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </Link>
           </div>
 
