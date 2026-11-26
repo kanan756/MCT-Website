@@ -36,7 +36,10 @@ import {
   Save,
   Layers,
   FileCheck,
+  Crop,
+  Sparkles,
 } from "lucide-react";
+import ImageEditorModal from "@/components/ImageEditorModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -1083,6 +1086,8 @@ export default function AdminPage() {
   const [careerModal, setCareerModal] = useState<"new" | CareerOpening | null>(null);
   const [applicationModal, setApplicationModal] = useState<JobApplication | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<{ entity: string; key: string; label: string } | null>(null);
+  const [imageEditorOpen, setImageEditorOpen] = useState(false);
+  const [imageEditorTarget, setImageEditorTarget] = useState<"blog" | "project" | null>(null);
 
   // Toast
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -1691,6 +1696,29 @@ export default function AdminPage() {
               />
             </div>
           )}
+
+          {/* Creative Studio Quick Action */}
+          <button
+            onClick={() => setImageEditorOpen(true)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "8px 14px",
+              borderRadius: "10px",
+              border: `1px solid ${MCT_BLUE}40`,
+              background: "#eff6ff",
+              color: MCT_BLUE,
+              cursor: "pointer",
+              fontFamily: "'Montserrat',sans-serif",
+              fontWeight: 700,
+              fontSize: "12px",
+              transition: "all 0.15s",
+            }}
+          >
+            <Sparkles size={14} color={MCT_BLUE} />
+            <span>Creative Studio</span>
+          </button>
 
           {/* Action Button */}
           {activeTab === "blogs" && (
@@ -2394,6 +2422,18 @@ export default function AdminPage() {
 
       {/* ── Toast ── */}
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+
+      {/* Interactive Framer Motion Photo Editor & Studio */}
+      <ImageEditorModal
+        isOpen={imageEditorOpen}
+        onClose={() => {
+          setImageEditorOpen(false);
+          setImageEditorTarget(null);
+        }}
+        onSave={(dataUrl) => {
+          showToast("Image enhanced and applied!");
+        }}
+      />
 
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
