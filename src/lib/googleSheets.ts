@@ -124,8 +124,19 @@ export async function initializeSheetTabs() {
   }
 }
 
+const KNOWN_HEADERS: Record<string, string[]> = {
+  Blogs: ["slug", "title", "category", "author", "date", "readTime", "image", "summary", "content", "tags", "published"],
+  Projects: ["slug", "name", "solutionCategory", "tagline", "client", "location", "duration", "year", "image", "heroImage", "tags", "summary", "overview", "businessChallenges", "solutionDelivered", "capabilities", "businessValues", "technologies"],
+  Services: ["id", "number", "title", "slug", "badge", "tagline", "summary", "accentColor", "bgGradient", "iconName", "subgroups", "items", "additionalItems"],
+  Careers: ["id", "title", "department", "tags", "experience", "location", "qualification", "roleObjective", "roleResponsibilities", "keyResponsibilities", "whyJoinUs", "published"],
+  JobApplications: ["id", "applyingFor", "areaOfInterest", "fullName", "email", "phone", "currentLocation", "totalExperience", "noticePeriod", "currentCtc", "expectedCtc", "portfolioUrl", "resumeFileName", "coverNote", "submittedAt", "status"],
+  Enquiries: ["id", "name", "email", "phone", "company", "country", "service", "message", "submittedAt", "status"],
+  Comments: ["id", "slug", "name", "email", "website", "message", "submittedAt", "status"],
+};
+
 /**
- * Fetch rows as array of objects mapping headers -> values
+ * Fetch rows as array of objects mapping headers -> values.
+ * Self-healing: if Row 1 in Google Sheets is data instead of headers, automatically applies known headers!
  */
 export async function getSheetRows(sheetName: string): Promise<Record<string, any>[]> {
   if (!isGoogleConfigured()) return [];
@@ -136,16 +147,33 @@ export async function getSheetRows(sheetName: string): Promise<Record<string, an
   });
 
   const values = res.data.values;
-  if (!values || values.length <= 1) return [];
+  if (!values || values.length === 0) return [];
 
-  const headers = values[0] as string[];
+  const expectedHeaders = KNOWN_HEADERS[sheetName] || [];
+  let headers = (values[0] || []) as string[];
+  let startIndex = 1;
+
+  // Detect if Row 1 is actually data rather than headers (e.g. Row 1 has no slug/id header or matches data pattern)
+  const isRow1Data =
+    expectedHeaders.length > 0 &&
+    (headers.length === 0 ||
+      headers[0] === undefined ||
+      headers[0] === "" ||
+      (expectedHeaders[0] && headers[0] !== expectedHeaders[0] && !expectedHeaders.includes(headers[0])));
+
+  if (isRow1Data) {
+    headers = expectedHeaders;
+    startIndex = 0; // Row 1 is actually the first data row!
+  }
+
   const rows: Record<string, any>[] = [];
 
-  for (let i = 1; i < values.length; i++) {
+  for (let i = startIndex; i < values.length; i++) {
     const row = values[i];
-    if (!row || row.length === 0 || !row[0]) continue;
+    if (!row || row.length === 0 || (!row[0] && !row[1])) continue;
     const item: Record<string, any> = { _rowIndex: i + 1 };
     headers.forEach((h, index) => {
+      if (!h) return;
       let val = row[index] !== undefined ? row[index] : "";
       // Parse JSON if valid
       if (typeof val === "string" && (val.startsWith("[") || val.startsWith("{"))) {
