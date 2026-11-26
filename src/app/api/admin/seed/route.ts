@@ -8,6 +8,7 @@ import {
 import { INITIAL_BLOGS } from "@/data/blogs";
 import { PROJECTS } from "@/data/projects";
 import { servicesData } from "@/data/services";
+import { INITIAL_CAREERS } from "@/data/careers";
 
 export async function POST() {
   const isAuth = await verifyAdminSession();
@@ -44,9 +45,15 @@ export async function POST() {
       servicesCount++;
     }
 
+    let careersCount = 0;
+    for (const career of INITIAL_CAREERS) {
+      await upsertSheetRow("Careers", "id", career.id, career);
+      careersCount++;
+    }
+
     return NextResponse.json({
       success: true,
-      message: `Successfully seeded Google Sheet with ${blogsCount} blogs, ${projectsCount} projects, and ${servicesCount} services categories.`,
+      message: `Successfully seeded Google Sheet with ${blogsCount} blogs, ${projectsCount} projects, ${servicesCount} services categories, and ${careersCount} careers.`,
     });
   } catch (err: any) {
     console.error("Seeding error:", err);
