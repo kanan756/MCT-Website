@@ -5,6 +5,7 @@ import {
   getSheetsClient,
   SPREADSHEET_ID,
 } from "@/lib/googleSheets";
+import { renderExecutiveEmailTemplate } from "@/lib/emailTemplates";
 
 async function sendCareersEmails(application: {
   id: string;
@@ -88,47 +89,50 @@ async function sendCareersEmails(application: {
     });
 
     // 2. Automated Confirmation email to the Candidate
+    const candidateConfirmHtml = renderExecutiveEmailTemplate({
+      title: `Application Confirmation: ${application.applyingFor} — MCT IT Solutions`,
+      badgeText: "Application Received",
+      badgeBg: "#f0fdf4",
+      badgeColor: "#15803d",
+      headerSubtitle: "Global Talent Acquisition & People Operations",
+      recipientName: application.fullName,
+      mainContentHtml: `
+        <p style="margin: 0 0 16px 0; font-size: 15px; color: #334155;">
+          Thank you for applying to MCT IT Solutions. We have successfully registered your candidacy for the position of <strong>${application.applyingFor}</strong>.
+        </p>
+        <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #475569;">
+          Our talent acquisition team and engineering leadership are actively screening profiles. If your background aligns with our immediate client engagements, our recruiter will contact you directly.
+        </p>
+      `,
+      summaryBoxHtml: `
+        <div style="font-size: 12px; font-weight: 800; color: #0b1b3d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+          Application Profile Overview:
+        </div>
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+          <tr><td style="padding: 4px 0; color: #64748b; width: 140px;"><strong>Role:</strong></td><td style="color: #0f172a; font-weight: 700;">${application.applyingFor}</td></tr>
+          ${application.areaOfInterest ? `<tr><td style="padding: 4px 0; color: #64748b;"><strong>Area of Interest:</strong></td><td style="color: #0f172a;">${application.areaOfInterest}</td></tr>` : ""}
+          <tr><td style="padding: 4px 0; color: #64748b;"><strong>Experience:</strong></td><td style="color: #0f172a;">${application.totalExperience}</td></tr>
+          <tr><td style="padding: 4px 0; color: #64748b;"><strong>Notice Period:</strong></td><td style="color: #0f172a;">${application.noticePeriod}</td></tr>
+        </table>
+      `,
+      nextStepsHtml: `
+        1. <strong>Profile Assessment:</strong> Matching against technical architecture needs.<br>
+        2. <strong>Recruiter Screening:</strong> An initial discussion on your goals & experience.<br>
+        3. <strong>Technical Evaluation:</strong> In-depth interaction with our practice leaders.
+      `,
+      referenceId: application.id,
+      ctaButton: {
+        label: "Discover Life & Careers at MCT",
+        url: "https://www.miracle-cloudtechnology.com/about/careers",
+      },
+    });
+
     await transporter.sendMail({
       from: `"MCT Careers Team" <${user}>`,
       to: application.email,
+      replyTo: hrEmail,
       subject: `Application Confirmation: ${application.applyingFor} at MCT IT Solutions`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background-color: #ffffff;">
-          <div style="text-align: center; margin-bottom: 24px;">
-            <h2 style="color: #0b1b3d; margin: 0 0 6px 0; font-size: 22px;">Thank You for Applying!</h2>
-            <p style="color: #64748b; font-size: 14px; margin: 0;">MCT IT Solutions (P) Ltd.</p>
-          </div>
-
-          <p style="color: #334155; font-size: 15px; line-height: 1.6;">Dear <strong>${application.fullName}</strong>,</p>
-
-          <p style="color: #334155; font-size: 14px; line-height: 1.6;">
-            We have received your application for the <strong>${application.applyingFor}</strong> position at MCT IT Solutions.
-          </p>
-
-          <div style="margin: 20px 0; padding: 16px; background-color: #f0fdf4; border-radius: 8px; border: 1px solid #bbf7d0;">
-            <p style="margin: 0; font-size: 13px; color: #166534; font-weight: 600;">
-              ✓ Application Reference: <span style="font-family: monospace; font-size: 14px;">${application.id}</span>
-            </p>
-          </div>
-
-          <h3 style="color: #0b1b3d; font-size: 15px; margin: 20px 0 10px 0;">What Happens Next?</h3>
-          <ol style="color: #475569; font-size: 14px; line-height: 1.7; padding-left: 20px; margin: 0 0 20px 0;">
-            <li><strong>Profile Screening:</strong> Our talent acquisition team will carefully review your qualifications and experience.</li>
-            <li><strong>Shortlisting:</strong> If your profile aligns with our requirements, our recruiter will reach out to schedule an initial conversation.</li>
-            <li><strong>Technical Evaluation:</strong> You'll meet with our technical leadership team to discuss projects and skills in depth.</li>
-          </ol>
-
-          <p style="color: #334155; font-size: 14px; line-height: 1.6;">
-            In the meantime, feel free to explore our case studies and innovations at <a href="https://www.miracle-cloudtechnology.com" style="color: #3482b9; text-decoration: none; font-weight: 600;">miracle-cloudtechnology.com</a>.
-          </p>
-
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b;">
-            <p style="margin: 0 0 4px 0; font-weight: bold; color: #0b1b3d;">Talent Acquisition Team</p>
-            <p style="margin: 0 0 2px 0;">MCT IT Solutions (P) Ltd.</p>
-            <p style="margin: 0; color: #94a3b8; font-size: 12px;">Where Ideas Meet Execution</p>
-          </div>
-        </div>
-      `,
+      html: candidateConfirmHtml,
     });
 
     console.log("Candidate confirmation and HR notification emails dispatched successfully for", application.id);

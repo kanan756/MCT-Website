@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { verifyAdminSession } from "@/lib/adminAuth";
 import { isGoogleConfigured, getSheetRows, initializeSheetTabs, upsertSheetRow, deleteSheetRow } from "@/lib/googleSheets";
+import { renderExecutiveEmailTemplate } from "@/lib/emailTemplates";
 
 export const dynamic = "force-dynamic";
 
@@ -41,63 +42,74 @@ async function sendAdminReplyEmail(enquiry: {
       ? `Re: Inquiry Response — MCT IT Solutions [${enquiry.id || "MCT"}]`
       : `Update on your Inquiry: Status marked as ${enquiry.status} — MCT IT Solutions`;
 
+    // Map status colors & styles
+    let badgeBg = "#eff6ff";
+    let badgeColor = "#1d4ed8";
+    let badgeText = enquiry.status || "Inquiry Update";
+
+    if (enquiry.status === "Replied") {
+      badgeBg = "#f0fdf4";
+      badgeColor = "#15803d";
+      badgeText = "Team Response";
+    } else if (enquiry.status === "In Progress") {
+      badgeBg = "#e0f2fe";
+      badgeColor = "#0369a1";
+      badgeText = "In Progress";
+    } else if (enquiry.status === "Closed") {
+      badgeBg = "#f1f5f9";
+      badgeColor = "#475569";
+      badgeText = "Closed";
+    }
+
+    const mainContentHtml = isDirectReply
+      ? `
+        <p style="margin: 0 0 16px 0; font-size: 15px; color: #334155;">
+          Thank you for following up with MCT IT Solutions. Our solutions team has reviewed your query:
+        </p>
+        <div style="margin: 20px 0; padding: 20px 22px; background-color: #f8fafc; border-left: 4px solid #3482b9; border-radius: 8px;">
+          <strong style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; margin-bottom: 8px;">Official Response:</strong>
+          <p style="color: #1e293b; font-size: 14px; line-height: 1.7; margin: 0; white-space: pre-wrap;">${enquiry.replyMessage}</p>
+        </div>
+        <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin: 16px 0 0 0;">
+          If you require further architectural or project details, simply reply directly to this email.
+        </p>
+      `
+      : `
+        <p style="margin: 0 0 16px 0; font-size: 15px; color: #334155;">
+          We are pleased to inform you that the status of your inquiry regarding <strong>${enquiry.service || "our enterprise solutions"}</strong> has been updated.
+        </p>
+        <div style="margin: 18px 0; padding: 16px 20px; background-color: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 10px;">
+          <div style="font-size: 12px; font-weight: 700; color: #1e40af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Current Workflow Status:</div>
+          <div style="font-size: 16px; font-weight: 800; color: #0b1b3d;">${enquiry.status}</div>
+        </div>
+        <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin: 0;">
+          Our technical consulting specialists are actively handling your requirements according to our enterprise service commitments.
+        </p>
+      `;
+
+    const emailHtml = renderExecutiveEmailTemplate({
+      title: subject,
+      badgeText,
+      badgeBg,
+      badgeColor,
+      recipientName: enquiry.name,
+      mainContentHtml,
+      referenceId: enquiry.id,
+      ctaButton: {
+        label: "Visit Client Portal & Solutions",
+        url: "https://www.miracle-cloudtechnology.com",
+      },
+    });
+
     await transporter.sendMail({
       from: `"MCT Solutions Team" <${user}>`,
       to: enquiry.email,
       replyTo: process.env.CONTACT_NOTIFICATION_EMAIL || user,
       subject,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 620px; margin: 0 auto; padding: 28px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
-          <div style="border-bottom: 2px solid #3482b9; padding-bottom: 14px; margin-bottom: 20px;">
-            <h2 style="color: #0b1b3d; margin: 0 0 4px 0; font-size: 20px; font-weight: 800;">MCT IT Solutions</h2>
-            <span style="color: #64748b; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase;">Enterprise Consulting &amp; Technical Services</span>
-          </div>
-
-          <p style="color: #0f172a; font-size: 15px; font-weight: 600; margin: 0 0 16px 0;">
-            Dear ${enquiry.name},
-          </p>
-
-          ${
-            isDirectReply
-              ? `
-            <div style="margin: 20px 0; padding: 18px 20px; background-color: #f8fafc; border-left: 4px solid #3482b9; border-radius: 6px;">
-              <p style="color: #334155; font-size: 14px; line-height: 1.7; margin: 0; white-space: pre-wrap;">${enquiry.replyMessage}</p>
-            </div>
-            `
-              : `
-            <p style="color: #334155; font-size: 14px; line-height: 1.6;">
-              We would like to notify you that the status of your inquiry regarding <strong>${enquiry.service || "our services"}</strong> has been updated to:
-            </p>
-            <div style="margin: 16px 0; display: inline-block; padding: 6px 14px; background-color: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 13px; border-radius: 20px;">
-              Status: ${enquiry.status}
-            </div>
-            `
-          }
-
-          <p style="color: #475569; font-size: 13px; line-height: 1.6; margin-top: 20px;">
-            If you have any further questions, feel free to reply directly to this email or reach us at <a href="mailto:${process.env.CONTACT_NOTIFICATION_EMAIL || "contact@miraclecloud-technology.com"}" style="color: #3482b9;">${process.env.CONTACT_NOTIFICATION_EMAIL || "contact@miraclecloud-technology.com"}</a>.
-          </p>
-
-          ${
-            enquiry.id
-              ? `
-            <div style="margin-top: 24px; padding-top: 14px; border-top: 1px dashed #e2e8f0; font-size: 12px; color: #94a3b8;">
-              Inquiry Reference ID: <span style="font-family: monospace; color: #64748b;">${enquiry.id}</span>
-            </div>
-          `
-              : ""
-          }
-
-          <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #475569;">
-            <p style="margin: 0 0 4px 0; font-weight: 700; color: #0b1b3d;">MCT IT Solutions (P) Ltd.</p>
-            <p style="margin: 0 0 2px 0;">Where Ideas Meet Execution</p>
-            <a href="https://www.miracle-cloudtechnology.com" style="color: #3482b9; text-decoration: none; font-size: 12px; font-weight: 600;">www.miracle-cloudtechnology.com</a>
-          </div>
-        </div>
-      `,
+      html: emailHtml,
     });
 
-    console.log(`Admin email dispatched to client ${enquiry.email} successfully.`);
+    console.log(`Executive admin email dispatched to client ${enquiry.email} successfully.`);
   } catch (err) {
     console.warn("Failed to dispatch admin inquiry email:", err);
   }

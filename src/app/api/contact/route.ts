@@ -5,6 +5,7 @@ import {
   SPREADSHEET_ID,
 } from "@/lib/googleSheets";
 import nodemailer from "nodemailer";
+import { renderExecutiveEmailTemplate } from "@/lib/emailTemplates";
 
 async function ensureEnquiriesSheet() {
   if (!isGoogleConfigured()) return;
@@ -96,47 +97,48 @@ async function sendEnquiryEmails(enquiry: {
     });
 
     // 2. Automated Confirmation Email directly to the Client/User
+    const confirmationHtml = renderExecutiveEmailTemplate({
+      title: `Inquiry Confirmation — MCT IT Solutions [${enquiry.id}]`,
+      badgeText: "Inquiry Received",
+      badgeBg: "#f0fdf4",
+      badgeColor: "#15803d",
+      recipientName: enquiry.name,
+      mainContentHtml: `
+        <p style="margin: 0 0 16px 0; font-size: 15px; color: #334155;">
+          Thank you for reaching out to MCT IT Solutions. We have successfully registered your inquiry regarding <strong>${enquiry.service || "our enterprise solutions"}</strong>.
+        </p>
+        <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #475569;">
+          Our certified solutions architects and domain specialists are currently evaluating your requirements. A senior consultant will follow up with you within <strong>24 business hours</strong>.
+        </p>
+      `,
+      summaryBoxHtml: `
+        <div style="font-size: 12px; font-weight: 800; color: #0b1b3d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+          Submitted Engagement Overview:
+        </div>
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+          <tr><td style="padding: 4px 0; color: #64748b; width: 120px;"><strong>Topic / Area:</strong></td><td style="color: #0f172a; font-weight: 700;">${enquiry.service || "General Consulting"}</td></tr>
+          ${enquiry.company ? `<tr><td style="padding: 4px 0; color: #64748b;"><strong>Company:</strong></td><td style="color: #0f172a;">${enquiry.company}</td></tr>` : ""}
+          ${enquiry.country ? `<tr><td style="padding: 4px 0; color: #64748b;"><strong>Region:</strong></td><td style="color: #0f172a;">${enquiry.country}</td></tr>` : ""}
+        </table>
+      `,
+      nextStepsHtml: `
+        &bull; <strong>Discovery Triage:</strong> Triage against verified architecture patterns.<br>
+        &bull; <strong>Direct Contact:</strong> A consultant will reach out via email or phone.<br>
+        &bull; <strong>Optional 5-Day POC:</strong> Miniature turnaround validation before formal commitment.
+      `,
+      referenceId: enquiry.id,
+      ctaButton: {
+        label: "Explore Case Studies & Solutions",
+        url: "https://www.miracle-cloudtechnology.com/case-studies",
+      },
+    });
+
     await transporter.sendMail({
       from: `"MCT IT Solutions" <${user}>`,
       to: enquiry.email,
       replyTo: targetEmail,
       subject: `Thank You for Contacting MCT IT Solutions — Ref: ${enquiry.id}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 28px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
-          <div style="text-align: center; margin-bottom: 24px;">
-            <h2 style="color: #0b1b3d; margin: 0 0 6px 0; font-size: 22px; font-weight: 800;">Thank You for Reaching Out!</h2>
-            <p style="color: #64748b; font-size: 14px; margin: 0;">MCT IT Solutions (P) Ltd.</p>
-          </div>
-
-          <p style="color: #334155; font-size: 15px; line-height: 1.6;">Dear <strong>${enquiry.name}</strong>,</p>
-
-          <p style="color: #334155; font-size: 14px; line-height: 1.6;">
-            We have successfully received your inquiry regarding <strong>${enquiry.service || "our enterprise solutions"}</strong>.
-          </p>
-
-          <div style="margin: 20px 0; padding: 16px; background-color: #f0fdf4; border-radius: 8px; border: 1px solid #bbf7d0;">
-            <p style="margin: 0; font-size: 13px; color: #166534; font-weight: 600;">
-              ✓ Inquiry Reference ID: <span style="font-family: monospace; font-size: 14px;">${enquiry.id}</span>
-            </p>
-          </div>
-
-          <p style="color: #334155; font-size: 14px; line-height: 1.6;">
-            Our dedicated solutions architect and enterprise consulting team are reviewing your requirements. We will connect with you within <strong>24 business hours</strong>.
-          </p>
-
-          <div style="margin-top: 24px; padding: 16px; background-color: #f8fafc; border-radius: 8px; font-size: 13px; color: #475569;">
-            <strong style="color: #0b1b3d; display: block; margin-bottom: 6px;">Summary of submitted details:</strong>
-            ${enquiry.company ? `<div>• Company: <strong>${enquiry.company}</strong></div>` : ""}
-            ${enquiry.service ? `<div>• Topic: <strong>${enquiry.service}</strong></div>` : ""}
-          </div>
-
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b;">
-            <p style="margin: 0 0 4px 0; font-weight: bold; color: #0b1b3d;">MCT IT Solutions Team</p>
-            <p style="margin: 0 0 2px 0;">Where Ideas Meet Execution</p>
-            <a href="https://www.miracle-cloudtechnology.com" style="color: #3482b9; text-decoration: none; font-size: 12px; font-weight: 600;">www.miracle-cloudtechnology.com</a>
-          </div>
-        </div>
-      `,
+      html: confirmationHtml,
     });
 
     console.log("Inquiry emails dispatched to team and client successfully for", enquiry.id);
