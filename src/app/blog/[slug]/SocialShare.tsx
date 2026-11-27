@@ -96,7 +96,7 @@ export default function SocialShare({ title, url, summary }: SocialShareProps) {
           <a
             key={link.name}
             href={link.href}
-            target="_blank"
+            target="_blank"lso
             rel="noopener noreferrer"
             title={`Share on ${link.name}`}
             className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition-all duration-200 hover:shadow-sm ${link.bgColor}`}

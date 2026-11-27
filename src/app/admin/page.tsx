@@ -1336,6 +1336,65 @@ export default function AdminPage() {
     await loadData();
   };
 
+  // ── Enquiry Actions (Status & Direct Email Reply) ───────────────────────────
+
+  const [replyTexts, setReplyTexts] = useState<Record<string, string>>({});
+  const [sendingReplyId, setSendingReplyId] = useState<string | null>(null);
+
+  const updateEnquiryStatus = async (enquiry: Enquiry, newStatus: string) => {
+    // Optimistic UI update
+    setEnquiries((prev) =>
+      prev.map((e) => (e.id === enquiry.id ? { ...e, status: newStatus } : e))
+    );
+    try {
+      const res = await fetch("/api/admin/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...enquiry, status: newStatus }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to update status");
+      showToast(`Inquiry status updated to "${newStatus}"!`);
+    } catch (err: any) {
+      showToast(err.message || "Failed to update inquiry", "error");
+      await loadData();
+    }
+  };
+
+  const sendEnquiryReply = async (enquiry: Enquiry) => {
+    const text = replyTexts[enquiry.id]?.trim();
+    if (!text) {
+      showToast("Please type a reply message first", "error");
+      return;
+    }
+
+    setSendingReplyId(enquiry.id);
+    try {
+      const res = await fetch("/api/admin/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...enquiry,
+          replyMessage: text,
+          status: "Replied",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send email");
+
+      showToast(`Reply sent to ${enquiry.email}!`);
+      // Update status to Replied locally
+      setEnquiries((prev) =>
+        prev.map((e) => (e.id === enquiry.id ? { ...e, status: "Replied" } : e))
+      );
+      setReplyTexts((prev) => ({ ...prev, [enquiry.id]: "" }));
+    } catch (err: any) {
+      showToast(err.message || "Failed to send reply email", "error");
+    } finally {
+      setSendingReplyId(null);
+    }
+  };
+
   // ── Filter ────────────────────────────────────────────────────────────────
 
   const filteredBlogs = blogs.filter((b) =>
@@ -2152,80 +2211,187 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {/* ── Enquiries ── */}
+              {/* ── Enquiries (Modern Expandable Inquiry & Reply Cards) ── */}
               {activeTab === "enquiries" && (
-                <div style={{ background: "#fff", borderRadius: "16px", border: "1px solid #f0f0f0", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                   {!googleConfigured && (
-                    <div style={{ padding: "16px 20px", background: "#fef2f2", borderBottom: "1px solid #fecaca", display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ padding: "16px 20px", background: "#fef2f2", borderRadius: "12px", border: "1px solid #fecaca", display: "flex", alignItems: "center", gap: "10px" }}>
                       <AlertCircle size={16} color={MCT_RED} />
                       <span style={{ fontSize: "13px", color: "#991b1b", fontFamily: "'Source Sans 3',sans-serif" }}>
                         Configure Google Sheets to see enquiries. Contact form submissions will be stored there.
                       </span>
                     </div>
                   )}
-                  <div className="admin-table-container" style={{ overflowX: "auto", width: "100%" }}>
-                    <table style={{ width: "100%", minWidth: "800px", borderCollapse: "collapse" }}>
-                    <thead>
-                      <tr style={{ background: "#f9fafb", borderBottom: "1px solid #f0f0f0" }}>
-                        {["ID", "Name", "Email", "Company & Region", "Phone", "Service", "Message", "Date", "Status"].map((h) => (
-                          <th key={h} style={{ padding: "14px 18px", textAlign: "left", fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: "11px", color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.7px", whiteSpace: "nowrap" }}>
-                            {h}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredEnquiries.length === 0 ? (
-                        <tr>
-                          <td colSpan={8} style={{ padding: "60px", textAlign: "center", color: "#9ca3af", fontFamily: "'Source Sans 3',sans-serif", fontSize: "14px" }}>
-                            No enquiries yet. Contact form submissions appear here.
-                          </td>
-                        </tr>
-                      ) : (
-                        filteredEnquiries.map((enq, i) => (
-                          <tr key={enq.id} style={{ borderBottom: i < filteredEnquiries.length - 1 ? "1px solid #f9fafb" : "none" }}
-                            onMouseEnter={(e) => (e.currentTarget.style.background = "#fafbfc")}
-                            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+
+                  {filteredEnquiries.length === 0 ? (
+                    <div style={{ background: "#fff", borderRadius: "16px", padding: "60px 20px", textAlign: "center", border: "1px solid #f0f0f0", color: "#9ca3af", fontFamily: "'Source Sans 3',sans-serif", fontSize: "14px" }}>
+                      No inquiries found. Submissions from the Contact Us page will appear here.
+                    </div>
+                  ) : (
+                    filteredEnquiries.map((enq) => {
+                      const isReplied = enq.status === "Replied";
+                      const isClosed = enq.status === "Closed";
+                      const isInProgress = enq.status === "In Progress";
+
+                      return (
+                        <div
+                          key={enq.id}
+                          className="admin-stats-card"
+                          style={{
+                            background: "#ffffff",
+                            borderRadius: "16px",
+                            border: "1px solid #e5e7eb",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {/* Card Header matching reference image */}
+                          <div
+                            style={{
+                              padding: "20px 24px",
+                              borderBottom: "1px solid #f1f5f9",
+                              display: "flex",
+                              alignItems: "flex-start",
+                              justifyContent: "space-between",
+                              gap: "16px",
+                              flexWrap: "wrap",
+                            }}
                           >
-                            <td style={{ padding: "14px 18px" }}>
-                              <span style={{ fontFamily: "monospace", fontSize: "11px", color: "#9ca3af" }}>{enq.id}</span>
-                            </td>
-                            <td style={{ padding: "14px 18px" }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#fffbeb", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                  <User size={14} color="#d97706" />
+                            <div>
+                              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
+                                <h3 style={{ margin: 0, fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: "16px", color: "#0f172a" }}>
+                                  {enq.service || "General Inquiry"}
+                                </h3>
+                                <span style={{ fontFamily: "monospace", fontSize: "11px", color: "#94a3b8", background: "#f8fafc", padding: "2px 6px", borderRadius: "4px", border: "1px solid #e2e8f0" }}>
+                                  {enq.id}
+                                </span>
+                              </div>
+                              <div style={{ fontSize: "13px", color: "#475569", fontFamily: "'Source Sans 3',sans-serif" }}>
+                                <strong style={{ color: "#1e293b" }}>{enq.name}</strong> •{" "}
+                                <a href={`mailto:${enq.email}`} style={{ color: MCT_BLUE, textDecoration: "none" }}>{enq.email}</a>
+                                {enq.phone && ` • ${enq.phone}`}
+                              </div>
+                              {(enq.company || enq.country) && (
+                                <div style={{ fontSize: "12px", color: "#64748b", marginTop: "3px" }}>
+                                  🏢 {enq.company || "Company N/A"} {enq.country ? `(${enq.country})` : ""}
                                 </div>
-                                <span style={{ fontFamily: "'Source Sans 3',sans-serif", fontWeight: 600, fontSize: "13px", color: "#111827" }}>{enq.name}</span>
+                              )}
+                            </div>
+
+                            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  padding: "4px 12px",
+                                  borderRadius: "20px",
+                                  fontSize: "12px",
+                                  fontWeight: 700,
+                                  textTransform: "uppercase",
+                                  letterSpacing: "0.5px",
+                                  background: isReplied ? "#f0fdf4" : isClosed ? "#f1f5f9" : isInProgress ? "#eff6ff" : "#fffbeb",
+                                  color: isReplied ? "#15803d" : isClosed ? "#475569" : isInProgress ? "#1d4ed8" : "#d97706",
+                                  border: `1px solid ${isReplied ? "#bbf7d0" : isClosed ? "#cbd5e1" : isInProgress ? "#bfdbfe" : "#fde68a"}`,
+                                }}
+                              >
+                                {enq.status || "New"}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Message Body Block */}
+                          <div style={{ padding: "24px", background: "#fafafa", borderBottom: "1px solid #f1f5f9" }}>
+                            <div style={{ fontSize: "11px", textTransform: "uppercase", fontWeight: 700, color: "#64748b", letterSpacing: "0.5px", marginBottom: "8px" }}>
+                              Client Message:
+                            </div>
+                            <p style={{ margin: 0, fontSize: "14px", lineHeight: "1.7", color: "#334155", fontFamily: "'Source Sans 3',sans-serif", whiteSpace: "pre-wrap" }}>
+                              {enq.message}
+                            </p>
+                          </div>
+
+                          {/* Status and Action Footer */}
+                          <div style={{ padding: "20px 24px", background: "#ffffff" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "18px", flexWrap: "wrap" }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                <span style={{ fontSize: "13px", fontWeight: 700, color: "#374151" }}>Status:</span>
+                                <select
+                                  value={enq.status || "New"}
+                                  onChange={(e) => updateEnquiryStatus(enq, e.target.value)}
+                                  style={{
+                                    padding: "6px 12px",
+                                    borderRadius: "8px",
+                                    border: "1.5px solid #cbd5e1",
+                                    fontSize: "13px",
+                                    fontFamily: "'Source Sans 3',sans-serif",
+                                    fontWeight: 600,
+                                    background: "#ffffff",
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  <option value="New">New</option>
+                                  <option value="In Progress">In Progress</option>
+                                  <option value="Replied">Replied</option>
+                                  <option value="Closed">Closed</option>
+                                </select>
                               </div>
-                            </td>
-                            <td style={{ padding: "14px 18px" }}>
-                              <a href={`mailto:${enq.email}`} style={{ fontSize: "13px", color: MCT_BLUE, textDecoration: "none", fontFamily: "'Source Sans 3',sans-serif" }}>{enq.email}</a>
-                            </td>
-                            <td style={{ padding: "14px 18px", fontSize: "13px", color: "#374151", fontFamily: "'Source Sans 3',sans-serif" }}>
-                              <div><strong>{enq.company || "—"}</strong></div>
-                              {enq.country && <div style={{ fontSize: "11px", color: "#6b7280" }}>{enq.country}</div>}
-                            </td>
-                            <td style={{ padding: "14px 18px", fontSize: "13px", color: "#374151", fontFamily: "'Source Sans 3',sans-serif" }}>{enq.phone || "—"}</td>
-                            <td style={{ padding: "14px 18px" }}>
-                              {enq.service ? <Badge label={enq.service} /> : <span style={{ color: "#9ca3af", fontSize: "13px" }}>—</span>}
-                            </td>
-                            <td style={{ padding: "14px 18px", maxWidth: "200px" }}>
-                              <div style={{ fontSize: "12px", color: "#6b7280", fontFamily: "'Source Sans 3',sans-serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={enq.message}>
-                                {enq.message}
+
+                              <span style={{ fontSize: "12px", color: "#94a3b8" }}>
+                                Submitted on: {formatDate(enq.submittedAt)}
+                              </span>
+                            </div>
+
+                            {/* Reply Input Box matching screenshot */}
+                            <div style={{ border: "1px solid #e2e8f0", borderRadius: "12px", padding: "16px", background: "#ffffff" }}>
+                              <label style={{ display: "block", fontSize: "13px", fontWeight: 700, color: "#1e293b", marginBottom: "8px" }}>
+                                Reply to {enq.name} (<span style={{ color: MCT_BLUE }}>{enq.email}</span>)
+                              </label>
+                              <textarea
+                                value={replyTexts[enq.id] || ""}
+                                onChange={(e) => setReplyTexts((prev) => ({ ...prev, [enq.id]: e.target.value }))}
+                                placeholder="Write your email reply here..."
+                                rows={3}
+                                style={{
+                                  width: "100%",
+                                  padding: "10px 14px",
+                                  borderRadius: "8px",
+                                  border: "1px solid #cbd5e1",
+                                  fontSize: "13px",
+                                  fontFamily: "'Source Sans 3',sans-serif",
+                                  outline: "none",
+                                  resize: "vertical",
+                                  boxSizing: "border-box",
+                                }}
+                              />
+                              <div style={{ display: "flex", justifyContent: "flex-start", marginTop: "10px" }}>
+                                <button
+                                  type="button"
+                                  disabled={sendingReplyId === enq.id}
+                                  onClick={() => sendEnquiryReply(enq)}
+                                  style={{
+                                    padding: "8px 18px",
+                                    borderRadius: "8px",
+                                    border: "none",
+                                    background: sendingReplyId === enq.id ? "#94a3b8" : MCT_BLUE,
+                                    color: "#ffffff",
+                                    cursor: sendingReplyId === enq.id ? "not-allowed" : "pointer",
+                                    fontSize: "13px",
+                                    fontWeight: 700,
+                                    fontFamily: "'Montserrat',sans-serif",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "6px",
+                                    transition: "all 0.15s",
+                                  }}
+                                >
+                                  <Mail size={14} />
+                                  <span>{sendingReplyId === enq.id ? "Sending Reply..." : "Send Reply"}</span>
+                                </button>
                               </div>
-                            </td>
-                            <td style={{ padding: "14px 18px", fontSize: "12px", color: "#6b7280", fontFamily: "'Source Sans 3',sans-serif", whiteSpace: "nowrap" }}>
-                              {formatDate(enq.submittedAt)}
-                            </td>
-                            <td style={{ padding: "14px 18px" }}>
-                              <Badge label={enq.status || "New"} color={enq.status === "New" ? "#d97706" : "#16a34a"} />
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
               )}
             </>
